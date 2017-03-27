@@ -10,13 +10,14 @@ engines:
   eslint:
     enabled: true
     channel: "eslint-3"
+     checks:
+        import/no-unresolved:
+          enabled: false
   fixme:
     enabled: true
 ratings:
   paths:
-  - "**.js"
-  - "**.jsx"
+  - "server/routes/*.js"
 exclude_paths:
-- server/test/
 - node_modules/
 
