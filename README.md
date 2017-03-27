@@ -1,5 +1,6 @@
 [![Code Climate](https://codeclimate.com/github/andela-eshaibu/document_management_system/badges/gpa.svg)](https://codeclimate.com/github/andela-eshaibu/document_management_system)
 [![Build Status](https://travis-ci.org/andela-eshaibu/document_management_system.svg?branch=develop)](https://travis-ci.org/andela-eshaibu/document_management_system)
+[![Coverage Status](https://coveralls.io/repos/github/andela-eshaibu/document_management_system/badge.svg?branch=develop)](https://coveralls.io/github/andela-eshaibu/document_management_system?branch=develop)
 
 # Document Management System
 The Document management system is a system that manages documents with types, users and user roles. 
