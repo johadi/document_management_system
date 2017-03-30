@@ -19,8 +19,8 @@ module.exports = {
         allowNull: false
       },
       access: {
-        defaultValue: 'public',
-        type: Sequelize.ENUM('public', 'private', 'role')
+        defaultValue: 'private',
+        type: Sequelize.ENUM('private', 'public', 'role')
       },
       createdAt: {
         allowNull: false,

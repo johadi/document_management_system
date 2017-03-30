@@ -5,6 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node node_modules/gulp/bin/gulp",
+    "db_migrate": "sequelize db:migrate",
+    "undo_migrate": "sequelize db:migrate:undo:all",
+    "db_seed": "sequelize db:seed:all",
+    "undo_seed": "sequelize db:seed:undo:all",
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/api/*.js --reporter spec --compilers js:babel-register --slow 5000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -33,6 +37,7 @@
     "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "faker": "^4.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-shell": "^0.6.3",
