@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
         }
       },
       set(value) {
-        this.setDataValue('firstname', value.trim().toLowerCase());
+        this.setDataValue('firstname', value.trim());
       }
     },
     lastname: {
@@ -37,7 +37,7 @@ export default (sequelize, DataTypes) => {
         }
       },
       set(value) {
-        this.setDataValue('lastname', value.trim().toLowerCase());
+        this.setDataValue('lastname', value.trim());
       }
     },
     username: {
@@ -54,7 +54,7 @@ export default (sequelize, DataTypes) => {
         }
       },
       set(value) {
-        this.setDataValue('username', value.trim().toLowerCase());
+        this.setDataValue('username', value.trim());
       }
     },
     email: {
@@ -81,6 +81,7 @@ than 254 characters.`
     },
     roleId: {
       allowNull: false,
+      defaultValue: 3,
       type: DataTypes.INTEGER
     },
     password: {
