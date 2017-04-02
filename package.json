@@ -37,12 +37,14 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-shell": "^0.6.3",
+    "jsonwebtoken": "^7.3.0",
     "morgan": "^1.8.1",
     "nodemon": "^1.11.0",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.30.2",
     "sequelize-cli": "^2.7.0",
+    "underscore": "^1.8.3",
     "validatorjs": "^3.11.0"
   },
   "devDependencies": {

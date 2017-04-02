@@ -1,7 +1,7 @@
-import home from './home';
+import user from './userController';
 
 const Routes = {
-  home
+  user
 };
 
 export default Routes;
