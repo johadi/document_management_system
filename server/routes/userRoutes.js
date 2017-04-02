@@ -1,8 +1,9 @@
 import userCtrl from '../controllers/userController';
+import auth from '../middleware/auth';
 
 const userRoute = (router) => {
   router.route('/users')
-    .get(userCtrl.getAllUsers)
+    .get(auth.verifyToken, auth.verifyAdmin, userCtrl.getAllUsers)
     .post(userCtrl.createUser);
 
   router.route('/users/login')
@@ -12,10 +13,10 @@ const userRoute = (router) => {
     .get(userCtrl.logout);
 
   router.route('/users/:id')
-    .get(userCtrl.getOneUser)
-    .put(userCtrl.updateUser)
-    .patch(userCtrl.updateUser)
-    .delete(userCtrl.deleteUser);
+    .get(auth.verifyToken, userCtrl.getOneUser)
+    .put(auth.verifyToken, userCtrl.updateUser)
+    .patch(auth.verifyToken, userCtrl.updateUser)
+    .delete(auth.verifyToken, auth.verifyAdmin, userCtrl.deleteUser);
 };
 
 export default userRoute;
