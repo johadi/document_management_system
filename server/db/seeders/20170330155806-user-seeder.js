@@ -9,11 +9,11 @@ module.exports = {
     const initialUsers = [
       {
         id: 1,
-        firstname: process.env.SUPER_ADMIN_FIRSTNAME,
-        lastname: process.env.SUPER_ADMIN_LASTNAME,
-        username: process.env.SUPER_ADMIN_USERNAME,
-        email: process.env.SUPER_ADMIN_EMAIL,
-        password: bcrypt.hashSync(process.env.SUPER_ADMIN_PASSWORD,
+        firstname: process.env.ADMIN_FIRSTNAME,
+        lastname: process.env.ADMIN_LASTNAME,
+        username: process.env.ADMIN_USERNAME,
+        email: process.env.ADMIN_EMAIL,
+        password: bcrypt.hashSync(process.env.ADMIN_PASSWORD,
           bcrypt.genSaltSync(8)),
         roleId: 1,
         createdAt: new Date(),
@@ -21,13 +21,13 @@ module.exports = {
       },
       {
         id: 2,
-        firstname: process.env.ADMIN_FIRSTNAME,
-        lastname: process.env.ADMIN_LASTNAME,
-        username: process.env.ADMIN_USERNAME,
-        email: process.env.ADMIN_EMAIL,
+        firstname: process.env.ADMIN_FIRSTNAME2,
+        lastname: process.env.ADMIN_LASTNAME2,
+        username: process.env.ADMIN_USERNAME2,
+        email: process.env.ADMIN_EMAIL2,
         password: bcrypt.hashSync(process.env.ADMIN_PASSWORD,
           bcrypt.genSaltSync(8)),
-        roleId: 2,
+        roleId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }
