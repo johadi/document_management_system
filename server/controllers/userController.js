@@ -8,8 +8,7 @@ const userRules = {
   firstname: 'required|between:2,40',
   lastname: 'required|between:2,40',
   username: 'required|between:6,40',
-  email: 'required|email',
-  password: 'required|min:6'
+  email: 'required|email'
 };
 
 export default {
@@ -23,6 +22,8 @@ export default {
   createUser(req, res) {
     const responseInfo = {};
     const obj = req.body;
+    userRules.password = 'required|min:6|confirmed';
+    userRules.password_confirmation = 'required';
     const validator = new Validator(obj, userRules);
     if (validator.passes()) {
       const criteria = [
@@ -73,7 +74,8 @@ export default {
    */
   getOneUser(req, res) {
     const responseInfo = {};
-    user.findById(req.params.id)
+    const attributes = helpers.filterUserDetails();
+    user.findById(req.params.id, { attributes })
       .then((foundUser) => {
         if (!foundUser) {
           responseInfo.message = 'User does not exist';
@@ -83,7 +85,6 @@ export default {
         }
         responseInfo.message = 'User found';
         responseInfo.status = 'success';
-        foundUser = helpers.userDetailsToShow(foundUser);
         return res.status(200)
           .json(helpers.responseFormat(responseInfo, foundUser));
       })

@@ -81,7 +81,7 @@ than 254 characters.`
     },
     roleId: {
       allowNull: false,
-      defaultValue: 3,
+      defaultValue: 2,
       type: DataTypes.INTEGER
     },
     password: {
