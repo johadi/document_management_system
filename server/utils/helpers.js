@@ -78,8 +78,14 @@ const Helpers = {
     return responseInfo;
   },
   validationResponse(validationErrors) {
-    responseInfo.status = 'error123';
+    responseInfo.status = 'error';
     responseInfo.errors = this.validationErrorsToArray(validationErrors);
+    return responseInfo;
+  },
+  unauthorizedResponse() {
+    responseInfo.status = 'fail';
+    responseInfo.message =
+      'User is unauthorized for this request';
     return responseInfo;
   },
   pagination(req) {

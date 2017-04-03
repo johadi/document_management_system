@@ -59,7 +59,7 @@ export default {
    * @param {Function} next the callback function
    * @returns {Object} validity response
    */
-  canUpdateOrFindUserOrDocuments(req, res, next) {
+  canUpdateOrFindUser(req, res, next) {
     if (req.decoded.RoleId !== 1 && (req.params.id !== req.decoded.UserId)) {
       return res.status(401).send({
         status: 'fail',

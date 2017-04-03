@@ -152,11 +152,11 @@ export default {
               .json(helpers.responseFormat(responseInfo));
           }
           foundUser.update(req.body)
-            .then((updatedUer) => {
+            .then((updatedUser) => {
               responseInfo.status = 'success';
               responseInfo.message = 'User updated successfully';
               return res.status(200)
-                .json(helpers.responseFormat(responseInfo, updatedUer));
+                .json(helpers.responseFormat(responseInfo, updatedUser));
             });
         })
         .catch((error) => {
