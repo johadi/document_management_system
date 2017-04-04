@@ -11,7 +11,7 @@ export default (sequelize, DataTypes) => {
           msg: 'Title cannot be empty'
         },
         len: {
-          args: [6, 254],
+          args: [3, 254],
           msg: 'Title length should range between 6 - 254 characters'
         }
       }

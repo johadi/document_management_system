@@ -1,5 +1,4 @@
-import userCtrl from '../controllers/userController';
-import docCtrl from '../controllers/documentController';
+import { userCtrl, docCtrl } from '../controllers';
 import auth from '../middlewares/auth';
 import utils from '../middlewares/utils';
 
@@ -14,6 +13,12 @@ const userRoute = (router) => {
   router.route('/users/logout')
     .get(auth.verifyToken, userCtrl.logout);
 
+  router.route('/users/documents')
+    .get(auth.verifyToken, docCtrl.getMyDocuments);
+
+  router.route('/users/:id/documents')
+    .get(auth.verifyToken, auth.verifyAdmin, docCtrl.getUserDocuments);
+
   router.route('/users/:id')
     .get(auth.verifyToken, utils.isValidRequestId,
       utils.canUpdateOrFindUser, userCtrl.getOneUser)
@@ -23,9 +28,6 @@ const userRoute = (router) => {
     .delete(auth.verifyToken, auth.verifyAdmin,
       utils.isValidRequestId, utils.preventDefaultAdminDelete,
       userCtrl.deleteUser);
-
-  router.route('users/:id/documents')
-    .get(auth.verifyToken, utils.canUpdateOrFindUser, docCtrl.getUserDocuments);
 };
 
 export default userRoute;

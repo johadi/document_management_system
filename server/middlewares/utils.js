@@ -3,6 +3,25 @@ import validate from './validate';
 export default {
 
   /**
+   * preventDefaultRolesChangeOrUpdate disallows changing or deleting
+   * the default roles (admin and regular)
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @param {Function} next the callback function
+   * @returns {Object} validity response
+   */
+  preventDefaultRolesChangeOrDelete(req, res, next) {
+    if (parseInt(req.params.id, 10) === 1
+      || parseInt(req.params.id, 10) === 2) {
+      return res.status(403).send({
+        status: 'fail',
+        message: 'You cannot change or delete this role'
+      });
+    }
+    next();
+  },
+
+  /**
    * preventDefaultAdminDelete disallows deleting the default admin account
    * @param {Object} req the request object
    * @param {Object} res the response object
@@ -78,6 +97,18 @@ export default {
    */
   isValidUserCreateBody(req, res, next) {
     const isValidRequestBody = validate.validateUserKeys(req.body);
+    return validate.validRequestBodyCheck(isValidRequestBody, res, next);
+  },
+
+  /**
+   * isValidRoleBody checks if update body is valid
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @param {Function} next the callback function
+   * @returns {Object} validity response
+   */
+  isValidRoleBody(req, res, next) {
+    const isValidRequestBody = validate.validateRoleKeys(req.body);
     return validate.validRequestBodyCheck(isValidRequestBody, res, next);
   },
 

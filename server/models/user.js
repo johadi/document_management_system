@@ -99,7 +99,7 @@ than 254 characters.`
       associate: (models) => {
         // associations can be defined here
         User.belongsTo(models.Role, { foreignKey: 'roleId' });
-        User.hasMany(models.Document, { foreignKey: 'createorId' });
+        User.hasMany(models.Document, { foreignKey: 'creatorId' });
       }
     },
 

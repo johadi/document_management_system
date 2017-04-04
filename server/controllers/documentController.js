@@ -4,7 +4,7 @@ import helpers from '../utils/helpers';
 
 const document = db.Document;
 const documentRules = {
-  title: 'required| max: 254',
+  title: 'required|between:6,254',
   content: 'required',
   access: 'required|in:private,public,role'
 };
@@ -28,6 +28,7 @@ export default {
     const obj = req.body;
     const validator = new Validator(obj, documentRules);
     if (validator.passes()) {
+      req.body.creatorId = req.decoded.UserId;
       document.create(req.body)
         .then((newDocument) => {
           responseInfo.status = 'success';
@@ -99,12 +100,10 @@ export default {
    * @returns {Object} Response object
    */
   getAllDocuments: (req, res) => {
+    // return res.json({ hello : 'hello' });
     const responseInfo = {};
     const page = helpers.pagination(req);
-    const limit = page.limit;
-    const offset = page.offset;
-    const order = page.order;
-    document.findAndCountAll({ limit, offset, order })
+    document.findAndCountAll(page)
       .then((documents) => {
         if (!documents) {
           responseInfo.message = 'No Document found';
@@ -116,9 +115,9 @@ export default {
         const data = {};
         const paginationMeta = {};
         paginationMeta.outputCount = documents.rows.length;
-        paginationMeta.pageSize = limit;
-        paginationMeta.pageCount = Math.floor(documents.count / limit) + 1;
-        paginationMeta.currentPage = Math.floor(offset / limit) + 1;
+        paginationMeta.pageSize = page.limit;
+        paginationMeta.pageCount = Math.floor(documents.count / page.limit) + 1;
+        paginationMeta.currentPage = Math.floor(page.offset / page.limit) + 1;
         paginationMeta.totalCount = documents.count;
         data.paginationMeta = paginationMeta;
         data.users = documents.rows;
@@ -148,8 +147,8 @@ export default {
             return res.status(404)
               .json(helpers.responseFormat(responseInfo));
           }
-          if (req.decoded.roleId === 1
-            || (req.decoded.id === foundDocument.creatorId)) {
+          if (req.decoded.RoleId === 1
+            || (req.decoded.UserId === foundDocument.creatorId)) {
             foundDocument.update(req.body)
               .then((updatedDocument) => {
                 responseInfo.status = 'success';
@@ -157,9 +156,10 @@ export default {
                 return res.status(200)
                   .json(helpers.responseFormat(responseInfo, updatedDocument));
               });
+          } else {
+            return res.status(401)
+              .json(helpers.unauthorizedResponse());
           }
-          return res.status(401)
-            .json(helpers.unauthorizedResponse());
         })
         .catch((error) => {
           res.status(400)
@@ -187,8 +187,8 @@ export default {
           return res.status(404)
             .json(helpers.responseFormat(responseInfo));
         }
-        if (req.decoded.roleId === 1
-          || (req.decoded.id === foundDocument.creatorId)) {
+        if (req.decoded.RoleId === 1
+          || (req.decoded.UserId === foundDocument.creatorId)) {
           foundDocument.destroy()
             .then(() => {
               responseInfo.status = 'success';
@@ -196,9 +196,10 @@ export default {
               return res.status(200)
                 .json(helpers.responseFormat(responseInfo));
             });
+        } else {
+          return res.status(401)
+            .json(helpers.unauthorizedResponse());
         }
-        return res.status(401)
-          .json(helpers.unauthorizedResponse());
       })
       .catch((error) => {
         res.status(400)
@@ -244,5 +245,45 @@ export default {
       res.status(400)
         .json(helpers.catchErrorsResponse(error));
     });
+  },
+
+  /**
+   * Method getMyDocuments to obtain all documents of a logged in user
+   * @param {Object} req - request Object
+   * @param {Object} res - request Object
+   * @return {Object} response Object
+   */
+  getMyDocuments(req, res) {
+    const responseInfo = {};
+    const page = helpers.pagination(req);
+    const limit = page.limit;
+    const offset = page.offset;
+    const order = page.order;
+    document.findAndCountAll({
+      where: { creatorId: req.decoded.UserId }, limit, offset, order
+    })
+      .then((documents) => {
+        if (!documents) {
+          responseInfo.message = 'No document found';
+          responseInfo.status = 'fail';
+          return res.status(404)
+            .json(helpers.responseFormat(responseInfo));
+        }
+        responseInfo.status = 'success';
+        const data = {};
+        const paginationMeta = {};
+        paginationMeta.outputCount = documents.rows.length;
+        paginationMeta.pageSize = limit;
+        paginationMeta.pageCount = Math.floor(documents.count / limit) + 1;
+        paginationMeta.currentPage = Math.floor(offset / limit) + 1;
+        paginationMeta.totalCount = documents.count;
+        data.paginationMeta = paginationMeta;
+        data.users = documents.rows;
+        res.status(200).json(helpers.responseFormat(responseInfo, data));
+      })
+      .catch((error) => {
+        res.status(400)
+          .json(helpers.catchErrorsResponse(error));
+      });
   }
 };

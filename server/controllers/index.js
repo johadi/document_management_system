@@ -1,7 +1,9 @@
-import user from './userController';
+import userCtrl from './userController';
+import docCtrl from './documentController';
+import roleCtrl from './roleController';
 
-const Routes = {
-  user
+export {
+  userCtrl,
+  docCtrl,
+  roleCtrl
 };
-
-export default Routes;

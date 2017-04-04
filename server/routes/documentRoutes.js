@@ -1,4 +1,4 @@
-import docCtrl from '../controllers/documentController';
+import { docCtrl } from '../controllers';
 import auth from '../middlewares/auth';
 import utils from '../middlewares/utils';
 

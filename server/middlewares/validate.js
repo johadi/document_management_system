@@ -1,5 +1,5 @@
 /**
- * Function to validate request body keys
+ * Function to validate request body keys for user insert and update
  * @param {Object} request request body object
  * @param {Boolean} isAdmin switch for when user is admin
  * @returns {Object} array containing validity and invalid keys
@@ -28,7 +28,7 @@ const validateUserKeys = (request, isAdmin) => {
 };
 
 /**
- * Function to validate request body keys
+ * Function to validate request body keys for document insert and update
  * @param {Object} request request body object
  * @returns {Object} array containing validity and invalid keys
  */
@@ -37,6 +37,26 @@ const validateDocumentKeys = (request) => {
   const validSchema = [
     'access',
     'content',
+    'title'
+  ];
+  const badRequestBodyKeys = [];
+  requestKeys.forEach((key) => {
+    if (!validSchema.includes(key)) {
+      badRequestBodyKeys.push(key);
+    }
+  });
+  const validity = badRequestBodyKeys.length === 0;
+  return [validity, badRequestBodyKeys];
+};
+
+/**
+ * Function to validate request body keys for role insert and update
+ * @param {Object} request request body object
+ * @returns {Object} array containing validity and invalid keys
+ */
+const validateRoleKeys = (request) => {
+  const requestKeys = Object.keys(request);
+  const validSchema = [
     'title'
   ];
   const badRequestBodyKeys = [];
@@ -77,6 +97,7 @@ const validRequestBodyCheck = (validation, res, next) => {
 export default {
   validateUserKeys,
   validateDocumentKeys,
+  validateRoleKeys,
   filterDocumentsByAccess,
   validRequestBodyCheck
 };

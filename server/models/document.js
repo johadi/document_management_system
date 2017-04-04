@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Document = sequelize.define('Document', {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
+    },
     creatorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
