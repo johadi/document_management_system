@@ -88,6 +88,15 @@ const Helpers = {
       'User is unauthorized for this request';
     return responseInfo;
   },
+  generatePaginationMeta(dbResult, page) {
+    const paginationMeta = {};
+    paginationMeta.outputCount = dbResult.rows.length;
+    paginationMeta.pageSize = page.limit;
+    paginationMeta.pageCount = Math.floor(dbResult.count / page.limit) + 1;
+    paginationMeta.currentPage = Math.floor(page.offset / page.limit) + 1;
+    paginationMeta.totalCount = dbResult.count;
+    return paginationMeta;
+  },
   pagination(req) {
     let limit;
     let offset;
