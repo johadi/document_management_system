@@ -242,7 +242,7 @@ export default {
   logout(req, res) {
     const responseInfo = {};
     responseInfo.status = 'success';
-    responseInfo.message = 'Successfully logged out.';
+    responseInfo.message = 'Successfully logged out .';
     res.status(200)
       .json(helpers.responseFormat(responseInfo));
   }
