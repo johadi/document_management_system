@@ -14,7 +14,7 @@ const config = {
     logging: false
   },
   production: {
-    url: process.env.PROD_URL,
+    url: process.env.DATABASE_URL,
     dialect: 'postgres',
     logging: false
   }
