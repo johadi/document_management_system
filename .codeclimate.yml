@@ -18,6 +18,9 @@ engines:
 ratings:
   paths:
   - "server/routes/*.js"
+  - "server/models/*.js"
 exclude_paths:
 - node_modules/
+- server/config/
+- server/test/
 

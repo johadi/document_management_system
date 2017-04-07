@@ -1,16 +1,14 @@
-import helper from '../helpers';
-
-const app = helper.app;
+import { app } from '../helpers.spec';
 
 describe('Routes: Index', () => {
-  describe('GET /', () => {
+  describe('GET /api/v1', () => {
     it('Should return http code 200', (done) => {
-      app.get('/')
+      app.get('/api/v1/')
         .expect(200, done);
     });
 
     it('Should return welcome message', (done) => {
-      app.get('/')
+      app.get('/api/v1/')
         .end((err, res) => {
           res.body.message.should
             .equal('Welcome to the document management api.');
@@ -19,7 +17,7 @@ describe('Routes: Index', () => {
     });
 
     it('Should return json format', (done) => {
-      app.get('/')
+      app.get('/api/v1/')
         .expect('Content-Type', /json/, done);
     });
   });

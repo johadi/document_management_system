@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node node_modules/gulp/bin/gulp",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/api/*.js --reporter spec --compilers js:babel-register --slow 5000",
+    "test_db_migrate": "NODE_ENV=test sequelize db:migrate",
+    "test_undo_migrate": "NODE_ENV=test sequelize db:migrate:undo:all",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --timeout 35000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -34,9 +36,11 @@
     "cors": "^2.8.3",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "faker": "^4.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-shell": "^0.6.3",
+    "js-logger": "^1.3.0",
     "jsonwebtoken": "^7.3.0",
     "morgan": "^1.8.1",
     "nodemon": "^1.11.0",

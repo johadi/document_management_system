@@ -22,6 +22,7 @@
     "import/no-unresolved": 0,
     "max-len": [2, 80, 2],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+    "no-multi-str": 0,
     "import/no-extraneous-dependencies": [
       2,
       {
