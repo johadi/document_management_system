@@ -1,4 +1,3 @@
-/*  eslint no-unused-expressions: "off"*/
 import { db, testData } from '../helpers.spec';
 
 describe('User Model: ', () => {
@@ -50,9 +49,8 @@ describe('User Model: ', () => {
     });
 
     describe('Firstname: ', () => {
-      it('should not allow input without firstnames', (done) => {
-        delete testData.testUser2.firstname;
-        db.User.create(testData.testUser2)
+      it('should not allow input without firstnames property', (done) => {
+        db.User.create(testData.userNoFirstName)
         .catch((error) => {
           error.errors[0].message.should
             .equal('firstname cannot be null');
@@ -83,9 +81,8 @@ describe('User Model: ', () => {
     });
 
     describe('Lastname: ', () => {
-      it('should not allow input without lastnames', (done) => {
-        delete testData.testUser3.lastname;
-        db.User.create(testData.testUser3)
+      it('should not allow input without lastnames property', (done) => {
+        db.User.create(testData.userNoLastName)
           .catch((error) => {
             error.errors[0].message.should
               .equal('lastname cannot be null');

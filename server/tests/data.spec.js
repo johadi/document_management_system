@@ -5,14 +5,14 @@ const data = {
     id: 1,
     title: 'admin'
   },
-
-  testRole2: {
+  testRole: {
+    id: 2,
     title: 'regular'
   },
-  newRole1: {
+  roleDeleteTitle: {
     title: faker.lorem.word()
   },
-  newRole2: {
+  testRole3: {
     title: faker.lorem.word()
   },
   validUser: {
@@ -31,27 +31,17 @@ const data = {
     password: 'password',
     roleId: 1
   },
-  testUser2: {
+  userNoFirstName: {
     username: faker.internet.userName(),
-    firstname: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'password',
     roleId: 2
   },
-  testUser3: {
+  userNoLastName: {
     username: faker.internet.userName(),
     firstname: faker.name.firstName(),
-    lastname: faker.name.lastName(),
     email: faker.internet.email(),
-    password: 'password',
-    roleId: 2
-  },
-  invalidEmail: {
-    username: faker.internet.userName(),
-    firstname: faker.name.firstName(),
-    lastname: faker.name.lastName(),
-    email: 'tope123',
     password: 'password',
     roleId: 2
   },

@@ -7,7 +7,7 @@
     "start": "node node_modules/gulp/bin/gulp",
     "test_db_migrate": "NODE_ENV=test sequelize db:migrate",
     "test_undo_migrate": "NODE_ENV=test sequelize db:migrate:undo:all",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --timeout 35000",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --timeout 50000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {

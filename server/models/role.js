@@ -4,15 +4,12 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: 'This Role tile already exists'
+        msg: 'This role tile already exists'
       },
       validate: {
-        notEmpty: {
-          msg: 'Title cannot be empty'
-        },
         len: {
           args: [3, 254],
-          msg: 'Title length should range between 6 - 254 characters'
+          msg: 'Title length should range between 3 - 254 characters'
         }
       }
     }
