@@ -6,7 +6,7 @@ describe('Role Model: ', () => {
       .then(() => done());
   });
 
-  after(() => db.Role.sequelize.sync({ force: true }));
+  after(() => db.sequelize.sync({ force: true }));
 
   describe('Validations: ', () => {
     describe('Title: ', () => {

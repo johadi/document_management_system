@@ -16,7 +16,7 @@ const data = {
     title: faker.lorem.word()
   },
   validUser: {
-    username: faker.internet.userName(),
+    username: 'Andela123',
     firstname: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
@@ -44,6 +44,33 @@ const data = {
     email: faker.internet.email(),
     password: 'password',
     roleId: 2
+  },
+  testDoc: {
+    creatorId: 1,
+    title: faker.lorem.sentence(),
+    content: faker.lorem.paragraph(),
+    access: 'private'
+  },
+  testDocCRUD: {
+    creatorId: 1,
+    title: faker.lorem.word(),
+    content: faker.lorem.paragraph(),
+    access: 'private'
+  },
+  testDocNoAccess: {
+    creatorId: 1,
+    title: faker.lorem.sentence(),
+    content: faker.lorem.paragraph()
+  },
+  testDocNoTitle: {
+    creatorId: 1,
+    content: faker.lorem.paragraph(),
+    access: 'public'
+  },
+  testDocNoContent: {
+    creatorId: 1,
+    title: faker.lorem.word(),
+    access: 'role'
   },
   longTitle: 'rNwj0DTYKDtgutzStfGsBpBiQK3ZZoM1eNlMB\
 6wPrt6vZPgPMjrCurSpoFkFCIqQQBoyrOh9D4zSzcKFAYoVY3LG9h8hTWuJo5nz6huPibG1pZJTgfz\
