@@ -5,6 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node node_modules/gulp/bin/gulp",
+    "db_migrate": "sequelize db:migrate",
+    "undo_migrate": "sequelize db:migrate:undo:all",
+    "db_seed": "sequelize db:seed:all",
+    "undo_seed": "sequelize db:seed:undo:all",
     "test_db_migrate": "NODE_ENV=test sequelize db:migrate",
     "test_undo_migrate": "NODE_ENV=test sequelize db:migrate:undo:all",
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --timeout 50000",
