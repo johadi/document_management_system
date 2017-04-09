@@ -25,9 +25,18 @@ const userRoute = (router) => {
     .patch(auth.verifyToken, utils.isValidRequestId,
       utils.canUpdateOrFindUser, utils.isValidUserUpdateBody,
       utils.preventDefaultAdminRoleChange, userCtrl.updateUser)
+    .put(auth.verifyToken, utils.isValidRequestId,
+      utils.canUpdateOrFindUser, utils.isValidUserUpdateBody,
+      utils.preventDefaultAdminRoleChange, userCtrl.updateUser)
     .delete(auth.verifyToken, auth.verifyAdmin,
       utils.isValidRequestId, utils.preventDefaultAdminDelete,
       userCtrl.deleteUser);
+
+  router.route('/users/:id/password')
+    .put(auth.verifyToken, utils.isValidRequestId,
+      utils.isValidUpdatePasswordBody, userCtrl.changePassword)
+    .patch(auth.verifyToken, utils.isValidRequestId,
+      utils.isValidUpdatePasswordBody, userCtrl.changePassword);
 };
 
 export default userRoute;

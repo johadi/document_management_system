@@ -1,4 +1,5 @@
 import Validator from 'validatorjs';
+import bcrypt from 'bcrypt-nodejs';
 import db from '../models/';
 import helpers from '../utils/helpers';
 
@@ -7,8 +8,7 @@ const expiresIn = process.env.JWT_EXPIRES_IN || '5h';
 const userRules = {
   firstname: 'required|between:2,40',
   lastname: 'required|between:2,40',
-  username: 'required|between:6,40',
-  email: 'required|email'
+  username: 'required|between:6,40'
 };
 
 export default {
@@ -24,6 +24,7 @@ export default {
     const obj = req.body;
     userRules.password = 'required|min:6|confirmed';
     userRules.password_confirmation = 'required';
+    userRules.email = 'required|email';
     const validator = new Validator(obj, userRules);
     if (validator.passes()) {
       const criteria = [
@@ -135,8 +136,8 @@ export default {
 
   /**
    * Method to update a user
-   * @param {Object} req the request object
-   * @param {Object} res the response object
+   * @param {Object} req - the request object
+   * @param {Object} res - the response object
    * @returns {Object} response body
    */
   updateUser(req, res) {
@@ -155,6 +156,7 @@ export default {
             .then((updatedUser) => {
               responseInfo.status = 'success';
               responseInfo.message = 'User updated successfully';
+              updatedUser = helpers.userDetailsToShow(updatedUser);
               return res.status(200)
                 .json(helpers.responseFormat(responseInfo, updatedUser));
             });
@@ -162,6 +164,60 @@ export default {
         .catch((error) => {
           res.status(400)
             .json(helpers.catchErrorsResponse(error));
+        });
+    } else {
+      return res.status(400)
+        .json(helpers.validationResponse(validator.errors.all()));
+    }
+  },
+
+  /**
+   * Method to update user Password
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
+  changePassword: (req, res) => {
+    const responseInfo = {};
+    const passwordChangeRules = {
+      old_password: 'required',
+      new_password: 'required|min:6|confirmed',
+      new_password_confirmation: 'required'
+    };
+    const validator = new Validator(req.body, passwordChangeRules);
+    if (validator.passes()) {
+      user.findById(req.params.id)
+        .then((foundUser) => {
+          if (!foundUser) {
+            responseInfo.message = 'User does not exist';
+            responseInfo.status = 'fail';
+            return res.status(404)
+              .json(helpers.responseFormat(responseInfo));
+          }
+          if (foundUser.passwordMatch(req.body.old_password)) {
+            if (req.body.old_password === req.body.new_password) {
+              responseInfo.status = 'fail';
+              responseInfo.message =
+                'Current password can\'t be same with new password';
+              return res.status(400)
+                .json(helpers.responseFormat(responseInfo));
+            }
+            foundUser.update({ password: req.body.new_password })
+              .then(() => {
+                responseInfo.status = 'success';
+                responseInfo.message = 'Password changed successfully';
+                return res.status(200)
+                  .json(helpers.responseFormat(responseInfo));
+              });
+          } else {
+            responseInfo.status = 'fail';
+            responseInfo.message = 'Incorrect current password';
+            return res.status(400)
+              .json(helpers.responseFormat(responseInfo));
+          }
+        })
+        .catch((err) => {
+          res.status(400).send(err.errors);
         });
     } else {
       return res.status(400)

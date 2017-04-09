@@ -1,4 +1,7 @@
+import jwt from 'jsonwebtoken';
 import validate from './validate';
+
+const secret = process.env.JWT_SECRET_TOKEN || 'docman';
 
 export default {
 
@@ -72,7 +75,8 @@ export default {
   },
 
   /**
-   * canUpdateOrFindUserOrDocuments checks if request id parameter is valid
+   * canUpdateOrFindUserOrDocuments checks if user authorized to
+   * find or update user
    * @param {Object} req the request object
    * @param {Object} res the response object
    * @param {Function} next the callback function
@@ -89,19 +93,40 @@ export default {
   },
 
   /**
-   * isValidUserCreateBody checks if request body is valid
+   * isValidUserCreateBody checks if user create request body is valid
    * @param {Object} req the request object
    * @param {Object} res the response object
    * @param {Function} next the callback function
    * @returns {Object} validity response
    */
   isValidUserCreateBody(req, res, next) {
-    const isValidRequestBody = validate.validateUserKeys(req.body);
+    let isValidRequestBody;
+    const token = req.headers.authorization || req.headers['x-access-token']
+      || req.body.token || req.query.token;
+    if (!token) {
+      isValidRequestBody = validate.validateUserKeys(req.body);
+    } else {
+      jwt.verify(token, secret, (err, decoded) => {
+        if (err) {
+          return res.status(401).json({
+            status: 'fail',
+            message: 'Invalid token'
+          });
+        }
+        req.decoded = decoded;
+        if (req.decoded.RoleId === 1) {
+          isValidRequestBody = validate.validateUserKeys(req.body, true);
+        } else {
+          isValidRequestBody = validate.validateUserKeys(req.body);
+        }
+      });
+    }
+
     return validate.validRequestBodyCheck(isValidRequestBody, res, next);
   },
 
   /**
-   * isValidRoleBody checks if update body is valid
+   * isValidRoleBody checks if role update body is valid
    * @param {Object} req the request object
    * @param {Object} res the response object
    * @param {Function} next the callback function
@@ -113,7 +138,7 @@ export default {
   },
 
   /**
-   * isValidDocumentBody checks if update body is valid
+   * isValidDocumentBody checks if document update body is valid
    * @param {Object} req the request object
    * @param {Object} res the response object
    * @param {Function} next the callback function
@@ -132,10 +157,24 @@ export default {
    * @returns {Object} validity response
    */
   isValidUserUpdateBody(req, res, next) {
-    let isValidRequestBody = validate.validateUserKeys(req.body);
+    let isValidRequestBody;
     if (req.decoded.RoleId === 1) {
-      isValidRequestBody = validate.validateUserKeys(req.body, true);
+      isValidRequestBody = validate.validateUserUpdateKeys(req.body, true);
+    } else {
+      isValidRequestBody = validate.validateUserUpdateKeys(req.body);
     }
+    return validate.validRequestBodyCheck(isValidRequestBody, res, next);
+  },
+
+  /**
+   * isValidUpdatePasswordBody checks if password update body is valid
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @param {Function} next the callback function
+   * @returns {Object} validity response
+   */
+  isValidUpdatePasswordBody(req, res, next) {
+    const isValidRequestBody = validate.validatePasswordChangeKeys(req.body);
     return validate.validRequestBodyCheck(isValidRequestBody, res, next);
   },
 

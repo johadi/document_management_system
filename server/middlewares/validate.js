@@ -1,5 +1,5 @@
 /**
- * Function to validate request body keys for user insert and update
+ * Function to validate request body keys for user insert
  * @param {Object} request request body object
  * @param {Boolean} isAdmin switch for when user is admin
  * @returns {Object} array containing validity and invalid keys
@@ -26,6 +26,55 @@ const validateUserKeys = (request, isAdmin) => {
   const validity = badRequestBodyKeys.length === 0;
   return [validity, badRequestBodyKeys];
 };
+
+/**
+ * Function to validate request body keys for user update
+ * @param {Object} request request body object
+ * @param {Boolean} isAdmin switch for when user is admin
+ * @returns {Object} array containing validity and invalid keys
+ */
+const validateUserUpdateKeys = (request, isAdmin) => {
+  const requestKeys = Object.keys(request);
+  const validSchema = [
+    'username',
+    'firstname',
+    'lastname'
+  ];
+  if (isAdmin) {
+    validSchema.push('roleId');
+  }
+  const badRequestBodyKeys = [];
+  requestKeys.forEach((key) => {
+    if (!validSchema.includes(key)) {
+      badRequestBodyKeys.push(key);
+    }
+  });
+  const validity = badRequestBodyKeys.length === 0;
+  return [validity, badRequestBodyKeys];
+};
+
+/**
+ * Function to validate request body keys for user password change
+ * @param {Object} request request body object
+ * @returns {Object} array containing validity and invalid keys
+ */
+const validatePasswordChangeKeys = (request) => {
+  const requestKeys = Object.keys(request);
+  const validSchema = [
+    'old_password',
+    'new_password',
+    'new_password_confirmation'
+  ];
+  const badRequestBodyKeys = [];
+  requestKeys.forEach((key) => {
+    if (!validSchema.includes(key)) {
+      badRequestBodyKeys.push(key);
+    }
+  });
+  const validity = badRequestBodyKeys.length === 0;
+  return [validity, badRequestBodyKeys];
+};
+
 
 /**
  * Function to validate request body keys for document insert and update
@@ -96,6 +145,8 @@ const validRequestBodyCheck = (validation, res, next) => {
 
 export default {
   validateUserKeys,
+  validateUserUpdateKeys,
+  validatePasswordChangeKeys,
   validateDocumentKeys,
   validateRoleKeys,
   filterDocumentsByAccess,
