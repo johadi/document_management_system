@@ -11,8 +11,6 @@ describe('Document Model: ', () => {
     .then(() => {
       done();
     });
-    // db.Document.create(testData.testDoc)
-    // .then(() => done());
   });
 
   after(() => db.sequelize.sync({ force: true }));

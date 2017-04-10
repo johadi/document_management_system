@@ -113,14 +113,8 @@ export default {
         }
         responseInfo.status = 'success';
         const data = {};
-        const paginationMeta = {};
-        paginationMeta.outputCount = documents.rows.length;
-        paginationMeta.pageSize = page.limit;
-        paginationMeta.pageCount = Math.floor(documents.count / page.limit) + 1;
-        paginationMeta.currentPage = Math.floor(page.offset / page.limit) + 1;
-        paginationMeta.totalCount = documents.count;
-        data.paginationMeta = paginationMeta;
-        data.users = documents.rows;
+        data.paginationMeta = helpers.generatePaginationMeta(documents, page);
+        data.documents = documents.rows;
         res.status(200).json(helpers.responseFormat(responseInfo, data));
       })
       .catch((error) => {
@@ -231,14 +225,8 @@ export default {
       }
       responseInfo.status = 'success';
       const data = {};
-      const paginationMeta = {};
-      paginationMeta.outputCount = documents.rows.length;
-      paginationMeta.pageSize = limit;
-      paginationMeta.pageCount = Math.floor(documents.count / limit) + 1;
-      paginationMeta.currentPage = Math.floor(offset / limit) + 1;
-      paginationMeta.totalCount = documents.count;
-      data.paginationMeta = paginationMeta;
-      data.users = documents.rows;
+      data.paginationMeta = helpers.generatePaginationMeta(documents, page);
+      data.documents = documents.rows;
       res.status(200).json(helpers.responseFormat(responseInfo, data));
     })
     .catch((error) => {
@@ -271,14 +259,8 @@ export default {
         }
         responseInfo.status = 'success';
         const data = {};
-        const paginationMeta = {};
-        paginationMeta.outputCount = documents.rows.length;
-        paginationMeta.pageSize = limit;
-        paginationMeta.pageCount = Math.floor(documents.count / limit) + 1;
-        paginationMeta.currentPage = Math.floor(offset / limit) + 1;
-        paginationMeta.totalCount = documents.count;
-        data.paginationMeta = paginationMeta;
-        data.users = documents.rows;
+        data.paginationMeta = helpers.generatePaginationMeta(documents, page);
+        data.documents = documents.rows;
         res.status(200).json(helpers.responseFormat(responseInfo, data));
       })
       .catch((error) => {

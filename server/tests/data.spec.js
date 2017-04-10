@@ -5,7 +5,7 @@ const data = {
     id: 1,
     title: 'admin'
   },
-  testRole: {
+  regularRole: {
     id: 2,
     title: 'regular'
   },
@@ -14,6 +14,14 @@ const data = {
   },
   testRole3: {
     title: faker.lorem.word()
+  },
+  adminUser: {
+    username: process.env.ADMIN_USERNAME,
+    firstname: process.env.ADMIN_FIRSTNAME,
+    lastname: process.env.ADMIN_LASTNAME,
+    email: process.env.ADMIN_EMAIL,
+    password: process.env.ADMIN_PASSWORD,
+    password_confirmation: process.env.ADMIN_PASSWORD
   },
   validUser: {
     username: 'Andela123',

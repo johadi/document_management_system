@@ -66,7 +66,7 @@ describe('Role Model: ', () => {
     let newRole;
     describe('Create', () => {
       it('should create a role', (done) => {
-        db.Role.create(testData.testRole)
+        db.Role.create(testData.regularRole)
           .then((role) => {
             newRole = role.dataValues;
             role.dataValues.should.have.property('id').which.is.a.Number();

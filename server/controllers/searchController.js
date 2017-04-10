@@ -42,8 +42,7 @@ export default {
       }
       responseInfo.status = 'success';
       const data = {};
-      const paginationMeta = helpers.generatePaginationMeta(users, page);
-      data.paginationMeta = paginationMeta;
+      data.paginationMeta = helpers.generatePaginationMeta(users, page);
       data.users = users.rows;
       return res.status(200)
         .json(helpers.responseFormat(responseInfo, data));
@@ -77,9 +76,8 @@ export default {
       }
       responseInfo.status = 'success';
       const data = {};
-      const paginationMeta = helpers.generatePaginationMeta(documents, page);
-      data.paginationMeta = paginationMeta;
-      data.users = documents.rows;
+      data.paginationMeta = helpers.generatePaginationMeta(documents, page);
+      data.documents = documents.rows;
       return res.status(200)
         .json(helpers.responseFormat(responseInfo, data));
     })

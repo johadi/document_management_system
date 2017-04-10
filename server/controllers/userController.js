@@ -118,13 +118,7 @@ export default {
         }
         responseInfo.status = 'success';
         const data = {};
-        const paginationMeta = {};
-        paginationMeta.outputCount = users.rows.length;
-        paginationMeta.pageSize = limit;
-        paginationMeta.pageCount = Math.floor(users.count / limit) + 1;
-        paginationMeta.currentPage = Math.floor(offset / limit) + 1;
-        paginationMeta.totalCount = users.count;
-        data.paginationMeta = paginationMeta;
+        data.paginationMeta = helpers.generatePaginationMeta(users, page);
         data.users = users.rows;
         res.status(200).json(helpers.responseFormat(responseInfo, data));
       })

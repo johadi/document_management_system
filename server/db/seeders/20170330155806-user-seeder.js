@@ -38,7 +38,7 @@ module.exports = {
         username: faker.internet.userName(),
         email: faker.internet.email(),
         password: bcrypt.hashSync('password', bcrypt.genSaltSync(8)),
-        roleId: 3,
+        roleId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       });
