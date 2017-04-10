@@ -8,7 +8,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     const initialUsers = [
       {
-        id: 1,
         firstname: process.env.ADMIN_FIRSTNAME,
         lastname: process.env.ADMIN_LASTNAME,
         username: process.env.ADMIN_USERNAME,
@@ -20,7 +19,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: 2,
         firstname: process.env.ADMIN_FIRSTNAME2,
         lastname: process.env.ADMIN_LASTNAME2,
         username: process.env.ADMIN_USERNAME2,
@@ -33,10 +31,8 @@ module.exports = {
       }
     ];
 
-    let UserId = 3;
     for (let i = 0; i <= 5; i += 1) {
       initialUsers.push({
-        id: UserId,
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
         username: faker.internet.userName(),
@@ -46,7 +42,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       });
-      UserId += 1;
     }
 
     return queryInterface.bulkInsert('Users', initialUsers, {
@@ -55,6 +50,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('Users', null, {});
   }
 };

@@ -11,6 +11,8 @@ const documentRoute = (router) => {
     .get(auth.verifyToken, utils.isValidRequestId, docCtrl.getOneDocument)
     .patch(auth.verifyToken, utils.isValidRequestId,
       utils.isValidDocumentBody, docCtrl.updateDocument)
+    .put(auth.verifyToken, utils.isValidRequestId,
+      utils.isValidDocumentBody, docCtrl.updateDocument)
     .delete(auth.verifyToken, utils.isValidRequestId, docCtrl.deleteDocument);
 };
 

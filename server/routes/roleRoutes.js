@@ -14,6 +14,9 @@ const documentRoute = (router) => {
     .patch(auth.verifyToken, auth.verifyAdmin, utils.isValidRequestId,
       utils.preventDefaultRolesChangeOrDelete, utils.isValidRoleBody,
       roleCtrl.updateRole)
+    .put(auth.verifyToken, auth.verifyAdmin, utils.isValidRequestId,
+      utils.preventDefaultRolesChangeOrDelete, utils.isValidRoleBody,
+      roleCtrl.updateRole)
     .delete(auth.verifyToken, utils.isValidRequestId,
       utils.preventDefaultRolesChangeOrDelete, roleCtrl.deleteRole);
 };
