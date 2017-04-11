@@ -11,7 +11,7 @@ const userRoute = (router) => {
     .post(utils.isValidLoginBody, userCtrl.login);
 
   router.route('/users/logout')
-    .get(auth.verifyToken, userCtrl.logout);
+    .post(auth.verifyToken, userCtrl.logout);
 
   router.route('/users/documents')
     .get(auth.verifyToken, docCtrl.getMyDocuments);
@@ -34,9 +34,11 @@ const userRoute = (router) => {
 
   router.route('/users/:id/password')
     .put(auth.verifyToken, utils.isValidRequestId,
-      utils.isValidUpdatePasswordBody, userCtrl.changePassword)
+      utils.canUpdateOrFindUser, utils.isValidUpdatePasswordBody,
+      userCtrl.changePassword)
     .patch(auth.verifyToken, utils.isValidRequestId,
-      utils.isValidUpdatePasswordBody, userCtrl.changePassword);
+      utils.canUpdateOrFindUser, utils.isValidUpdatePasswordBody,
+      userCtrl.changePassword);
 };
 
 export default userRoute;

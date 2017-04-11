@@ -34,7 +34,7 @@ export default {
       order
     })
     .then((users) => {
-      if (!users) {
+      if (users.rows.length === 0) {
         responseInfo.message = 'No User found';
         responseInfo.status = 'fail';
         return res.status(404)
@@ -68,7 +68,7 @@ export default {
       order
     })
     .then((documents) => {
-      if (!documents) {
+      if (documents.rows.length === 0) {
         responseInfo.message = 'No document found';
         responseInfo.status = 'fail';
         return res.status(404)

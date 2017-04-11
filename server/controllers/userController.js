@@ -1,14 +1,21 @@
 import Validator from 'validatorjs';
-import bcrypt from 'bcrypt-nodejs';
 import db from '../models/';
 import helpers from '../utils/helpers';
 
 const user = db.User;
 const expiresIn = process.env.JWT_EXPIRES_IN || '5h';
-const userRules = {
+const updateUserRules = {
   firstname: 'required|between:2,40',
   lastname: 'required|between:2,40',
   username: 'required|between:6,40'
+};
+const createUserRules = {
+  firstname: 'required|between:2,40',
+  lastname: 'required|between:2,40',
+  username: 'required|between:6,40',
+  password: 'required|min:6|confirmed',
+  password_confirmation: 'required',
+  email: 'required|email'
 };
 
 export default {
@@ -22,10 +29,7 @@ export default {
   createUser(req, res) {
     const responseInfo = {};
     const obj = req.body;
-    userRules.password = 'required|min:6|confirmed';
-    userRules.password_confirmation = 'required';
-    userRules.email = 'required|email';
-    const validator = new Validator(obj, userRules);
+    const validator = new Validator(obj, createUserRules);
     if (validator.passes()) {
       const criteria = [
         { email: obj.email.trim().toLowerCase() },
@@ -110,7 +114,7 @@ export default {
     const attributes = helpers.filterUserDetails();
     user.findAndCountAll({ attributes, limit, offset, order })
       .then((users) => {
-        if (!users) {
+        if (users.rows.length === 0) {
           responseInfo.message = 'No user found';
           responseInfo.status = 'fail';
           return res.status(404)
@@ -136,7 +140,7 @@ export default {
    */
   updateUser(req, res) {
     const responseInfo = {};
-    const validator = new Validator(req.body, userRules);
+    const validator = new Validator(req.body, updateUserRules);
     if (validator.passes()) {
       user.findById(req.params.id)
         .then((foundUser) => {
@@ -258,8 +262,10 @@ export default {
   login(req, res) {
     const responseInfo = {};
     const criteria = [
-      { email: req.body.username.trim() },
-      { username: req.body.username.trim() }
+      { email: (req.body.email) ? req.body.email.trim().toLocaleLowerCase()
+        : req.body.email },
+      { username: (req.body.username) ? req.body.username.trim()
+        : req.body.username }
     ];
     user.findOne({ where: { $or: criteria } })
       .then((foundUser) => {
@@ -269,7 +275,7 @@ export default {
           responseInfo.token = token;
           responseInfo.message =
             `User login successfully.Token will expire in ${expiresIn}`;
-          return res.status(201)
+          return res.status(200)
             .json(helpers.responseFormat(responseInfo));
         }
         responseInfo.status = 'fail';
@@ -292,7 +298,7 @@ export default {
   logout(req, res) {
     const responseInfo = {};
     responseInfo.status = 'success';
-    responseInfo.message = 'Successfully logged out .';
+    responseInfo.message = 'Successfully logged out.';
     res.status(200)
       .json(helpers.responseFormat(responseInfo));
   }

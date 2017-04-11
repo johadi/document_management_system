@@ -105,7 +105,7 @@ export default {
     const page = helpers.pagination(req);
     document.findAndCountAll(page)
       .then((documents) => {
-        if (!documents) {
+        if (documents.rows.length === 0) {
           responseInfo.message = 'No Document found';
           responseInfo.status = 'fail';
           return res.status(404)
@@ -217,7 +217,7 @@ export default {
       where: { creatorId: req.params.id }, limit, offset, order
     })
     .then((documents) => {
-      if (!documents) {
+      if (documents.rows.length === 0) {
         responseInfo.message = 'No document found';
         responseInfo.status = 'fail';
         return res.status(404)
@@ -251,7 +251,7 @@ export default {
       where: { creatorId: req.decoded.UserId }, limit, offset, order
     })
       .then((documents) => {
-        if (!documents) {
+        if (documents.rows.length === 0) {
           responseInfo.message = 'No document found';
           responseInfo.status = 'fail';
           return res.status(404)

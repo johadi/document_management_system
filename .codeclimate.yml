@@ -19,6 +19,7 @@ ratings:
   paths:
   - "server/routes/*.js"
   - "server/models/*.js"
+  - "server/controllers/*.js"
 exclude_paths:
 - node_modules/
 - server/config/

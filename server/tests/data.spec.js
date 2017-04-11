@@ -1,5 +1,7 @@
 import faker from 'faker';
 
+require('dotenv').config();
+
 const data = {
   adminRole: {
     id: 1,
@@ -36,8 +38,17 @@ const data = {
     firstname: 'Ayobami',
     lastname: 'Shaibu',
     email: 'ayo@gmail.com',
-    password: 'password',
-    roleId: 1
+    password: 'password'
+  },
+  testUserUpdate: {
+    username: 'Andela12',
+    firstname: 'Ayomide',
+    lastname: 'Shaibu'
+  },
+  testUserChangePassword: {
+    old_password: 'password',
+    new_password: 'password1',
+    new_password_confirmation: 'password1'
   },
   userNoFirstName: {
     username: faker.internet.userName(),

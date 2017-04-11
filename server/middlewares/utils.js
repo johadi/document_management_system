@@ -48,7 +48,7 @@ export default {
    * @returns {Object} validity response
    */
   preventDefaultAdminRoleChange(req, res, next) {
-    if (req.body.roleId && req.params.id === 1) {
+    if (+req.body.roleId && +req.params.id === 1) {
       return res.status(403).send({
         status: 'fail',
         message: 'You cannot change the default admin\'s role id'
@@ -83,7 +83,7 @@ export default {
    * @returns {Object} validity response
    */
   canUpdateOrFindUser(req, res, next) {
-    if (req.decoded.RoleId !== 1 && (req.params.id !== req.decoded.UserId)) {
+    if (req.decoded.RoleId !== 1 && (+req.params.id !== req.decoded.UserId)) {
       return res.status(401).send({
         status: 'fail',
         message: 'You don\'t have authorization for this action'
