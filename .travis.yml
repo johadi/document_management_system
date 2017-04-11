@@ -18,5 +18,5 @@ before_install:
  - sh -e /etc/init.d/xvfb start
 after_success:
  - npm run coverage
- env:
-   - JWT_SECRET_TOKEN=andelacheckpoint2
+env:
+ - JWT_SECRET_TOKEN=andelacheckpoint2
