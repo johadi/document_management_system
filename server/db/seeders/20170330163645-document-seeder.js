@@ -5,7 +5,7 @@ module.exports = {
     const initialDocuments = [];
     const idArray = [1, 2, 3, 4, 5];
     const accessArray = ['private', 'public', 'role'];
-    
+
     for (let i = 0; i <= 10; i += 1) {
       initialDocuments.push({
         creatorId: idArray[Math.floor(Math.random() * idArray.length)],
