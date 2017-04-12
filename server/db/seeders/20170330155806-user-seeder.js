@@ -8,11 +8,10 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     const initialUsers = [
       {
-        id: 1,
         firstname: process.env.ADMIN_FIRSTNAME,
         lastname: process.env.ADMIN_LASTNAME,
         username: process.env.ADMIN_USERNAME,
-        email: process.env.ADMIN_EMAIL,
+        email: process.env.ADMIN_EMAIL.toLowerCase(),
         password: bcrypt.hashSync(process.env.ADMIN_PASSWORD,
           bcrypt.genSaltSync(8)),
         roleId: 1,
@@ -20,11 +19,10 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: 2,
         firstname: process.env.ADMIN_FIRSTNAME2,
         lastname: process.env.ADMIN_LASTNAME2,
         username: process.env.ADMIN_USERNAME2,
-        email: process.env.ADMIN_EMAIL2,
+        email: process.env.ADMIN_EMAIL2.toLowerCase(),
         password: bcrypt.hashSync(process.env.ADMIN_PASSWORD,
           bcrypt.genSaltSync(8)),
         roleId: 1,
@@ -33,20 +31,17 @@ module.exports = {
       }
     ];
 
-    let UserId = 3;
     for (let i = 0; i <= 5; i += 1) {
       initialUsers.push({
-        id: UserId,
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
         username: faker.internet.userName(),
-        email: faker.internet.email(),
+        email: faker.internet.email().toLowerCase(),
         password: bcrypt.hashSync('password', bcrypt.genSaltSync(8)),
-        roleId: 3,
+        roleId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       });
-      UserId += 1;
     }
 
     return queryInterface.bulkInsert('Users', initialUsers, {
@@ -55,6 +50,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('Users', null, {});
   }
 };

@@ -12,32 +12,26 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'First Name is required'
-        },
         len: {
           args: [2, 40],
-          msg: 'First Name length should range between 3 - 40 characters'
+          msg: 'First Name length should range between 2 - 40 characters'
         }
       },
       set(value) {
-        this.setDataValue('firstname', value.trim().toLowerCase());
+        this.setDataValue('firstname', value.trim());
       }
     },
     lastname: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'Last Name is required'
-        },
         len: {
           args: [2, 40],
-          msg: 'Last Name length should range between 3 - 40 characters'
+          msg: 'Last Name length should range between 2 - 40 characters'
         }
       },
       set(value) {
-        this.setDataValue('lastname', value.trim().toLowerCase());
+        this.setDataValue('lastname', value.trim());
       }
     },
     username: {
@@ -54,7 +48,7 @@ export default (sequelize, DataTypes) => {
         }
       },
       set(value) {
-        this.setDataValue('username', value.trim().toLowerCase());
+        this.setDataValue('username', value.trim());
       }
     },
     email: {
@@ -62,7 +56,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: {
         args: true,
-        msg: 'Oops. There is an existing account with this email address.'
+        msg: 'Oops. There is an existing account with this email.'
       },
       validate: {
         isEmail: {
@@ -71,8 +65,8 @@ export default (sequelize, DataTypes) => {
         },
         max: {
           args: 254,
-          msg: `The email you entered is invalid  and longer 
-than 254 characters.`
+          msg: 'The email you entered is invalid  and longer \
+than 254 characters.'
         }
       },
       set(value) {
@@ -82,15 +76,24 @@ than 254 characters.`
     roleId: {
       allowNull: false,
       defaultValue: 2,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: 'Role id is required'
+        }
+      }
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: {
-          args: 6,
-          msg: 'Your password cannot be less than 6 characters'
+        isPassword(value) {
+          if (value.length < 6) {
+            throw new Error('Your password cannot be less than 6 characters');
+          }
+          const salt = bcrypt.genSaltSync(8);
+          const hash = bcrypt.hashSync(value, salt);
+          this.setDataValue('password', hash);
         }
       }
     }
@@ -99,7 +102,7 @@ than 254 characters.`
       associate: (models) => {
         // associations can be defined here
         User.belongsTo(models.Role, { foreignKey: 'roleId' });
-        User.hasMany(models.Document, { foreignKey: 'createorId' });
+        User.hasMany(models.Document, { foreignKey: 'creatorId' });
       }
     },
 
@@ -111,16 +114,20 @@ than 254 characters.`
       hashPassword() {
         this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
       }
-    },
-
-    hooks: {
-      beforeCreate: (newUser) => {
-        newUser.hashPassword();
-      },
-      beforeUpdate: (newUser) => {
-        newUser.hashPassword();
-      }
     }
+    //
+    // hooks: {
+    //   beforeCreate: (newUser) => {
+    //     if (this.getDataValue('password').length >= 6) {
+    //       newUser.hashPassword();
+    //     } else {
+    //       throw new Error('Your password cannot be less than 6 characters');
+    //     }
+    //   },
+    //   beforeUpdate: (newUser) => {
+    //     newUser.hashPassword();
+    //   }
+    // }
   });
   return User;
 };

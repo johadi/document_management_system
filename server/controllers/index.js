@@ -1,7 +1,11 @@
-import home from './home';
+import userCtrl from './userController';
+import docCtrl from './documentController';
+import roleCtrl from './roleController';
+import searchCtrl from './searchController';
 
-const Routes = {
-  home
+export {
+  userCtrl,
+  docCtrl,
+  roleCtrl,
+  searchCtrl
 };
-
-export default Routes;

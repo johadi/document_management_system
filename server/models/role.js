@@ -1,24 +1,15 @@
 export default (sequelize, DataTypes) => {
   const Role = sequelize.define('Role', {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true
-    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: 'This Role tile already exists'
+        msg: 'This role tile already exists'
       },
       validate: {
-        notEmpty: {
-          msg: 'Title cannot be empty'
-        },
         len: {
-          args: [6, 254],
-          msg: 'Title length should range between 6 - 254 characters'
+          args: [3, 254],
+          msg: 'Title length should range between 3 - 254 characters'
         }
       }
     }

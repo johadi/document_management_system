@@ -1,11 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Document = sequelize.define('Document', {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true
-    },
     creatorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -19,12 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'Title cannot be empty'
-        },
         len: {
-          args: [6, 254],
-          msg: 'Title length should range between 6 - 254 characters'
+          args: [3, 254],
+          msg: 'Title length should range between 3 - 254 characters'
         }
       },
       set(value) {
@@ -43,11 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     access: {
       type: DataTypes.STRING,
       allowNull: false,
-      default: 'private',
+      defaultValue: 'private',
       validate: {
         isIn: {
           args: [['private', 'public', 'role']],
-          msg: 'access can only be private, public or role'
+          msg: 'Access can only be private, public or role'
         }
       }
     }

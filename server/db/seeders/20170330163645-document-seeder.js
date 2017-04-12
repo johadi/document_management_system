@@ -6,10 +6,8 @@ module.exports = {
     const idArray = [1, 2, 3, 4, 5];
     const accessArray = ['private', 'public', 'role'];
 
-    let DocumentId = 1;
     for (let i = 0; i <= 10; i += 1) {
       initialDocuments.push({
-        id: DocumentId,
         creatorId: idArray[Math.floor(Math.random() * idArray.length)],
         title: faker.company.catchPhrase(),
         content: faker.lorem.paragraph(),
@@ -17,7 +15,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       });
-      DocumentId += 1;
     }
 
     return queryInterface.bulkInsert('Documents', initialDocuments, {
@@ -26,6 +23,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.bulkDelete('Documents', null, {});
+    return queryInterface.bulkDelete('Documents', null, {});
   }
 };

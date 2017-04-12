@@ -4,19 +4,23 @@ dotenv.config();
 
 const config = {
   development: {
-    url: process.env.DEV_DB_URL,
+    username: 'postgres',
+    password: null,
+    database: 'docman_dev',
+    host: '127.0.0.1',
     dialect: 'postgres',
     logging: false
   },
   test: {
-    url: process.env.TEST_DB_URL,
+    username: 'postgres',
+    password: null,
+    database: 'docman_test',
+    host: '127.0.0.1',
     dialect: 'postgres',
     logging: false
   },
   production: {
-    url: process.env.PROD_URL,
-    dialect: 'postgres',
-    logging: false
+    use_env_variable: process.env.DATABASE_URL
   }
 };
 module.exports = config[process.env.NODE_ENV || 'development'];
