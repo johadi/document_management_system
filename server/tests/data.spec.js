@@ -1,7 +1,5 @@
 import faker from 'faker';
 
-require('dotenv').config();
-
 const data = {
   adminRole: {
     id: 1,
@@ -18,12 +16,12 @@ const data = {
     title: faker.lorem.word()
   },
   adminUser: {
-    username: process.env.ADMIN_USERNAME,
-    firstname: process.env.ADMIN_FIRSTNAME,
-    lastname: process.env.ADMIN_LASTNAME,
-    email: process.env.ADMIN_EMAIL,
-    password: process.env.ADMIN_PASSWORD,
-    password_confirmation: process.env.ADMIN_PASSWORD
+    username: 'Andela_1',
+    firstname: 'Emmanuel',
+    lastname: 'Shaibu',
+    email: 'emmagd4@gmail.com',
+    password: 'password',
+    password_confirmation: 'password'
   },
   validUser: {
     username: 'Andela123',
