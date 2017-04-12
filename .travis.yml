@@ -12,7 +12,6 @@ services:
   - postgresql
 before_script:
   - psql -c 'CREATE DATABASE docman_test;' -U postgres
-  - npm run test_db_migrate
 before_install:
  - export CHROME_BIN=/usr/bin/google-chrome
  - export DISPLAY=:99.0
