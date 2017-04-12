@@ -64,19 +64,19 @@ const data = {
   },
   testDoc: {
     creatorId: 1,
-    title: faker.lorem.sentence(),
+    title: 'Cool title',
     content: faker.lorem.paragraph(),
     access: 'private'
   },
   testDocCRUD: {
     creatorId: 1,
-    title: faker.lorem.word(),
+    title: 'Nice Title',
     content: faker.lorem.paragraph(),
     access: 'private'
   },
   testDocNoAccess: {
     creatorId: 1,
-    title: faker.lorem.sentence(),
+    title: 'tittle no access',
     content: faker.lorem.paragraph()
   },
   testDocNoTitle: {
@@ -86,7 +86,7 @@ const data = {
   },
   testDocNoContent: {
     creatorId: 1,
-    title: faker.lorem.word(),
+    title: 'Title no content',
     access: 'role'
   },
   longTitle: 'rNwj0DTYKDtgutzStfGsBpBiQK3ZZoM1eNlMB\
