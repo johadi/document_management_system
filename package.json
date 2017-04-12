@@ -4,7 +4,7 @@
   "description": "The Document management system is a system that manages documents with types, users and user roles. Each document defines access rights; the document defines which roles can access it",
   "main": "app.js",
   "scripts": {
-    "start": "node node_modules/gulp/bin/gulp",
+    "start": "npm run db_migrate && node node_modules/gulp/bin/gulp",
     "db_migrate": "sequelize db:migrate",
     "undo_migrate": "sequelize db:migrate:undo:all",
     "db_seed": "sequelize db:seed:all",

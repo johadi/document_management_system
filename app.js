@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import jsLogger from 'js-logger';
 import routes from './server/routes';
+import db from './server/models/';
+import initialData from './server/config/initialData';
 
 require('dotenv').config();
 
@@ -12,6 +14,7 @@ jsLogger.useDefaults();
 const app = express();
 const router = express.Router();
 const port = process.env.PORT || 8000;
+const env = process.env.NODE_ENV || 'development';
 
 routes(router);
 
@@ -31,34 +34,29 @@ app.use('/api/v1/*', (req, res) => {
   });
 });
 
-// development error handler
-// will print stacktrace
-// if (app.get('env') === 'development') {
-//   app.use((err, req, res) => {
-//     const meta = {};
-//     const statusCode = err.code || err.status || 500;
-//     meta.message = err.message || 'Error in server interaction';
-//     if (err.errors) {
-//       meta.errors = err.errors;
-//     }
-//     return res.status(statusCode).send(meta);
-//   });
-// }
-//
-// // production error handler
-// // no stacktraces leaked to user
-// app.use((err, req, res) => {
-//   const meta = {};
-//   const statusCode = err.code || err.status || 500;
-//   meta.message = err.message || 'Error in server interaction';
-//   if (err.errors) {
-//     meta.errors = err.errors;
-//   }
-//   return res.status(statusCode).send(meta);
-// });
-
-app.listen(port, () => {
-  jsLogger.debug(`App is running on port ${port}`);
-});
+db.sequelize.sync()
+  .then(() => db.Role.findOne({ where: { title: 'Admin' } }))
+  .then((roleExists) => {
+    if (!roleExists) {
+      return db.Role.create(initialData.adminRole);
+    }
+  })
+  .then((adminRole) => {
+    if (adminRole) {
+      return db.Role.create(initialData.regularRole);
+    }
+  })
+  .then((regularRole) => {
+    if (regularRole) {
+      return db.User.create(initialData.adminUser);
+    }
+  })
+  .then(() => app.listen(port))
+  .then(() => jsLogger.debug(`App is running on port ${port}`))
+  .catch((err) => {
+    if (env === 'development') {
+      jsLogger.error(err);
+    }
+  });
 
 export default app;
