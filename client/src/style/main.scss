@@ -1,0 +1,97 @@
+$primary-color: #26a69a;
+$fonts: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+$txt: justify;
+$seconday-color: blue;
+
+body{
+  background-color: #efefef;
+}
+.main {
+  h1 {
+    color: $seconday-color;
+  }
+  h2 {
+    width: 20px;
+    margin-top: 150px;
+    margin-left: 40px;
+  }
+  .navheader {
+    padding: 5px
+  }
+}
+.bkg2{
+  background-image:url('../assets/img/docman-home.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  color: #fff;
+  padding-top: 25px;
+  background-color: #26a69a;
+  background-blend-mode: multiply;
+}
+.bkg{
+  height: 100%;
+  color: #fff;
+  padding-top: 40px;
+  background-color: #26a69a;
+  background-blend-mode: multiply;
+}
+
+.form-auth {
+  margin-top: 30px;
+  background: white;
+  height: 100%;
+}
+
+.text {
+  width: 400px;
+  margin-left: 40px;
+  font-family: $fonts;
+}
+.btn {
+  background-color: #26a69a;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-top: 30px;
+  &:hover {
+    background-color: #26a69a;
+  }
+  &:focus {
+    background-color: #26a69a;
+  }
+}
+
+.logo {
+  color: $primary-color;
+  font-family: $fonts;
+  margin-bottom:20px;
+  text-align: center;
+}
+
+
+.shadow{
+  border:3px double #fff;
+  -moz-box-shadow: 4px 6px 12px #dfdfdf;
+  -webkit-box-shadow: 4px 6px 12px #dfdfdf;
+  box-shadow: 12px 12px 12px 12px #dfdfdf;
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=13, Direction=135, Color='#dfdfdf');
+}
+
+.Signup {
+  width:40%;
+  margin-left: 40px;
+}
+
+.Tabs {
+  box-shadow: none;
+}
+.why {
+  text-align: $txt;
+}
+.err {
+  text-align: $txt;
+  font-family: $fonts;
+  font-size: 12px;
+  color: red;
+  margin-left: 20px;
+}
