@@ -21,7 +21,7 @@ const router = express.Router();
 const port = process.env.PORT || 8000;
 const env = process.env.NODE_ENV || 'development';
 
-app.use(express.static(path.join(__dirname, './client')));
+app.use(express.static(path.join(__dirname, './client/public')));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,

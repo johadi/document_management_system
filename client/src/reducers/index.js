@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
-import users from './userReducer';
-import flashMessages from './flashReducer';
-import auth from './auth';
+import loginReducer from './loginReducer';
+import signUpReducer from './signUpReducer';
+// import allDocumentsReducer from './allDocumentsReducer';
+// import allUsersReducer from './allUsersReducer';
+// import allRolesReducer from './allRolesReducer';
+// import viewUserReducer from './viewUserReducer';
 
 const rootReducer = combineReducers({
-  users,
-  flashMessages,
-  auth
+  loginReducer,
+  signUpReducer
 });
 
 export default rootReducer;

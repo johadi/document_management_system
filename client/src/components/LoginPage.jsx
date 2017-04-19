@@ -1,0 +1,200 @@
+import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
+import { browserHistory, Link } from 'react-router';
+import React, { Component } from 'react';
+import toastr from 'toastr';
+import { Alert } from './Alert.jsx';
+import loginAction from '../actions/authActions/loginAction';
+import Header from './Header.jsx';
+
+const ADMIN_ROLE_ID = 1;
+
+/**
+ * My LoginPage declaration
+ */
+export class LoginPage extends Component {
+  /**
+   * My LoginPage constructor
+   * @param {Object} props
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        email: '',
+        password: ''
+      },
+      error: null,
+      success: null
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.redirectIfLoggedIn = this.redirectIfLoggedIn.bind(this);
+  }
+
+  /**
+   * @return {void} void
+   */
+  componentWillMount() {
+    this.redirectIfLoggedIn();
+  }
+
+  /**
+   * On receiving of props
+   * @param {Object} nextProps
+   * @return {void} void
+   */
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      error: nextProps.loginError,
+      success: nextProps.loginSuccess
+    });
+    this.redirectIfLoggedIn();
+  }
+
+  /**
+   * On change of input values
+   * @param {object} event
+   * @return {void} void
+   */
+  handleChange(event) {
+    const user = this.state.user;
+    user[event.target.name] = event.target.value;
+    this.setState({ user });
+  }
+
+  /**
+   * @return {void} void
+   */
+  redirectIfLoggedIn() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+      const decodedUser = jwtDecode(token);
+      const roleId = decodedUser.role_id;
+      if (roleId === ADMIN_ROLE_ID) {
+        toastr.success('Logged in Successfully');
+        browserHistory.push('/admindashboard');
+      } else {
+        browserHistory.push('/dashboard');
+      }
+    }
+  }
+
+  /**
+   * On login submit
+   * @param {object }event
+   * @return {void} void
+   */
+  handleSubmit(event) {
+    // prevent default submit action
+    event.preventDefault();
+    // clear any error or success messages showing
+    this.setState({
+      success: null,
+      error: null
+    });
+
+    this.props.login(this.state);
+  }
+
+  /**
+   * Renders component
+   * @return {HTML} JSX
+   */
+  render() {
+    return (
+      <div className="row">
+        <Header />
+        <div className="row">
+          <div className="col s12">
+            <div className="row">
+              <div className="col s7">
+                <h4>Document Management System</h4>
+              </div>
+              <div className="col s5 card-panel">
+                <form className="col s12 l12 loginForm" onSubmit={this.handleSubmit}>
+                  { this.state.error ?
+                    <Alert info={this.state} /> : ''
+                  }
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        className="validate"
+                        type="email"
+                        name="email"
+                        id="email"
+                        onChange={this.handleChange}
+                        required
+                      />
+                      <label htmlFor="email">Enter your email</label>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        className="validate"
+                        type="password"
+                        name="password"
+                        id="password"
+                        onChange={this.handleChange}
+                        required
+                      />
+                      <label htmlFor="password">Enter your password</label>
+                    </div>
+
+                    <div>
+                      <span className="changeLogin">New User? <Link to="/register">Register Here</Link></span>
+                    </div>
+                  </div>
+                  <label className="loginError" id="loginError"></label>
+
+                  <br />
+                  <center>
+                    <div className="row">
+                      <button
+                        type="submit"
+                        name="btn_login"
+                        id="btn_login"
+                        onClick={this.handleSubmit}
+                        className="col s12 btn btn-large waves-effect">
+                        Login
+                      </button>
+                    </div>
+                  </center>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    );
+  }
+}
+
+LoginPage.PropTypes = {
+  user: React.PropTypes.object.isRequired,
+  loginThings: React.PropTypes.func.isRequired
+};
+
+LoginPage.contextTypes = {
+  router: React.PropTypes.object
+};
+
+const mapStoreToProps = (state) => {
+  return {
+    user: state.loginReducer.user,
+    loginSuccess: state.loginReducer.success,
+    loginError: state.loginReducer.error,
+    token: state.loginReducer.token
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: credentials => dispatch(loginAction(credentials))
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(LoginPage);

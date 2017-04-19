@@ -5,12 +5,12 @@ const path = require('path');
 const config = {
   context: path.join(__dirname, 'client/src'),
   devtool: 'inline-source-map',
-  entry: './index.js',
+  entry: './index.jsx',
 
   output: {
     filename: 'bundle.js',
     publicPath: '/',
-    path: path.join(__dirname, 'client/')
+    path: path.resolve('client/public')
   },
   resolve: {
     alias: {
@@ -37,6 +37,14 @@ const config = {
       }
     },
     {
+      test: /\.jsx$/,
+      exclude: ['node_modules', 'server', 'spec', 'dist'],
+      loader: 'babel-loader',
+      query: {
+        presets: ['react', 'es2015']
+      }
+    },
+    {
       test: /\.scss$/,
       loaders: ['style-loader', 'css-loader', 'sass-loader']
     },
@@ -55,7 +63,7 @@ const config = {
     {
       test: /\.(woff|png|jpg|gif)$/,
       loader: 'url-loader?limit=250000'
-    }],
+    }]
   },
   devServer: {
     contentBase: 'client/src',

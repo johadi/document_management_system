@@ -74,6 +74,7 @@ const Helpers = {
   },
   catchErrorsResponse(error) {
     responseInfo.status = 'error';
+    responseInfo.message = 'An error occured';
     responseInfo.errors = error.errors;
     return responseInfo;
   },
