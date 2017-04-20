@@ -1,3 +1,4 @@
 node_modules/
 .coverage/
 server/db
+server/utils/query.js

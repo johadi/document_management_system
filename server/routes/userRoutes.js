@@ -16,9 +16,6 @@ const userRoute = (router) => {
   router.route('/users/documents')
     .get(auth.verifyToken, docCtrl.getMyDocuments);
 
-  router.route('/users/:id/documents')
-    .get(auth.verifyToken, auth.verifyAdmin, docCtrl.getUserDocuments);
-
   router.route('/users/:id')
     .get(auth.verifyToken, utils.isValidRequestId,
       utils.canUpdateOrFindUser, userCtrl.getOneUser)

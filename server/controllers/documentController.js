@@ -1,6 +1,7 @@
 import Validator from 'validatorjs';
 import db from '../models/';
 import helpers from '../utils/helpers';
+import { getAccessibleDocs, countAccessibleDocs } from '../utils/query';
 
 const document = db.Document;
 const documentRules = {
@@ -202,32 +203,41 @@ export default {
   },
 
   /**
-   * Method getUserDocuments to obtain all documents for a specific user
+   * Method getAccessibleDocument to obtain accessible documents
+   * to a non-admin user
    * @param {Object} req - request Object
    * @param {Object} res - request Object
    * @return {Object} response Object
    */
-  getUserDocuments(req, res) {
+  getAccessibleDocument(req, res) {
     const responseInfo = {};
     const page = helpers.pagination(req);
     const limit = page.limit;
     const offset = page.offset;
     const order = page.order;
-    document.findAndCountAll({
-      where: { creatorId: req.params.id }, limit, offset, order
+
+    db.sequelize.query(getAccessibleDocs(req, limit, offset, order), {
+    // db.sequelize.query(getAccessibleDocs(req), {
+      type: db.sequelize.QueryTypes.SELECT
     })
     .then((documents) => {
-      if (documents.rows.length === 0) {
+      if (!documents) {
         responseInfo.message = 'No document found';
         responseInfo.status = 'fail';
         return res.status(404)
           .json(helpers.responseFormat(responseInfo));
       }
-      responseInfo.status = 'success';
-      const data = {};
-      data.paginationMeta = helpers.generatePaginationMeta(documents, page);
-      data.documents = documents.rows;
-      res.status(200).json(helpers.responseFormat(responseInfo, data));
+      db.sequelize.query(countAccessibleDocs(req), {
+        type: db.sequelize.QueryTypes.SELECT
+      })
+      .then((count) => {
+        responseInfo.status = 'success';
+        const data = {};
+        data.paginationMeta = helpers
+          .generatePaginationMeta(documents, page, count[0].count);
+        data.documents = documents;
+        res.status(200).json(helpers.responseFormat(responseInfo, data));
+      });
     })
     .catch((error) => {
       res.status(400)
@@ -247,25 +257,33 @@ export default {
     const limit = page.limit;
     const offset = page.offset;
     const order = page.order;
+    const criteria = {
+      creatorId: req.decoded.UserId
+    };
+    if (req.query.q) {
+      criteria.title = {
+        $iLike: `%${req.query.q}%`
+      };
+    }
     document.findAndCountAll({
-      where: { creatorId: req.decoded.UserId }, limit, offset, order
+      where: criteria, limit, offset, order
     })
-      .then((documents) => {
-        if (documents.rows.length === 0) {
-          responseInfo.message = 'No document found';
-          responseInfo.status = 'fail';
-          return res.status(404)
-            .json(helpers.responseFormat(responseInfo));
-        }
-        responseInfo.status = 'success';
-        const data = {};
-        data.paginationMeta = helpers.generatePaginationMeta(documents, page);
-        data.documents = documents.rows;
-        res.status(200).json(helpers.responseFormat(responseInfo, data));
-      })
-      .catch((error) => {
-        res.status(400)
-          .json(helpers.catchErrorsResponse(error));
-      });
+    .then((documents) => {
+      if (documents.rows.length === 0) {
+        responseInfo.message = 'No document found';
+        responseInfo.status = 'fail';
+        return res.status(404)
+          .json(helpers.responseFormat(responseInfo));
+      }
+      responseInfo.status = 'success';
+      const data = {};
+      data.paginationMeta = helpers.generatePaginationMeta(documents, page);
+      data.documents = documents.rows;
+      res.status(200).json(helpers.responseFormat(responseInfo, data));
+    })
+    .catch((error) => {
+      res.status(400)
+        .json(helpers.catchErrorsResponse(error));
+    });
   }
 };

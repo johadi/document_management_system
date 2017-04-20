@@ -7,6 +7,9 @@ const documentRoute = (router) => {
     .get(auth.verifyToken, auth.verifyAdmin, docCtrl.getAllDocuments)
     .post(auth.verifyToken, utils.isValidDocumentBody, docCtrl.createDocument);
 
+  router.route('/documents/accessible')
+    .get(auth.verifyToken, docCtrl.getAccessibleDocument);
+
   router.route('/documents/:id')
     .get(auth.verifyToken, utils.isValidRequestId, docCtrl.getOneDocument)
     .patch(auth.verifyToken, utils.isValidRequestId,

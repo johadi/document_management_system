@@ -74,7 +74,6 @@ const Helpers = {
   },
   catchErrorsResponse(error) {
     responseInfo.status = 'error';
-    responseInfo.message = 'An error occured';
     responseInfo.errors = error.errors;
     return responseInfo;
   },
@@ -89,13 +88,19 @@ const Helpers = {
       'User is unauthorized for this request';
     return responseInfo;
   },
-  generatePaginationMeta(dbResult, page) {
+  generatePaginationMeta(dbResult, page, count = undefined) {
     const paginationMeta = {};
-    paginationMeta.outputCount = dbResult.rows.length;
+    if (count === undefined) {
+      paginationMeta.pageCount = Math.floor(dbResult.count / page.limit) + 1;
+      paginationMeta.totalCount = dbResult.count;
+      paginationMeta.outputCount = dbResult.rows.length;
+    } else {
+      paginationMeta.pageCount = Math.floor(count / page.limit) + 1;
+      paginationMeta.totalCount = count;
+      paginationMeta.outputCount = dbResult.length;
+    }
     paginationMeta.pageSize = page.limit;
-    paginationMeta.pageCount = Math.floor(dbResult.count / page.limit) + 1;
     paginationMeta.currentPage = Math.floor(page.offset / page.limit) + 1;
-    paginationMeta.totalCount = dbResult.count;
     return paginationMeta;
   },
   pagination(req) {
