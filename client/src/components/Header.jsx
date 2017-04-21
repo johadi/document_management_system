@@ -16,19 +16,14 @@ export class Header extends Component {
     super(props);
     const token = window.localStorage.getItem('token');
     if (token) {
-      console.log(token, 'in header');
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken, 'in header');
       this.state = {
-        id: jwtDecode(token).UserId,
-        username: jwtDecode(token).Username
+        id: decodedToken.UserId,
+        username: decodedToken.Username
       };
       this.logout = this.logout.bind(this);
     }
-  }
-
-  componentWillReceiveProps(nextProps){
-    // if (nextProps.user) {
-      console.log(nextProps.user);
-    // }
   }
 
   /**
@@ -56,7 +51,7 @@ export class Header extends Component {
   * @return {HTML} JSX
   */
   render() {
-    if (this.props.user) {
+    if (window.localStorage.getItem('token')) {
       return (
         <div className="navbar-fixed">
           <nav>
@@ -64,7 +59,9 @@ export class Header extends Component {
               <Link to="/" className="brand-logo"></Link>
               <ul id="loggedinNav">
                 <li>
-                  {this.props.user.Username}
+                  <Link to={`/profile/${this.state.id || ''}`}>
+                    {this.state.username || ''}
+                  </Link>
                 </li>
                 <li><Link id="logout" onClick={this.logout}>
                   Sign Out</Link>

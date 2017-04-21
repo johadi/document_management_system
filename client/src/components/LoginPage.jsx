@@ -178,7 +178,8 @@ export class LoginPage extends Component {
 
 LoginPage.PropTypes = {
   user: PropTypes.object.isRequired,
-  loginThings: PropTypes.func.isRequired
+  loginError: PropTypes.object.isRequired,
+  loginSuccess: PropTypes.object.isRequired
 };
 
 LoginPage.contextTypes = {

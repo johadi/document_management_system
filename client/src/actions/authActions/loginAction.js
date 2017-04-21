@@ -26,7 +26,6 @@ export default (credentials) => {
       })
       .catch((error) => {
         debugger;
-        console.log(error);
         dispatch({
           type: actionTypes.LOGIN_ERROR,
           message: (error.response.data.message) ?
