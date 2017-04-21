@@ -36,5 +36,6 @@ export default keymirror({
   VIEW_ROLE: null,
   VIEW_USER: null,
   PASSWORD_UPDATED: null,
-  PASSWORD_UPDATE_FAILED: null
+  PASSWORD_UPDATE_FAILED: null,
+  CLEAR_ERROR: null
 });
