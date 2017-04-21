@@ -101,10 +101,18 @@ export default {
    * @returns {Object} Response object
    */
   getAllDocuments: (req, res) => {
-    // return res.json({ hello : 'hello' });
     const responseInfo = {};
     const page = helpers.pagination(req);
-    document.findAndCountAll(page)
+    const queryBuilder = {
+      include: [{
+        model: db.User,
+        attributes: ['firstname', 'lastname']
+      }],
+      order: page.order,
+      limit: page.limit,
+      offset: page.offset
+    };
+    document.findAndCountAll(queryBuilder)
       .then((documents) => {
         if (documents.rows.length === 0) {
           responseInfo.message = 'No Document found';
