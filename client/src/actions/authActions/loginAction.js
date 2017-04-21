@@ -4,22 +4,33 @@ import actionTypes from '../actionTypes';
 
 export default (credentials) => {
   return (dispatch) => {
-    console.log(credentials);
     return axios.post('/api/v1/users/login', credentials.user)
       .then((response) => {
+        console.log(response, "res");
         const token = response.data.token;
-        const user = jwtDecode(token).user;
+        const user = jwtDecode(token);
+        // try
+        // {
+        //   user = jwtDecode(token);
+        // }catch(e){
+        //   console.log('token error');
+        // }
         window.localStorage.setItem('token', token);
+        console.log(user);
         dispatch({
           type: actionTypes.LOGIN_SUCCESSFUL,
           user,
           token,
           message: 'Login Successful'
         });
-      }).catch((error) => {
+      })
+      .catch((error) => {
+        debugger;
+        console.log(error);
         dispatch({
           type: actionTypes.LOGIN_ERROR,
-          message: error.response.data.message
+          message: (error.response.data.message) ?
+            error.response.data.message : null
         });
       });
   };

@@ -14,12 +14,21 @@ export class Header extends Component {
    */
   constructor(props) {
     super(props);
-    const token = (window.localStorage.getItem('token'));
+    const token = window.localStorage.getItem('token');
     if (token) {
-      this.state = { id: jwtDecode(token).user.id,
-        username: jwtDecode(token).user.username };
+      console.log(token, 'in header');
+      this.state = {
+        id: jwtDecode(token).UserId,
+        username: jwtDecode(token).Username
+      };
       this.logout = this.logout.bind(this);
     }
+  }
+
+  componentWillReceiveProps(nextProps){
+    // if (nextProps.user) {
+      console.log(nextProps.user);
+    // }
   }
 
   /**
@@ -28,8 +37,8 @@ export class Header extends Component {
   componentDidMount() {
     $(document).ready(() => {
       // $('select').material_select();
-      $('#collapse_btn').sideNav();
-      $('#collapse_btn').sideNav('hide');
+      $("#collapse_btn").sideNav();
+      $("#collapse_btn").sideNav('hide');
     });
   }
 
@@ -47,15 +56,19 @@ export class Header extends Component {
   * @return {HTML} JSX
   */
   render() {
-    if (window.localStorage.getItem('token')) {
+    if (this.props.user) {
       return (
         <div className="navbar-fixed">
           <nav>
             <div className="nav-wrapper">
               <Link to="/" className="brand-logo"></Link>
               <ul id="loggedinNav">
-                <li><Link to={`/profile/${this.state.id}`}>{this.state.username}</Link></li>
-                <li><Link id="logout" onClick={this.logout}>Sign Out</Link></li>
+                <li>
+                  {this.props.user.Username}
+                </li>
+                <li><Link id="logout" onClick={this.logout}>
+                  Sign Out</Link>
+                </li>
               </ul>
               <ul id="nav-mobile" className="right hide-on-med-and-down" />
             </div>
@@ -75,6 +88,7 @@ export class Header extends Component {
               <li><a href="./">Home</a></li>
             </ul>
           </div>
+          <h3 className="center title">DMS</h3>
         </nav >
       </div>
     );
@@ -88,7 +102,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 const mapStoreToProps = (state) => {
   return {
-    user: state.user
+    user: state.loginReducer.user
   };
 };
 

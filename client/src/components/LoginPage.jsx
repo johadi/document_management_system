@@ -2,19 +2,19 @@ import { connect } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import { browserHistory, Link } from 'react-router';
 import React, { Component } from 'react';
-import toastr from 'toastr';
+import PropTypes from 'prop-types';
 import { Alert } from './Alert.jsx';
 import loginAction from '../actions/authActions/loginAction';
-import Header from './Header.jsx';
+import { Header } from './Header.jsx';
 
 const ADMIN_ROLE_ID = 1;
 
 /**
- * My LoginPage declaration
+ * LoginPage class declaration
  */
 export class LoginPage extends Component {
   /**
-   * My LoginPage constructor
+   * LoginPage class constructor
    * @param {Object} props
    */
   constructor(props) {
@@ -50,7 +50,10 @@ export class LoginPage extends Component {
       error: nextProps.loginError,
       success: nextProps.loginSuccess
     });
-    this.redirectIfLoggedIn();
+    setTimeout(() => {
+      this.redirectIfLoggedIn();
+    }, 1000);
+    // this.redirectIfLoggedIn();
   }
 
   /**
@@ -70,10 +73,8 @@ export class LoginPage extends Component {
   redirectIfLoggedIn() {
     const token = window.localStorage.getItem('token');
     if (token) {
-      const decodedUser = jwtDecode(token);
-      const roleId = decodedUser.role_id;
+      const roleId = jwtDecode(token).RoleId;
       if (roleId === ADMIN_ROLE_ID) {
-        toastr.success('Logged in Successfully');
         browserHistory.push('/admindashboard');
       } else {
         browserHistory.push('/dashboard');
@@ -100,7 +101,7 @@ export class LoginPage extends Component {
 
   /**
    * Renders component
-   * @return {HTML} JSX
+   * @return {XML} JSX
    */
   render() {
     return (
@@ -109,10 +110,11 @@ export class LoginPage extends Component {
         <div className="row">
           <div className="col s12">
             <div className="row">
-              <div className="col s7">
-                <h4>Document Management System</h4>
+              <div className="col s7 valign-wrapper">
+                <h2>Document Management System</h2>
               </div>
               <div className="col s5 card-panel">
+                <h4 className="center-align">LOGIN</h4>
                 <form className="col s12 l12 loginForm" onSubmit={this.handleSubmit}>
                   { this.state.error ?
                     <Alert info={this.state} /> : ''
@@ -175,12 +177,12 @@ export class LoginPage extends Component {
 }
 
 LoginPage.PropTypes = {
-  user: React.PropTypes.object.isRequired,
-  loginThings: React.PropTypes.func.isRequired
+  user: PropTypes.object.isRequired,
+  loginThings: PropTypes.func.isRequired
 };
 
 LoginPage.contextTypes = {
-  router: React.PropTypes.object
+  router: PropTypes.object
 };
 
 const mapStoreToProps = (state) => {

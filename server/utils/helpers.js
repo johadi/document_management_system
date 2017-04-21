@@ -31,7 +31,8 @@ const Helpers = {
     return jwt.sign({
       UserId: user.id,
       RoleId: user.roleId,
-      Email: user.email
+      Email: user.email,
+      Username: user.username
     }, secret, { expiresIn });
   },
   validationErrorsToArray(error) {

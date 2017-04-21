@@ -1,8 +1,7 @@
 //colors
 $white: white;
-$color_monte_carlo_approx: #26a692;
+$primary_color: #26a692;
 $teal: teal;
-$color_eastern_blue_approx: #26a692;
 $white_80: rgba(255, 255, 255, 0.8);
 
 //@extend-elements
@@ -35,14 +34,14 @@ html {
 }
 nav {
   padding: 0 15px 0 15px !important;
-  background: $color_monte_carlo_approx !important;
+  background: $primary_color !important;
 }
 .forgot-password {
   float: right;
   padding-right: 10px;
   color: $teal;
   &:hover {
-    color: $color_eastern_blue_approx;
+    color: $primary_color;
   }
 }
 #btn_login {
@@ -62,11 +61,11 @@ nav {
 #loggedinNav {
   float: right;
   a {
-    color: $teal;
+    color: $white;
     font-weight: bold;
     &:hover {
       background: transparent;
-      color: $white;
+      color: $white_80;
     }
   }
 }
@@ -83,8 +82,6 @@ nav {
 }
 
 .workspace .panel{
-  width:80%;
-  margin:0 auto;
   margin-top:40px;
   padding:40px;
   margin-bottom: 40px;
@@ -296,4 +293,14 @@ a {
 }
 .card {
   overflow: hidden;
+}
+.header-text-color {
+  color: $primary_color;
+}
+.title {
+  color: white;
+  margin-top: 2px;
+  &:hover {
+    color: $white_80;
+  }
 }
