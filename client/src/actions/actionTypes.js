@@ -3,16 +3,13 @@ import keymirror from 'keymirror';
 export default keymirror({
   SIGNUP: null,
   LOGIN: null,
-  SIGNUP_FAILED: null,
   LOGIN_SUCCESSFUL: null,
   SIGNUP_SUCCESSFUL: null,
-  LOGIN_ERROR: null,
   DOCUMENT_CREATED: null,
   DOCUMENT_UPDATED: null,
   ALL_DOCUMENTS: null,
   DOCUMENT_RETRIEVAL_FAILED: null,
   DOCUMENT_UPDATE_FAILED: null,
-  DOCUMENT_CREATE_FAILED: null,
   VIEW_DOCUMENT: null,
   DOCUMENT_DELETED: null,
   DOCUMENT_DELETION_FAILED: null,
@@ -39,4 +36,6 @@ export default keymirror({
   PASSWORD_UPDATE_FAILED: null,
   CLEAR_LOGIN_ERROR: null,
   CLEAR_REGISTER_ERROR: null,
+  VALIDATION_ERROR: null,
+  CLEAR_ERROR: null
 });

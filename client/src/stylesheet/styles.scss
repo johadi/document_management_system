@@ -80,14 +80,25 @@ nav {
   padding:20px;
   background: transparent !important;
   min-height:450px;
+  .panel{
+    width:90%;
+    margin:0 auto;
+    padding-left: 30px;
+    background: white;
+  }
+
+  .workspace-header{
+    width:80%;
+    margin:0 auto;
+    margin-top:40px !important;
+  }
+
+  .btnAddDocument {
+    margin-bottom: 10px;
+  }
+
 }
 
-.workspace .panel{
-  margin-top:40px;
-  padding:40px;
-  margin-bottom: 40px;
-  background: white;
-}
 .loginerror {
   color: $white_80;
   font-weight: bold;
@@ -95,7 +106,7 @@ nav {
 .dashboardContainer {
   padding: 0 !important;
   div {
-    padding: 0 !important;
+    padding: 0;
   }
 }
 .brand-logo{
@@ -131,12 +142,6 @@ a {
   min-height:300px;
 }
 
-.workspace-header{
-  width:80%;
-  margin:0 auto;
-  margin-top:40px !important;
-}
-
 #collapse_btn{
   margin-top:15px !important;
   text-align: center;
@@ -158,10 +163,6 @@ a {
 
 .action_desc{
   margin-top:-1px !important;
-}
-
-.document-name-field input {
-  width:90%;
 }
 
 .doc_list {
@@ -201,10 +202,6 @@ a {
   background-color: inherit;
   cursor: inherit;
 }
-//.doc_list td {
-//  padding:15px;
-//  padding-left:30px;
-//}
 
 .pagination-btn {
   margin-right:30px;
@@ -325,3 +322,10 @@ a {
 .pagination li.active {
   background-color: $primary_color;
 }
+header, main, footer, .dashboardContainer {
+  padding-left: 300px;
+}
+.mt-15{
+  margin-top: 15px;
+}
+

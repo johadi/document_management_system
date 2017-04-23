@@ -20,7 +20,6 @@ export default (token, offset, limit) => {
       });
     })
     .catch((error) => {
-      debugger;
       dispatch({
         type: actionTypes.DOCUMENT_RETRIEVAL_FAILED,
         status: 'failed',

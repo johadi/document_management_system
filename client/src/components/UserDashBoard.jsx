@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import { Pagination } from 'react-materialize';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
@@ -51,15 +51,6 @@ class ViewDocuments extends React.Component {
   }
 
   /**
-   * On receiving of props
-   * @param {Object} nextProps
-   * @return {void} void
-   */
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps.documents);
-  }
-
-  /**
    * On change of search values
    * @param {object} event
    * @return {void} void
@@ -97,6 +88,9 @@ class ViewDocuments extends React.Component {
     if (!window.localStorage.getItem('token')) {
       browserHistory.push('/');
     }
+    if (this.props.documents && this.props.documents.length === 0) {
+      return (<p>There are no documents yet in your collection.</p>);
+    }
     return (
       <div className="row dashboardContainer col s12">
         <Header/>
@@ -117,6 +111,14 @@ class ViewDocuments extends React.Component {
                 onClick={this.searchDocument}>
               <i className="material-icons">search</i></button>
             </div>
+
+            <div className="col s5 btnAddDocument">
+              <Link className="waves-effect waves-light btn" to="/create-document">
+                <i className="material-icons left">note_add</i>
+                Add Document
+              </Link>
+            </div>
+
           </div>
 
           <div className="col s10 offset-s1 card-panel">

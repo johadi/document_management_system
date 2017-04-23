@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import SignUpPage from './components/SignUpPage.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import UserDashBoard from './components/UserDashBoard.jsx';
-// import CreateDocument from './components/CreateDocument.jsx';
+import CreateDocument from './components/CreateDocument.jsx';
 // import EditDocument from './components/EditDocument.jsx';
 // import ViewDocument from './components/ViewDocument.jsx';
 // import ViewAllRoles from './components/ViewAllRoles.jsx';
@@ -21,5 +21,6 @@ export default(
     <Route path="/login" component={LoginPage} />
     <Route path="/register" component={SignUpPage} />
     <Route path="/dashboard" component={UserDashBoard} />
+    <Route path="/create-document" component={CreateDocument} />
   </Route>
 );

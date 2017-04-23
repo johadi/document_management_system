@@ -12,14 +12,13 @@ export default (credentials) => {
         dispatch({
           type: actionTypes.LOGIN_SUCCESSFUL,
           user,
-          token,
-          message: 'Login Successful'
+          token
         });
       })
       .catch((error) => {
         console.log(error);
         dispatch({
-          type: actionTypes.LOGIN_ERROR,
+          type: actionTypes.VALIDATION_ERROR,
           message: (error.response.data.message) ?
             error.response.data.message : null
         });

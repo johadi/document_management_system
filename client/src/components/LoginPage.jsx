@@ -4,7 +4,7 @@ import { browserHistory, Link } from 'react-router';
 import PropTypes from 'prop-types';
 import Alert from './Alert.jsx';
 import loginAction from '../actions/authActions/loginAction';
-import { loginAlert } from '../actions/authActions/alertAction';
+import clearErrorAlert from '../actions/errorActions/errorActions';
 import Header from './Header.jsx';
 
 /**
@@ -66,7 +66,7 @@ class LoginPage extends React.Component {
    * @return {void} void
    */
   redirectIfLoggedIn() {
-    if (this.state.success !== null) {
+    if (this.state.success === true) {
       browserHistory.push('/dashboard');
     }
   }
@@ -180,13 +180,13 @@ LoginPage.contextTypes = {
 const mapStoreToProps = state => ({
   user: state.loginReducer.user,
   loginSuccess: state.loginReducer.success,
-  loginError: state.loginReducer.error,
+  loginError: state.errorReducer.error,
   token: state.loginReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
   login: credentials => dispatch(loginAction(credentials)),
-  alertClose: () => dispatch(loginAlert())
+  alertClose: () => dispatch(clearErrorAlert())
 });
 
 export default connect(mapStoreToProps, mapDispatchToProps)(LoginPage);

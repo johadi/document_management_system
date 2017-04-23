@@ -14,15 +14,10 @@ class Header extends React.Component {
    */
   constructor(props) {
     super(props);
-    const token = window.localStorage.getItem('token');
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      this.state = {
-        id: decodedToken.UserId,
-        username: decodedToken.Username
-      };
-      this.logout = this.logout.bind(this);
-    }
+    this.state = {
+      token: null
+    };
+    this.logout = this.logout.bind(this);
   }
 
   /**
@@ -37,6 +32,22 @@ class Header extends React.Component {
   }
 
   /**
+   * On receiving of props
+   * @param {Object} nextProps
+   * @return {void} void
+   */
+  componentWillReceiveProps(nextProps) {
+    const token = nextProps.token;
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      this.state = Object.assign({}, this.state, {
+        id: decodedToken.UserId,
+        username: decodedToken.Username,
+        token
+      });
+    }
+  }
+  /**
    * @return {void} void
    */
   logout() {
@@ -50,13 +61,13 @@ class Header extends React.Component {
   * @return {HTML} JSX
   */
   render() {
-    if (window.localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       return (
         <div className="navbar-fixed">
           <nav>
             <div className="nav-wrapper">
               <div className="navheader">
-                <Link to="/" className="brand-logo">DMS</Link>
+                <Link to="/dashboard" className="brand-logo">DMS</Link>
               </div>
               <ul id="loggedinNav">
                 <li>
@@ -74,7 +85,6 @@ class Header extends React.Component {
               <i className="material-icons">view_headline</i></Link>
           </nav>
         </div>
-
       );
     }
     return (
@@ -99,10 +109,9 @@ const mapDispatchToProps = (dispatch) => {
     logout: () => dispatch(logoutAction())
   };
 };
-const mapStoreToProps = (state) => {
-  return {
-    user: state.loginReducer.user
-  };
-};
+const mapStoreToProps = state => ({
+  user: state.loginReducer.user,
+  token: state.loginReducer.token
+});
 
 export default connect(mapStoreToProps, mapDispatchToProps)(Header);

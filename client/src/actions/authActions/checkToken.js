@@ -11,7 +11,7 @@ export default () => {
   return () => {
     return token ? axios.get('/api/v1/tokenHealth', {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: token
       }
     })
     .then(() => {
