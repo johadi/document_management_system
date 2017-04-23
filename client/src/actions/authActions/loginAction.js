@@ -6,17 +6,9 @@ export default (credentials) => {
   return (dispatch) => {
     return axios.post('/api/v1/users/login', credentials.user)
       .then((response) => {
-        console.log(response, "res");
         const token = response.data.token;
         const user = jwtDecode(token);
-        // try
-        // {
-        //   user = jwtDecode(token);
-        // }catch(e){
-        //   console.log('token error');
-        // }
-        window.localStorage.setItem('token', token);
-        console.log(user);
+        localStorage.setItem('token', token);
         dispatch({
           type: actionTypes.LOGIN_SUCCESSFUL,
           user,
@@ -25,7 +17,7 @@ export default (credentials) => {
         });
       })
       .catch((error) => {
-        debugger;
+        console.log(error);
         dispatch({
           type: actionTypes.LOGIN_ERROR,
           message: (error.response.data.message) ?

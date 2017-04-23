@@ -1,18 +1,16 @@
-import { connect } from 'react-redux';
-import jwtDecode from 'jwt-decode';
-import { browserHistory, Link } from 'react-router';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { browserHistory, Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { Alert } from './Alert.jsx';
+import Alert from './Alert.jsx';
 import loginAction from '../actions/authActions/loginAction';
-import { Header } from './Header.jsx';
-
-const ADMIN_ROLE_ID = 1;
+import { loginAlert } from '../actions/authActions/alertAction';
+import Header from './Header.jsx';
 
 /**
  * LoginPage class declaration
  */
-export class LoginPage extends Component {
+class LoginPage extends Component {
   /**
    * LoginPage class constructor
    * @param {Object} props
@@ -31,6 +29,7 @@ export class LoginPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.redirectIfLoggedIn = this.redirectIfLoggedIn.bind(this);
+    this.onClose = this.onClose.bind(this);
   }
 
   /**
@@ -46,14 +45,10 @@ export class LoginPage extends Component {
    * @return {void} void
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      error: nextProps.loginError,
-      success: nextProps.loginSuccess
+    this.state = Object.assign({}, this.state, {
+      error: nextProps.loginError, success: nextProps.loginSuccess
     });
-    setTimeout(() => {
-      this.redirectIfLoggedIn();
-    }, 1000);
-    // this.redirectIfLoggedIn();
+    this.redirectIfLoggedIn();
   }
 
   /**
@@ -71,14 +66,8 @@ export class LoginPage extends Component {
    * @return {void} void
    */
   redirectIfLoggedIn() {
-    const token = window.localStorage.getItem('token');
-    if (token) {
-      const roleId = jwtDecode(token).RoleId;
-      if (roleId === ADMIN_ROLE_ID) {
-        browserHistory.push('/admindashboard');
-      } else {
-        browserHistory.push('/dashboard');
-      }
+    if (this.state.success !== null) {
+      browserHistory.push('/dashboard');
     }
   }
 
@@ -90,13 +79,15 @@ export class LoginPage extends Component {
   handleSubmit(event) {
     // prevent default submit action
     event.preventDefault();
-    // clear any error or success messages showing
-    this.setState({
-      success: null,
-      error: null
-    });
-
     this.props.login(this.state);
+  }
+
+  /**
+   * on close of alert
+   * @return {void} void
+   */
+  onClose() {
+    this.props.alertClose(this.state);
   }
 
   /**
@@ -117,7 +108,7 @@ export class LoginPage extends Component {
                 <h4 className="center-align">LOGIN</h4>
                 <form className="col s12 l12 loginForm" onSubmit={this.handleSubmit}>
                   { this.state.error ?
-                    <Alert info={this.state} /> : ''
+                    <Alert info={this.state} onClose={this.onClose}/> : ''
                   }
                   <div className="row">
                     <div className="input-field col s12">
@@ -156,10 +147,10 @@ export class LoginPage extends Component {
                   <center>
                     <div className="row">
                       <button
+                        onClick={this.handleSubmit}
                         type="submit"
                         name="btn_login"
                         id="btn_login"
-                        onClick={this.handleSubmit}
                         className="col s12 btn btn-large waves-effect">
                         Login
                       </button>
@@ -171,7 +162,6 @@ export class LoginPage extends Component {
           </div>
         </div>
       </div>
-
     );
   }
 }
@@ -179,25 +169,24 @@ export class LoginPage extends Component {
 LoginPage.PropTypes = {
   user: PropTypes.object.isRequired,
   loginError: PropTypes.object.isRequired,
-  loginSuccess: PropTypes.object.isRequired
+  loginSuccess: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func
 };
 
 LoginPage.contextTypes = {
   router: PropTypes.object
 };
 
-const mapStoreToProps = (state) => {
-  return {
-    user: state.loginReducer.user,
-    loginSuccess: state.loginReducer.success,
-    loginError: state.loginReducer.error,
-    token: state.loginReducer.token
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: credentials => dispatch(loginAction(credentials))
-  };
-};
+const mapStoreToProps = state => ({
+  user: state.loginReducer.user,
+  loginSuccess: state.loginReducer.success,
+  loginError: state.loginReducer.error,
+  token: state.loginReducer.token
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: credentials => dispatch(loginAction(credentials)),
+  alertClose: () => dispatch(loginAlert())
+});
 
 export default connect(mapStoreToProps, mapDispatchToProps)(LoginPage);

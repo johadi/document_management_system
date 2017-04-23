@@ -18,7 +18,7 @@ export default function loginReducer(state = initialState, action) {
       );
     case actionTypes.LOGIN_ERROR:
       return Object.assign({}, state, { error: action.message, success: null });
-    case actionTypes.CLEAR_ERROR:
+    case actionTypes.CLEAR_LOGIN_ERROR:
       return Object.assign({}, state, { error: action.error });
     case actionTypes.CLEAR_ALL:
       return Object.assign({}, state, { documents: action.documents,
