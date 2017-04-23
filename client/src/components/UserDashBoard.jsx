@@ -4,7 +4,7 @@ import { Pagination } from 'react-materialize';
 import jwtDecode from 'jwt-decode';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Header } from './Header.jsx';
+import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
 import DocumentList from '../components/DocumentList.jsx';
 import deleteDocumentAction from '../actions/docActions/deleteDocument';
@@ -14,7 +14,7 @@ import searchDocumentAction from '../actions/docActions/searchDocument';
 /**
  * ViewDocuments class declaration
  */
-export class ViewDocuments extends Component {
+class ViewDocuments extends Component {
 
   /**
    * ViewDocuments class constructor
@@ -24,8 +24,7 @@ export class ViewDocuments extends Component {
     super(props);
     this.state = {
       limit: 10,
-      searchTerms: '',
-      token: window.localStorage.getItem('token')
+      searchTerms: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchDocument = this.searchDocument.bind(this);
@@ -36,10 +35,13 @@ export class ViewDocuments extends Component {
    * @return {void} void
    */
   componentWillMount() {
-    if (this.state.token) {
-      const decodedToken = jwtDecode(this.state.token);
+    if (localStorage.getItem('token') !== null) {
+      const decodedToken = jwtDecode(localStorage.getItem('token'));
       this.state = Object.assign({}, this.state, {
-        userId: decodedToken.UserId, roleId: decodedToken.RoleId });
+        userId: decodedToken.UserId,
+        roleId: decodedToken.RoleId,
+        token: localStorage.getItem('token')
+      });
       const offset = 0;
       this.props.paginateDocuments(this.state.token,
         offset, this.state.limit);
@@ -97,23 +99,25 @@ export class ViewDocuments extends Component {
     }
     return (
       <div className="row dashboardContainer col s12">
-        <Header />
+        <Header/>
         <Sidebar />
-        <div className="col s12 workspace ">
+        <div className="col s12 workspace">
           <div className="row workspace-header">
             <h4 className="col s8">Public/Role Access Documents</h4>
             <div className="col s4">
-            <input
-              className="col s10"
-              type="text"
-              id="searchTerms"
-              name="searchTerms"
-              value={this.state.searchTerms}
-              placeholder="Search..."
-              onChange={this.handleChange}/>
-            <button className="btn col s2" id="searchBtn"
-              onClick={this.searchDocument}>
-            <i className="material-icons">search</i></button></div></div>
+              <input
+                className="col s10"
+                type="text"
+                id="searchTerms"
+                name="searchTerms"
+                value={this.state.searchTerms}
+                placeholder="Search..."
+                onChange={this.handleChange}/>
+              <button className="btn col s2" id="searchBtn"
+                onClick={this.searchDocument}>
+              <i className="material-icons">search</i></button>
+            </div>
+          </div>
 
           <div className="col s10 offset-s1 card-panel">
             <DocumentList
@@ -123,19 +127,20 @@ export class ViewDocuments extends Component {
               documents={this.props.documents || []}
             />
           </div>
-
-          <center>
-            <Pagination
-              items={this.props.pageCount}
-              onSelect={(page) => {
-                const token = window.localStorage.getItem('token');
-                const offset = (page - 1) * this.state.limit;
-                this.props.paginateDocuments(token,
-                  offset, this.state.limit);
+          <div className="col s12">
+            <center>
+              <Pagination
+                items={this.props.pageCount}
+                onSelect={(page) => {
+                  const token = window.localStorage.getItem('token');
+                  const offset = (page - 1) * this.state.limit;
+                  this.props.paginateDocuments(token,
+                    offset, this.state.limit);
                 }
-              }
-            />
-          </center>
+                }
+              />
+            </center>
+          </div>
         </div>
       </div>
     );

@@ -24,14 +24,13 @@ const confirmDeletion = (callback, documentId) => {
 
 const DocumentList = (props) => {
   return (
-    <table id="document-list" className="highlight doc_list z-depth-4
-      panel pagination">
+    <table id="document-list" className="highlight doc_list pagination">
       <thead>
       <tr>
         <th>Title</th>
         <th>Creator</th>
         <th>Access</th>
-        <th>Published on</th>
+        <th>Created on</th>
       </tr>
       </thead>
 
@@ -53,21 +52,29 @@ const DocumentList = (props) => {
             <td>{document.access}</td>
             <td>{moment(document.createdAt).format('L')}</td>
             {
-              ((props.userId === document.creatorId || props.roleId === 1) ?
-                  <td><Link to={`/edit-document/${document.id}`}>
+              ((props.userId === document.creatorId) ?
+                <td>
+                  <Link to={`/edit-document/${document.id}`}
+                    className="btn-floating action-edit-color tooltipped"
+                    data-tooltip="Delete document">
                     <i className="small material-icons edit-btn">mode_edit</i>
-                  </Link></td>
-                  : <td />
-              )}
+                  </Link>
+                </td>
+                : <td />
+              )
+            }
             {
-              ((props.userId === document.creatorId || props.roleId === 1) ?
-              <td><Link onClick={
-                  () => confirmDeletion(props.deleteDocument, document.id)
-                  }>
-                <i className="small material-icons delete-btn">delete</i>
-              </Link></td>
-              : <td />
-            )}
+              ((props.userId === document.creatorId) ?
+                <td><Link
+                  className="btn-floating red tooltipped"
+                  data-tooltip="Delete document"onClick={
+                    () => confirmDeletion(props.deleteDocument, document.id)
+                    }>
+                  <i className="small material-icons delete-btn">delete</i>
+                </Link></td>
+                : <td />
+            )
+            }
           </tr>);
         }
         )}
