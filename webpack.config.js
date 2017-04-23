@@ -1,5 +1,7 @@
 import webpack from 'webpack';
+
 const path = require('path');
+
 const GLOBALS = {
   'process.env.NODE_ENV': `"${process.env.NODE_ENV || 'development'}"`
 };
