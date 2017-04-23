@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import Header from './Header.jsx';
 /**
  * LoginPage class declaration
  */
-class LoginPage extends Component {
+class LoginPage extends React.Component {
   /**
    * LoginPage class constructor
    * @param {Object} props

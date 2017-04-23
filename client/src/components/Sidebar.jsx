@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import jwtDecode from 'jwt-decode';
 
 /**
  * Sidebar class declaration
  */
-export default class Sidebar extends Component {
+export default class Sidebar extends React.Component {
   /**
    * LoginPage class constructor
    * @param {Object} props

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { browserHistory, Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import { Pagination } from 'react-materialize';
 import jwtDecode from 'jwt-decode';
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
@@ -14,7 +14,7 @@ import searchDocumentAction from '../actions/docActions/searchDocument';
 /**
  * ViewDocuments class declaration
  */
-class ViewDocuments extends Component {
+class ViewDocuments extends React.Component {
 
   /**
    * ViewDocuments class constructor

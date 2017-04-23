@@ -1,5 +1,5 @@
 import { browserHistory, Link } from 'react-router';
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Alert from './Alert.jsx';
@@ -10,7 +10,7 @@ import Header from '../components/Header.jsx';
 /**
  * My SignUpPage declaration
  */
-class SignUpPage extends Component {
+class SignUpPage extends React.Component {
 
   /**
    * My SignUpPage constructor
@@ -206,7 +206,7 @@ class SignUpPage extends Component {
                   type="submit"
                   name="btn_login"
                   id="btn_login"
-                  className="col s12 btn btn-large waves-effect">
+                  className="col s6 offset-s3 btn btn-large waves-effect">
                   Register
                 </button>
               </div>

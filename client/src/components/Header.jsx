@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
@@ -7,7 +7,7 @@ import logoutAction from '../actions/authActions/logoutAction';
 /**
  * My Header declaration
  */
-class Header extends Component {
+class Header extends React.Component {
   /**
    * My Header constructor
    * @param {Object} props
@@ -31,8 +31,8 @@ class Header extends Component {
   componentDidMount() {
     $(document).ready(() => {
       // $('select').material_select();
-      $("#collapse_btn").sideNav();
-      $("#collapse_btn").sideNav('hide');
+      $('#collapse_btn').sideNav();
+      $('#collapse_btn').sideNav('hide');
     });
   }
 
