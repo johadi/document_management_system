@@ -7,7 +7,7 @@ import logoutAction from '../actions/authActions/logoutAction';
 /**
  * My Header declaration
  */
-export class Header extends Component {
+class Header extends Component {
   /**
    * My Header constructor
    * @param {Object} props
@@ -17,7 +17,6 @@ export class Header extends Component {
     const token = window.localStorage.getItem('token');
     if (token) {
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken, 'in header');
       this.state = {
         id: decodedToken.UserId,
         username: decodedToken.Username
@@ -41,7 +40,7 @@ export class Header extends Component {
    * @return {void} void
    */
   logout() {
-    window.localStorage.removeItem('token');
+    localStorage.removeItem('token');
     this.props.logout();
     browserHistory.push('/');
   }
@@ -56,7 +55,9 @@ export class Header extends Component {
         <div className="navbar-fixed">
           <nav>
             <div className="nav-wrapper">
-              <Link to="/" className="brand-logo"></Link>
+              <div className="navheader">
+                <Link to="/" className="brand-logo">DMS</Link>
+              </div>
               <ul id="loggedinNav">
                 <li>
                   <Link to={`/profile/${this.state.id || ''}`}>
@@ -80,12 +81,13 @@ export class Header extends Component {
       <div className="navbar-fixed">
         <nav>
           <div className="nav-wrapper">
-            <Link to="/" className="brand-logo"></Link>
+            <div className="navheader">
+              <Link to="/" className="brand-logo">DMS</Link>
+            </div>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li><a href="./">Home</a></li>
             </ul>
           </div>
-          <h3 className="center title">DMS</h3>
         </nav >
       </div>
     );

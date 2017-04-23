@@ -10,9 +10,14 @@ import initialState from '../store/initialState';
 export default function signUpReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.SIGNUP_SUCCESSFUL:
-      return [...state, Object.assign({}, action.user)];
+      return Object.assign({}, state, { user: action.user,
+        success: true,
+        error: null
+      });
     case actionTypes.SIGNUP_FAILED:
       return Object.assign({}, state, { error: action.message, success: null });
+    case actionTypes.CLEAR_REGISTER_ERROR:
+      return Object.assign({}, state, { error: action.error });
     default:
       return state;
   }

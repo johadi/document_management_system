@@ -2,8 +2,6 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import actionTypes from '../actionTypes';
 
-export const loginSuccessful = user => ({ type: 'LOGIN_SUCCESSFUL', user });
-
 export default (userData) => {
   return (dispatch) => {
     return axios.post('/api/v1/users', userData.user)

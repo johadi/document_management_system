@@ -1,8 +1,9 @@
+import 'babel-polyfill';
 import React from 'react';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
-import configureStore from './store/configureStore';
+import configureStore from './store/configureStore.dev';
 import initialState from './store/initialState';
 import routes from './routes.jsx';
 import '../../node_modules/toastr/build/toastr.min.css';

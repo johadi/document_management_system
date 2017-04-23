@@ -23,6 +23,7 @@ body {
 html {
   @extend %extend_1;
 }
+
 .loginForm {
   background: $white;
   margin-top: 5%;
@@ -98,11 +99,7 @@ nav {
   }
 }
 .brand-logo{
-  width: 100px;
-  height: 50px;
-  margin: 6px;
-  background-image: url('../img/logo.png');
-  background-size: cover;
+  margin-left: 6px;
 }
 .useractions {
   width:50px;
@@ -137,7 +134,7 @@ a {
 .workspace-header{
   width:80%;
   margin:0 auto;
-  margin-top:80px !important;
+  margin-top:40px !important;
 }
 
 #collapse_btn{
@@ -169,7 +166,6 @@ a {
 
 .doc_list {
   margin:0 auto;
-
 }
 
 .doc_list a{
@@ -180,10 +176,35 @@ a {
   color:teal;
 }
 
-.doc_list th, .doc_list td {
-  padding:15px;
-  padding-left:30px;
+.doc_list th{
+  font-size: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 50px;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  position: relative;
+  background-color: inherit;
+  cursor: not-allowed;
+  font-weight: bold;
 }
+.doc_list td {
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 45px;
+  text-align: left;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: inherit;
+  cursor: inherit;
+}
+//.doc_list td {
+//  padding:15px;
+//  padding-left:30px;
+//}
 
 .pagination-btn {
   margin-right:30px;
@@ -224,15 +245,6 @@ a {
   &.success {
     background-color: rgba(0 ,255, 0,0.2);
   }
-}
-
-.about-us{
-  width:80%;
-  background:white;
-  padding:30px;
-  margin: 0 auto;
-  font-size:18px;
-  margin-top:15%;
 }
 
 .pagination-links {
@@ -297,10 +309,19 @@ a {
 .header-text-color {
   color: $primary_color;
 }
+.action-edit-color {
+  color: $primary_color;
+}
 .title {
   color: white;
   margin-top: 2px;
   &:hover {
     color: $white_80;
   }
+}
+.hidden {
+  display:none;
+}
+.pagination li.active {
+  background-color: $primary_color;
 }

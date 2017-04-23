@@ -21,6 +21,5 @@ export default(
     <Route path="/login" component={LoginPage} />
     <Route path="/register" component={SignUpPage} />
     <Route path="/dashboard" component={UserDashBoard} />
-    <Route path="/admindashboard" component={UserDashBoard} />
   </Route>
 );

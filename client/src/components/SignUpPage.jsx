@@ -1,8 +1,11 @@
 import { browserHistory, Link } from 'react-router';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import signupAction from '../actions/authActions/signUpAction';
-import { Header } from '../components/Header.jsx';
+import Alert from './Alert.jsx';
+import signUpAction from '../actions/authActions/signUpAction';
+import { registerAlert } from '../actions/authActions/alertAction';
+import Header from '../components/Header.jsx';
 
 /**
  * My SignUpPage declaration
@@ -25,18 +28,21 @@ class SignUpPage extends Component {
         password_confirmation: ''
       },
       success: null,
-      error: ''
+      error: null
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.redirectIfSignUp = this.redirectIfSignUp.bind(this);
   }
 
   /**
    * @return {void} void
    */
   componentWillMount() {
-    if (window.localStorage.getItem('token')) {
+    this.redirectIfSignUp();
+    if (localStorage.getItem('token')) {
       browserHistory.push('/dashboard');
     }
   }
@@ -47,9 +53,11 @@ class SignUpPage extends Component {
    * @return {void} void
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      error: nextProps.error
+    this.state = Object.assign({}, this.state, {
+      error: nextProps.error, success: nextProps.success
     });
+    console.log('stte', this.state);
+    this.redirectIfSignUp();
   }
 
   /**
@@ -64,6 +72,16 @@ class SignUpPage extends Component {
   }
 
   /**
+   * Redirect user if successfully signed up
+   * @return {void} void
+   */
+  redirectIfSignUp() {
+    if (this.state.success === true) {
+      browserHistory.push('/dashboard');
+    }
+  }
+
+  /**
    * On signup submit
    * @param {object }event
    * @return {void} void
@@ -74,22 +92,27 @@ class SignUpPage extends Component {
   }
 
   /**
+   * on close of alert
+   * @return {void} void
+   */
+  onClose() {
+    this.props.alertClose(this.state);
+  }
+
+  /**
    * Renders component
    * @return {XML} JSX
    */
   render() {
     return (
-      <div className="row">
+      <div className="row body-content">
         <Header />
         <div className="col s8 offset-s2 card-panel">
           <h4 className="center-align">SIGN UP</h4>
           <form className="loginForm" onSubmit={this.handleSubmit} >
-          { this.state.error ?
-            <div className="login-feedback error">
-              { this.state.error }
-            </div>
-            : <span />
-          }
+            { this.state.error ?
+              <Alert info={this.state} onClose={this.onClose}/> : ''
+            }
           <div className="row">
             <div className="input-field col s12">
               <input
@@ -197,24 +220,22 @@ class SignUpPage extends Component {
 }
 
 SignUpPage.PropTypes = {
-  user: React.PropTypes.object.isRequired,
-  loginThings: React.PropTypes.func.isRequired
+  user: PropTypes.object.isRequired
 };
 
 SignUpPage.contextTypes = {
-  router: React.PropTypes.object
+  router: PropTypes.object
 };
 
-const mapStoreToProps = (state) => {
-  return {
-    user: state.signUpReducer.user,
-    error: state.signUpReducer.error
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signup: userDetails => dispatch(signupAction(userDetails))
-  };
-};
+const mapStoreToProps = state => ({
+  user: state.signUpReducer.user,
+  error: state.signUpReducer.error,
+  success: state.signUpReducer.success
+});
+
+const mapDispatchToProps = dispatch => ({
+  signup: userDetails => dispatch(signUpAction(userDetails)),
+  alertClose: () => dispatch(registerAlert())
+});
 
 export default connect(mapStoreToProps, mapDispatchToProps)(SignUpPage);

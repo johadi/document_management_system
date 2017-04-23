@@ -1,5 +1,13 @@
 import React from 'react';
 
+const AlertList = (props) => {
+  const list = props.messageList.map((message, i) =>
+    <p key={i}>{message}</p>
+  );
+  return (<div>{list}</div>);
+};
+
+
 /**
  * LoginPage class declaration
  */
@@ -18,7 +26,12 @@ class Alert extends React.Component {
     return (
       <div id="card-alert" className={classes}>
         <div className="card-content white-text">
-          <p>{message}</p>
+          {
+            ((message.constructor !== Array) ?
+              <p>{message}</p> :
+              <AlertList messageList={message}/>
+            )
+          }
         </div>
         {
           (this.props.onClose) ?
