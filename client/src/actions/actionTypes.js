@@ -8,7 +8,6 @@ export default keymirror({
   DOCUMENT_CREATED: null,
   DOCUMENT_UPDATED: null,
   ALL_DOCUMENTS: null,
-  DOCUMENT_RETRIEVAL_FAILED: null,
   DOCUMENT_UPDATE_FAILED: null,
   VIEW_DOCUMENT: null,
   DOCUMENT_DELETED: null,
@@ -36,6 +35,6 @@ export default keymirror({
   PASSWORD_UPDATE_FAILED: null,
   CLEAR_LOGIN_ERROR: null,
   CLEAR_REGISTER_ERROR: null,
-  VALIDATION_ERROR: null,
+  RESPONSE_ERROR: null,
   CLEAR_ERROR: null
 });

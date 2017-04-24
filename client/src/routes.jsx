@@ -4,7 +4,7 @@ import SignUpPage from './components/SignUpPage.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import UserDashBoard from './components/UserDashBoard.jsx';
 import CreateDocument from './components/CreateDocument.jsx';
-// import EditDocument from './components/EditDocument.jsx';
+import EditDocument from './components/EditDocument.jsx';
 // import ViewDocument from './components/ViewDocument.jsx';
 // import ViewAllRoles from './components/ViewAllRoles.jsx';
 // import ViewAllUsers from './components/ViewAllUsers.jsx';
@@ -22,5 +22,6 @@ export default(
     <Route path="/register" component={SignUpPage} />
     <Route path="/dashboard" component={UserDashBoard} />
     <Route path="/create-document" component={CreateDocument} />
+    <Route path="/edit-document/:id" component={EditDocument} />
   </Route>
 );

@@ -131,16 +131,18 @@ class ViewDocuments extends React.Component {
           </div>
           <div className="col s12">
             <center>
-              <Pagination
-                items={this.props.pageCount}
-                onSelect={(page) => {
-                  const token = window.localStorage.getItem('token');
-                  const offset = (page - 1) * this.state.limit;
-                  this.props.paginateDocuments(token,
-                    offset, this.state.limit);
-                }
-                }
-              />
+              {
+                ((this.props.pageCount) ?
+                  <Pagination
+                    items={this.props.pageCount}
+                    onSelect={(page) => {
+                      const token = window.localStorage.getItem('token');
+                      const offset = (page - 1) * this.state.limit;
+                      this.props.paginateDocuments(token,
+                        offset, this.state.limit);
+                    }
+                }/> : '')
+              }
             </center>
           </div>
         </div>

@@ -14,7 +14,7 @@ export default (userData) => {
         });
       }).catch((error) => {
         dispatch({
-          type: actionTypes.VALIDATION_ERROR,
+          type: actionTypes.RESPONSE_ERROR,
           message: (error.response.data.message) ?
             error.response.data.message : error.response.data.errors
         });

@@ -21,8 +21,7 @@ export default (token, offset, limit) => {
     })
     .catch((error) => {
       dispatch({
-        type: actionTypes.DOCUMENT_RETRIEVAL_FAILED,
-        status: 'failed',
+        type: actionTypes.RESPONSE_ERROR,
         error: error.message
       });
     });

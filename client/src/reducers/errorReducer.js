@@ -9,7 +9,7 @@ import initialState from '../store/initialState';
  */
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.VALIDATION_ERROR:
+    case actionTypes.RESPONSE_ERROR:
       return Object.assign({}, state, { error: action.message,
         success: null });
     case actionTypes.CLEAR_ERROR:

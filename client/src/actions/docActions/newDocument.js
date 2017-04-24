@@ -11,14 +11,13 @@ export default (details) => {
       }
     })
     .then((response) => {
-      console.log(response);
       dispatch({
         type: actionTypes.DOCUMENT_CREATED,
         document: response.data.data
       });
     }).catch((error) => {
       dispatch({
-        type: actionTypes.VALIDATION_ERROR,
+        type: actionTypes.RESPONSE_ERROR,
         message: (error.response.data.message) ?
           error.response.data.message : error.response.data.errors
       });

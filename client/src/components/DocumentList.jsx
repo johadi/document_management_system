@@ -52,28 +52,27 @@ const DocumentList = (props) => {
             <td>{document.access}</td>
             <td>{moment(document.createdAt).format('L')}</td>
             {
-              ((props.userId === document.creatorId) ?
+              ((props.userId === document.creatorId ||  props.roleId === 1) ?
                 <td>
                   <Link to={`/edit-document/${document.id}`}
-                    className="btn-floating action-edit-color tooltipped"
-                    data-tooltip="Delete document">
+                    className="btn-floating action-edit-color">
                     <i className="small material-icons edit-btn">mode_edit</i>
                   </Link>
                 </td>
-                : <td />
+                : <td/>
               )
             }
             {
-              ((props.userId === document.creatorId) ?
+              ((props.userId === document.creatorId || props.roleId === 1) ?
                 <td><Link
-                  className="btn-floating red tooltipped"
-                  data-tooltip="Delete document"onClick={
+                  className="btn-floating red"
+                  onClick={
                     () => confirmDeletion(props.deleteDocument, document.id)
                     }>
                   <i className="small material-icons delete-btn">delete</i>
                 </Link></td>
                 : <td />
-            )
+              )
             }
           </tr>);
         }

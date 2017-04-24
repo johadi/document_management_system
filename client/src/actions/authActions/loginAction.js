@@ -18,7 +18,7 @@ export default (credentials) => {
       .catch((error) => {
         console.log(error);
         dispatch({
-          type: actionTypes.VALIDATION_ERROR,
+          type: actionTypes.RESPONSE_ERROR,
           message: (error.response.data.message) ?
             error.response.data.message : null
         });
