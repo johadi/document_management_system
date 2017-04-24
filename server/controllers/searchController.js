@@ -54,19 +54,35 @@ export default {
   },
   searchDocument(req, res) {
     const page = helpers.pagination(req);
-    const limit = page.limit;
-    const offset = page.offset;
-    const order = page.order;
-    const criteria = {
+    const queryBuilder = {
+      include: [{
+        model: db.User,
+        attributes: ['firstname', 'lastname']
+      }],
+      order: page.order,
+      limit: page.limit,
+      offset: page.offset
+    };
+    queryBuilder.where = {
       title: {
         $iLike: `%${req.query.q}%`
       }
     };
-    db.Document.findAndCountAll({ where: criteria,
-      limit,
-      offset,
-      order
-    })
+    db.Document.findAndCountAll(queryBuilder)
+    // const page = helpers.pagination(req);
+    // const limit = page.limit;
+    // const offset = page.offset;
+    // const order = page.order;
+    // const criteria = {
+    //   title: {
+    //     $iLike: `%${req.query.q}%`
+    //   }
+    // };
+    // db.Document.findAndCountAll({ where: criteria,
+    //   limit,
+    //   offset,
+    //   order
+    // })
     .then((documents) => {
       if (documents.rows.length === 0) {
         responseInfo.message = 'No document found';

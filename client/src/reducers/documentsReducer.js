@@ -15,6 +15,11 @@ export default function documentsReducer(state = initialState, action) {
         pageCount: action.pageCount,
         update_status: null
       });
+    case actionTypes.SEARCH_DOCUMENTS:
+      return Object.assign({}, state, {
+        documents: action.documents,
+        pageCount: action.pageCount,
+        update_status: null });
     case actionTypes.DOCUMENT_CREATED:
       return Object.assign({}, state,
         { success: true,

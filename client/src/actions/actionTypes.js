@@ -13,7 +13,7 @@ export default keymirror({
   DOCUMENT_DELETED: null,
   DOCUMENT_DELETION_FAILED: null,
   PAGINATED_DOCUMENTS: null,
-  FIND_DOCUMENT: null,
+  SEARCH_DOCUMENTS: null,
   CLEAR_ALL: null,
   PAGINATED_USERS: null,
   USER_RETRIEVAL_FAILED: null,

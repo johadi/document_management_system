@@ -64,6 +64,7 @@ class ViewDocuments extends React.Component {
    * @return {void} void
    */
   searchDocument() {
+    console.log(this.state);
     this.props.searchDocument(this.state.token, this.state.searchTerms);
   }
 
