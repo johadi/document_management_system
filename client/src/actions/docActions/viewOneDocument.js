@@ -15,8 +15,9 @@ export default (token, documentid) =>  {
       });
     }).catch((error) => {
       dispatch({
-        type: actionTypes.VALIDATION_ERROR,
-        error: error.message
+        type: actionTypes.RESPONSE_ERROR,
+        message: (error.response && error.response.data.message) ?
+          error.response.data.message : error.response.data.errors
       });
     });
   };

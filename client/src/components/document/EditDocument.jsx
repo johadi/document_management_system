@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import React from 'react';
-import Header from './Header.jsx';
-import Sidebar from './Sidebar.jsx';
-import Alert from './Alert.jsx';
-import clearErrorAlert from '../actions/errorActions/errorActions';
-import viewDocument from '../actions/docActions/viewOneDocument';
-import editDocument from '../actions/docActions/editDocument';
+import Header from './../Header.jsx';
+import Sidebar from './../Sidebar.jsx';
+import Alert from './../Alert.jsx';
+import clearErrorAlert from '../../actions/errorActions/errorActions';
+import viewDocument from '../../actions/docActions/viewOneDocument';
+import editDocument from '../../actions/docActions/editDocument';
 
 /**
  * React component for EditDocument.

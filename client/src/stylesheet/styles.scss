@@ -8,7 +8,6 @@ $white_80: rgba(255, 255, 255, 0.8);
 //original selectors
 //body, html
 %extend_1 {
-  //background: $url_0;
   background-size: cover;
   padding: 0 !important;
   margin: 0 !important;
@@ -99,10 +98,6 @@ nav {
 
 }
 
-.loginerror {
-  color: $white_80;
-  font-weight: bold;
-}
 .dashboardContainer {
   padding: 0 !important;
   div {
@@ -122,7 +117,6 @@ nav {
   margin-top:12px !important;
   color: lightseagreen;
 }
-
 
 a {
   cursor: pointer;
@@ -230,20 +224,6 @@ a {
   padding:25px !important;
 }
 
-.login-feedback{
-  text-align: center;
-  font-weight: bolder;
-  padding: 10px 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  &.error{
-    background-color: rgba(243 ,0, 0,0.2);
-  }
-  &.success {
-    background-color: rgba(0 ,255, 0,0.2);
-  }
-}
-
 .pagination-links {
   font-size:10px;
 }
@@ -328,4 +308,9 @@ header, main, footer, .dashboardContainer {
 .mt-15{
   margin-top: 15px;
 }
-
+.card-content{
+  .card-title {
+    margin-top: 10px;
+    color: $primary_color;
+  }
+}

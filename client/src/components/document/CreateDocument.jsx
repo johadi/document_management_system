@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './Header.jsx';
-import Sidebar from './Sidebar.jsx';
-import Alert from './Alert.jsx';
-import clearErrorAlert from '../actions/errorActions/errorActions';
-import newDocument from '../actions/docActions/newDocument';
+import Header from './../Header.jsx';
+import Sidebar from './../Sidebar.jsx';
+import Alert from './../Alert.jsx';
+import clearErrorAlert from '../../actions/errorActions/errorActions';
+import newDocument from '../../actions/docActions/newDocument';
 
 /**
  * React component for CreateDocument.

@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header.jsx';
 import Sidebar from './Sidebar.jsx';
-import DocumentList from '../components/DocumentList.jsx';
+import DocumentList from './document/DocumentList.jsx';
 import deleteDocumentAction from '../actions/docActions/deleteDocument';
 import viewDocumentAction from '../actions/docActions/viewDocuments';
 import searchDocumentAction from '../actions/docActions/searchDocument';
@@ -64,7 +64,6 @@ class ViewDocuments extends React.Component {
    * @return {void} void
    */
   searchDocument() {
-    console.log(this.state);
     this.props.searchDocument(this.state.token, this.state.searchTerms);
   }
 
