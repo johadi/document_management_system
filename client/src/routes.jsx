@@ -5,11 +5,10 @@ import LoginPage from './components/LoginPage.jsx';
 import UserDashBoard from './components/UserDashBoard.jsx';
 import CreateDocument from './components/CreateDocument.jsx';
 import EditDocument from './components/EditDocument.jsx';
-// import ViewDocument from './components/ViewDocument.jsx';
+import MyDocument from './components/MyDocuments.jsx';
 // import ViewAllRoles from './components/ViewAllRoles.jsx';
 // import ViewAllUsers from './components/ViewAllUsers.jsx';
 // import CreateRole from './components/CreateRole.jsx';
-// import About from './components/About.jsx';
 // import EditRole from './components/EditRole.jsx';
 // import Profile from './components/ViewUser.jsx';
 // import EditProfile from './components/EditUser.jsx';
@@ -23,5 +22,6 @@ export default(
     <Route path="/dashboard" component={UserDashBoard} />
     <Route path="/create-document" component={CreateDocument} />
     <Route path="/edit-document/:id" component={EditDocument} />
+    <Route path="/my-documents" component={MyDocument} />
   </Route>
 );

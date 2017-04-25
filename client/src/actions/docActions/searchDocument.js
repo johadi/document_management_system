@@ -2,10 +2,13 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import actionTypes from '../actionTypes';
 
-export default (token, documentName) => {
+export default (token, documentName, all = true) => {
   const decodedToken = jwtDecode(token);
-  const route = (decodedToken.RoleId === 1) ? '/api/v1/search/documents'
-    : '/api/v1/documents/accessible';
+  let route = '/api/v1/users/documents';
+  if (all === true) {
+    route = (decodedToken.RoleId === 1) ? '/api/v1/search/documents'
+      : '/api/v1/documents/accessible';
+  }
   return dispatch =>
     axios.get(`${route}?q=${documentName}`, {
       headers: {

@@ -225,7 +225,6 @@ export default {
     const order = page.order;
 
     db.sequelize.query(getAccessibleDocs(req, limit, offset, order), {
-    // db.sequelize.query(getAccessibleDocs(req), {
       type: db.sequelize.QueryTypes.SELECT
     })
     .then((documents) => {
