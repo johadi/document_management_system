@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Alert from './Alert.jsx';
-import loginAction from '../actions/authActions/loginAction';
-import clearErrorAlert from '../actions/errorActions/errorActions';
-import Header from './Header.jsx';
+import Alert from './../common/Alert.jsx';
+import loginAction from '../../actions/authActions/loginAction';
+import clearErrorAlert from '../../actions/errorActions/errorActions';
+import Header from './../common/Header.jsx';
 
 /**
  * LoginPage class declaration

@@ -4,12 +4,12 @@ import { Pagination } from 'react-materialize';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './Header.jsx';
-import Sidebar from './Sidebar.jsx';
-import DocumentList from './document/DocumentList.jsx';
-import deleteDocumentAction from '../actions/docActions/deleteDocument';
-import viewDocumentAction from '../actions/docActions/viewDocuments';
-import searchDocumentAction from '../actions/docActions/searchDocument';
+import Header from './../common/Header.jsx';
+import Sidebar from './../common/Sidebar.jsx';
+import DocumentList from './../document/DocumentList.jsx';
+import deleteDocumentAction from '../../actions/docActions/deleteDocument';
+import viewDocumentAction from '../../actions/docActions/viewDocuments';
+import searchDocumentAction from '../../actions/docActions/searchDocument';
 
 /**
  * ViewDocuments class declaration

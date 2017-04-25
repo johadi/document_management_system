@@ -2,7 +2,7 @@ import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
-import logoutAction from '../actions/authActions/logoutAction';
+import logoutAction from '../../actions/authActions/logoutAction';
 
 /**
  * My Header declaration

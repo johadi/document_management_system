@@ -2,10 +2,10 @@ import { browserHistory, Link } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Alert from './Alert.jsx';
-import signUpAction from '../actions/authActions/signUpAction';
-import clearErrorAlert from '../actions/errorActions/errorActions';
-import Header from '../components/Header.jsx';
+import Alert from './../common/Alert.jsx';
+import signUpAction from '../../actions/authActions/signUpAction';
+import clearErrorAlert from '../../actions/errorActions/errorActions';
+import Header from '../common/Header.jsx';
 
 /**
  * React component for Signup.

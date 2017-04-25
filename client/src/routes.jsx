@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import SignUpPage from './components/SignUpPage.jsx';
-import LoginPage from './components/LoginPage.jsx';
-import UserDashBoard from './components/UserDashBoard.jsx';
+import SignUpPage from './components/auth/SignUpPage.jsx';
+import LoginPage from './components/auth/LoginPage.jsx';
+import UserDashBoard from './components/user/UserDashBoard.jsx';
 import CreateDocument from './components/document/CreateDocument.jsx';
 import EditDocument from './components/document/EditDocument.jsx';
 import MyDocument from './components/document/MyDocuments.jsx';
