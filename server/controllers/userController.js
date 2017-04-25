@@ -68,6 +68,7 @@ export default {
     } else {
       return res.status(400)
         .json(helpers.validationResponse(validator.errors.all()));
+        // .send(validator.errors.all());
     }
   },
 

@@ -203,6 +203,6 @@ export default {
         message: 'Supply either username or email, with your password'
       });
     }
-    next();
+    return next();
   }
 };

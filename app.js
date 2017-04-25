@@ -1,20 +1,39 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import jsLogger from 'js-logger';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 import routes from './server/routes';
 import db from './server/models/';
 import initialData from './server/config/initialData';
+import webpackConfig from './webpack.config';
 
 require('dotenv').config();
 
 jsLogger.useDefaults();
 
+const compiler = webpack(webpackConfig);
+
 const app = express();
 const router = express.Router();
 const port = process.env.PORT || 8000;
 const env = process.env.NODE_ENV || 'development';
+
+app.use(express.static(path.join(__dirname, './client/public')));
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    hot: true,
+    publicPath: webpackConfig.output.publicPath
+  }));
+
+  app.use(webpackHotMiddleware(compiler));
+}
 
 routes(router);
 
@@ -34,29 +53,35 @@ app.use('/api/v1/*', (req, res) => {
   });
 });
 
-db.sequelize.sync()
-  .then(() => db.Role.findOne({ where: { title: 'Admin' } }))
-  .then((roleExists) => {
-    if (!roleExists) {
-      return db.Role.create(initialData.adminRole);
-    }
-  })
-  .then((adminRole) => {
-    if (adminRole) {
-      return db.Role.create(initialData.regularRole);
-    }
-  })
-  .then((regularRole) => {
-    if (regularRole) {
-      return db.User.create(initialData.adminUser);
-    }
-  })
-  .then(() => app.listen(port))
-  .then(() => jsLogger.debug(`App is running on port ${port}`))
-  .catch((err) => {
-    if (env === 'development') {
-      jsLogger.error(err);
-    }
-  });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './client/public/index.html'));
+});
+
+if (process.env.NODE_ENV !== 'test') {
+  db.sequelize.sync()
+    .then(() => db.Role.findOne({ where: { title: 'Admin' } }))
+    .then((roleExists) => {
+      if (!roleExists) {
+        return db.Role.create(initialData.adminRole);
+      }
+    })
+    .then((adminRole) => {
+      if (adminRole) {
+        return db.Role.create(initialData.regularRole);
+      }
+    })
+    .then((regularRole) => {
+      if (regularRole) {
+        return db.User.create(initialData.adminUser);
+      }
+    })
+    .then(() => app.listen(port))
+    .then(() => jsLogger.debug(`App is running on port ${port}`))
+    .catch((err) => {
+      if (env === 'development') {
+        jsLogger.error(err);
+      }
+    });
+}
 
 export default app;
