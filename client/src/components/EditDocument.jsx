@@ -43,7 +43,6 @@ class EditDocument extends React.Component {
     if (token) {
       this.props.viewDocument(token, this.props.params.id);
     }
-    console.log('will====>', this.props);
   }
 
   /**
@@ -54,8 +53,12 @@ class EditDocument extends React.Component {
     $(this.refs.access).material_select(this.handleChange.bind(this));
   }
 
+  /**
+   * On receiving of props
+   * @param {Object} nextProps
+   * @return {void} void
+   */
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps',nextProps);
     this.state = Object.assign({}, this.state, {
       error: nextProps.error,
       success: nextProps.success,
@@ -66,7 +69,6 @@ class EditDocument extends React.Component {
       }
     });
     $('#access').val(nextProps.document.access);
-    console.log('state',this.state);
     if (this.state.success === true) {
       browserHistory.push('/dashboard');
     }

@@ -13,7 +13,8 @@ export default function documentsReducer(state = initialState, action) {
       return Object.assign({}, state, {
         documents: action.documents,
         pageCount: action.pageCount,
-        update_status: null
+        update_status: null,
+        delete_status: null
       });
     case actionTypes.SEARCH_DOCUMENTS:
       return Object.assign({}, state, {
@@ -30,6 +31,14 @@ export default function documentsReducer(state = initialState, action) {
         { update_status: true,
           error: null,
           document: action.document });
+    case actionTypes.DOCUMENT_DELETED:
+      return Object.assign({}, state, {
+        documents: state.documents.filter(document =>
+          document.id !== action.documentId
+        ),
+        delete_status: true,
+        error: null
+      });
     case actionTypes.VIEW_DOCUMENT:
       return Object.assign({}, state, { document: action.document });
     default:

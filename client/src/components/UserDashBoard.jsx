@@ -155,25 +155,23 @@ class ViewDocuments extends React.Component {
 
 ViewDocuments.PropTypes = {
   documents: PropTypes.array.isRequired,
-  paginateDocuments: PropTypes.func.isRequired
+  paginateDocuments: PropTypes.func.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
+  searchDocument: PropTypes.func.isRequired
 };
 
-const mapStoreToProps = (state) => {
-  return {
-    documents: state.documentsReducer.documents,
-    pageCount: state.documentsReducer.pageCount
-  };
-};
+const mapStoreToProps = state => ({
+  documents: state.documentsReducer.documents,
+  pageCount: state.documentsReducer.pageCount
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteDocument: documentid =>
-      dispatch(deleteDocumentAction(documentid)),
-    paginateDocuments: (usertoken, offset, limit) =>
-      dispatch(viewDocumentAction(usertoken, offset, limit)),
-    searchDocument: (usertoken, documentName) =>
-      dispatch(searchDocumentAction(usertoken, documentName))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  deleteDocument: documentid =>
+    dispatch(deleteDocumentAction(documentid)),
+  paginateDocuments: (usertoken, offset, limit) =>
+    dispatch(viewDocumentAction(usertoken, offset, limit)),
+  searchDocument: (usertoken, documentName) =>
+    dispatch(searchDocumentAction(usertoken, documentName))
+});
 
 export default connect(mapStoreToProps, mapDispatchToProps)(ViewDocuments);

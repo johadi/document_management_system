@@ -19,7 +19,6 @@ export default (token, documentName) => {
         pageCount: response.data.data.paginationMeta.pageCount
       });
     }).catch((error) => {
-      console.log(error);
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: (error.response && error.response.data.message) ?

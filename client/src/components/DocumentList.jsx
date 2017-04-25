@@ -12,18 +12,20 @@ const confirmDeletion = (callback, documentId) => {
     confirmButtonColor: '#DD6B55',
     confirmButtonText: 'Yes, delete it!',
     closeOnConfirm: false,
-    closeOnCancel: true
+    closeOnCancel: false
   },
   (deletionConfirmed) => {
     if (deletionConfirmed) {
       callback(documentId);
       swal('Deleted!', 'Your document has been deleted.', 'success');
+    } else {
+      swal('Cancelled!', 'Your document  was not deleted.', 'error');
     }
   });
 };
 
-const DocumentList = (props) => {
-  return (
+const DocumentList = props =>
+  (
     <table id="document-list" className="highlight doc_list pagination">
       <thead>
       <tr>
@@ -52,7 +54,7 @@ const DocumentList = (props) => {
             <td>{document.access}</td>
             <td>{moment(document.createdAt).format('L')}</td>
             {
-              ((props.userId === document.creatorId ||  props.roleId === 1) ?
+              ((props.userId === document.creatorId || props.roleId === 1) ?
                 <td>
                   <Link to={`/edit-document/${document.id}`}
                     className="btn-floating action-edit-color">
@@ -80,7 +82,6 @@ const DocumentList = (props) => {
       </tbody>
     </table>
   );
-};
 
 
 DocumentList.propTypes = {
