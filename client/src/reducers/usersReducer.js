@@ -14,6 +14,8 @@ export default function usersReducer(state = initialState, action) {
         { update_status: true,
           error: null,
           message: action.message });
+    case actionTypes.VIEW_USER:
+      return Object.assign({}, state, { user: action.user });
     default:
       return state;
   }

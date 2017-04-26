@@ -288,6 +288,7 @@ a {
 }
 .action-edit-color {
   color: $primary_color;
+  margin-right: 10px;
 }
 .title {
   color: white;
@@ -305,12 +306,37 @@ a {
 header, main, footer, .dashboardContainer {
   padding-left: 300px;
 }
-.mt-15{
-  margin-top: 15px;
-}
+
 .card-content{
   .card-title {
     margin-top: 10px;
     color: $primary_color;
   }
+}
+.collection {
+  .collection-item.avatar .title {
+    font-size: 16px;
+    color: $primary_color;
+  }
+}
+.mr-20 {
+  margin-right: 30px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-15{
+  margin-top: 15px;
+}
+.mt-20{
+  margin-top: 20px;
+}
+.pt-20{
+  padding-top: 20px;
 }

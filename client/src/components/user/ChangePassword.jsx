@@ -102,66 +102,61 @@ class ChangePassword extends React.Component {
    */
   render() {
     return (
-      <div className="row">
+      <div className="row dashboardContainer col s12">
         <Header />
         <Sidebar />
-        <form className="col s8 l6 offset-s2 offset-l3 loginForm" onSubmit={this.handleSubmit} >
-          { this.state.error ?
-            <Alert info={this.state} onClose={this.onClose}/> : ''
-          }
-          <div className="row">
-            <div className="input-field col s12">
-              <input
-                className="validate"
-                type="password"
-                name="old_password"
-                id="old_password"
-                onChange={this.handleChange}
-                required/>
-              <label htmlFor="old_password">Enter your old password</label>
-            </div>
+        <div className="col s12 workspace">
+          <div className="col s8 l6 offset-s2 offset-l3">
+            <h4>Update Password</h4>
           </div>
-
-          <div className="row">
-            <div className="input-field col s12">
-              <input
-                className="validate"
-                type="password"
-                name="new_password"
-                id="new_password"
-                onChange={this.handleChange}
-                required/>
-              <label htmlFor="new_password">Enter your new password</label>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="input-field col s12">
-              <input
-                className="validate"
-                type="password"
-                name="new_password_confirmation"
-                id="new_password_confirmation"
-                onChange={this.handleChange}
-                required/>
-              <label htmlFor="new_password_confirmation">Confirm your new password</label>
-            </div>
-          </div>
-
-
-          <br />
-          <center>
+          <form className="col s8 offset-s2 card-panel" onSubmit={this.handleSubmit} >
+            { this.state.error ?
+              <Alert info={this.state} onClose={this.onClose}/> : ''
+            }
             <div className="row">
-              <button
-                type="submit"
-                name="btn_login"
-                id="btn_login"
-                className="col s12 btn btn-large waves-effect">
-                Update password
-              </button>
+              <div className="input-field col s12 mt-20">
+                <input
+                  className="validate"
+                  type="password"
+                  name="old_password"
+                  id="old_password"
+                  onChange={this.handleChange}
+                  required/>
+                <label htmlFor="old_password">Enter your old password</label>
+              </div>
             </div>
-          </center>
-        </form>
+
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  className="validate"
+                  type="password"
+                  name="new_password"
+                  id="new_password"
+                  onChange={this.handleChange}
+                  required/>
+                <label htmlFor="new_password">Enter your new password</label>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  className="validate"
+                  type="password"
+                  name="new_password_confirmation"
+                  id="new_password_confirmation"
+                  onChange={this.handleChange}
+                  required/>
+                <label htmlFor="new_password_confirmation">Confirm your new password</label>
+              </div>
+            </div>
+
+            <div className="col s5 mt-15 mb-20">
+              <button className="btn" type="submit">Update password</button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

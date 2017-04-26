@@ -3,9 +3,9 @@ import { browserHistory } from 'react-router';
 import actionTypes from '../actionTypes';
 
 export default (details) => {
-  const token = window.localStorage.getItem('token');
-  return (dispatch) => {
-    return axios.post('/api/v1/documents/', details, {
+  const token = localStorage.getItem('token');
+  return dispatch =>
+    axios.post('/api/v1/documents/', details, {
       headers: {
         Authorization: token
       }
@@ -15,12 +15,12 @@ export default (details) => {
         type: actionTypes.DOCUMENT_CREATED,
         document: response.data.data
       });
-    }).catch((error) => {
+    })
+    .catch((error) => {
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: (error.response.data.message) ?
           error.response.data.message : error.response.data.errors
       });
     });
-  };
 };

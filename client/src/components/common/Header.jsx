@@ -70,11 +70,6 @@ class Header extends React.Component {
                 <Link to="/dashboard" className="brand-logo">DMS</Link>
               </div>
               <ul id="loggedinNav">
-                <li>
-                  <Link to={`/profile/${this.state.id || ''}`}>
-                    {this.state.username || ''}
-                  </Link>
-                </li>
                 <li><Link id="logout" onClick={this.logout}>
                   Sign Out</Link>
                 </li>

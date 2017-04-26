@@ -91,12 +91,12 @@ export default class Sidebar extends React.Component {
               </div>
             ) : <span />}
           <li>
-            <Link to={`/users/${jwtDecode(this.state.token).UserId}`} className="col s12 menu_link">
+            <Link to={'/profile'} className="col s12 menu_link">
               <div className="col s2">
                 <center className="circle useractions">
                   <i className="material-icons">account_circle</i></center>
               </div>
-              <p className="col s10 action_desc">Edit profile</p>
+              <p className="col s10 action_desc">Profile</p>
             </Link>
           </li>
           <li>
