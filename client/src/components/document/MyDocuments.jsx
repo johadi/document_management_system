@@ -27,6 +27,7 @@ class MyDocuments extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchDocument = this.searchDocument.bind(this);
+    this.refreshDocumentsList = this.refreshDocumentsList.bind(this);
   }
 
   /**
@@ -65,6 +66,19 @@ class MyDocuments extends React.Component {
   }
 
   /**
+   * Refresh list of documents
+   * @return {void} void
+   */
+  refreshDocumentsList() {
+    const offset = 0;
+    this.props.paginateDocuments(this.state.token,
+      offset, this.state.limit);
+    this.setState({
+      searchTerms: ''
+    });
+  }
+
+  /**
    * Renders component
    * @return {XML} JSX
    */
@@ -97,7 +111,12 @@ class MyDocuments extends React.Component {
                       onClick={this.searchDocument}>
                 <i className="material-icons">search</i></button>
             </div>
-
+            <div className="col m1 offset-m11">
+              <Link onClick={this.refreshDocumentsList}>
+                <i className="material-icons refresh-list-btn">
+                  autorenew</i>
+              </Link>
+            </div>
             <div className="col s5 btnAddDocument">
               <Link className="waves-effect waves-light btn" to="/create-document">
                 <i className="material-icons left">note_add</i>

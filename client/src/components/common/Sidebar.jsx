@@ -67,27 +67,6 @@ export default class Sidebar extends React.Component {
                     <p className="col s10 action_desc">Create User</p>
                   </Link>
                 </li>
-
-                <li>
-                  <Link to="/roles" className="col s12 menu_link">
-                    <div className="col s2">
-                      <center className="circle useractions">
-                        <i className="material-icons">person_pin</i>
-                      </center>
-                    </div>
-                    <p className="col s10 action_desc">All Roles</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/create-role" className="col s12 menu_link">
-                    <div className="col s2">
-                      <center className="circle useractions">
-                        <i className="material-icons">note_add</i>
-                      </center>
-                    </div>
-                    <p className="col s10 action_desc">Create A Role</p>
-                  </Link>
-                </li>
               </div>
             ) : <span />}
           <li>
