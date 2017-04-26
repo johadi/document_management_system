@@ -45,7 +45,6 @@ class MyDocuments extends React.Component {
     } else {
       browserHistory.push('/');
     }
-    console.log('on will mount',this.state);
   }
 
   /**
@@ -62,7 +61,6 @@ class MyDocuments extends React.Component {
    * @return {void} void
    */
   searchDocument() {
-    console.log('search',this.state);
     this.props.searchDocument(this.state.token, this.state.searchTerms);
   }
 

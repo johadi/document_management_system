@@ -18,8 +18,6 @@ const confirmDeletion = (callback, documentId) => {
     if (deletionConfirmed) {
       callback(documentId);
       swal('Deleted!', 'Document has been deleted.', 'success');
-    } else {
-      swal('Cancelled!', 'Document  was not deleted.', 'error');
     }
   });
 };

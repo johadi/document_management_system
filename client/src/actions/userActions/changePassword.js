@@ -1,17 +1,17 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (details, token, documentid) =>
+export default (details) =>
   dispatch =>
-    axios.put(`/api/v1/documents/${documentid}`, details, {
+    axios.put(`/api/v1/users/${details.userId}/password`, details.user, {
       headers: {
-        Authorization: token
+        Authorization: details.token
       }
     })
     .then((response) => {
       dispatch({
-        type: actionTypes.DOCUMENT_UPDATED,
-        document: response.data.data
+        type: actionTypes.PASSWORD_UPDATED,
+        message: response.data.message
       });
     })
     .catch((error) => {
@@ -21,4 +21,3 @@ export default (details, token, documentid) =>
           error.response.data.message : error.response.data.errors
       });
     });
-

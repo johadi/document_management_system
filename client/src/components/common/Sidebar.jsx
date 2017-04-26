@@ -100,7 +100,7 @@ export default class Sidebar extends React.Component {
             </Link>
           </li>
           <li>
-            <Link to={`/change-password/${jwtDecode(this.state.token).UserId}`} className="col s12 menu_link">
+            <Link to={'/change-password'} className="col s12 menu_link">
               <div className="col s2">
                 <center className="circle useractions">
                   <i className="material-icons">vpn_key</i></center>
