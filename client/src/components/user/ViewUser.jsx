@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
-import viewUserAction from '../../actions/userActions/viewProfile';
+import viewUserAction from '../../actions/userActions/viewUserProfile';
 
 /**
  * React component for ViewUser.
@@ -35,7 +35,6 @@ class ViewUser extends React.Component {
         userId: decodedToken.UserId,
         token: localStorage.getItem('token')
       });
-      console.log('state', this.state);
       if (this.props.params.id) {
         this.props.viewUser(this.state, this.props.params.id);
       } else {
@@ -116,8 +115,8 @@ const mapStoreToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  viewUser: (usertoken, documentid) =>
-    dispatch(viewUserAction(usertoken, documentid))
+  viewUser: (usertoken, userId) =>
+    dispatch(viewUserAction(usertoken, userId))
 });
 
 export default connect(mapStoreToProps, mapDispatchToProps)(ViewUser);

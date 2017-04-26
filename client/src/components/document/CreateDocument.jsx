@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import Alert from './../common/Alert.jsx';
@@ -52,6 +53,7 @@ class CreateDocument extends React.Component {
       error: nextProps.error, success: nextProps.success
     });
     if (this.state.success === true) {
+      toastr.success('Created Successfully');
       browserHistory.push('/dashboard');
     }
   }
@@ -104,14 +106,18 @@ class CreateDocument extends React.Component {
             { this.state.error ?
               <Alert info={this.state} onClose={this.onClose}/> : ''
             }
-            <div className="col s12">
-              <div className="col m9 s12">
+            <div className="row">
+              <div className="input-field col m9 s12">
                 <input
-                  type="text" name="title"
+                  className="validate"
+                  type="text"
+                  name="title"
                   id="title"
                   onChange={this.handleChange}
-                  placeholder="Name of Document" />
+                  required/>
+                <label htmlFor="title">Title of Document</label>
               </div>
+
               <div className="col m3 s12">
                 <select
                   name="access"
@@ -125,14 +131,17 @@ class CreateDocument extends React.Component {
                   <option value="role">Role</option>
                 </select>
               </div>
-              <div className="col s12">
-              <textarea
-                name="content"
-                id="content"
-                onChange={this.handleChange}
-                placeholder="Type your content here..."
-              />
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <textarea
+                  name="content"
+                  id="content"
+                  onChange={this.handleChange}
+                  placeholder="Type your content here..."/>
               </div>
+            </div>
+            <div className="col s12">
               <div className="col s2 mt-15">
                 <button className="btn" type="submit">Save</button>
               </div>

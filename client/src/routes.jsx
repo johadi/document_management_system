@@ -25,5 +25,6 @@ export default(
     <Route path="/profile" component={ViewUser} />
     <Route path="/profile/:id" component={ViewUser} />
     <Route path="/edit-profile" component={EditUser} />
+    <Route path="/edit-profile/:id" component={EditUser} />
   </Route>
 );

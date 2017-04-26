@@ -24,9 +24,8 @@ export default keymirror({
   ROLE_DELETED: null,
   VIEW_ROLE: null,
   VIEW_USER: null,
+  UPDATE_USER: null,
   PASSWORD_UPDATED: null,
-  CLEAR_LOGIN_ERROR: null,
-  CLEAR_REGISTER_ERROR: null,
   RESPONSE_ERROR: null,
   CLEAR_ERROR: null
 });
