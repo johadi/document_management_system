@@ -20,7 +20,8 @@ export default function documentsReducer(state = initialState, action) {
       return Object.assign({}, state, {
         documents: action.documents,
         pageCount: action.pageCount,
-        update_status: null });
+        update_status: null,
+        delete_status: null });
     case actionTypes.DOCUMENT_CREATED:
       return Object.assign({}, state,
         { success: true,

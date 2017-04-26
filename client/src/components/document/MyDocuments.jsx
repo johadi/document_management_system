@@ -9,7 +9,7 @@ import Sidebar from './../common/Sidebar.jsx';
 import MyDocumentList from './MyDocumentList.jsx';
 import deleteDocumentAction from '../../actions/docActions/deleteDocument';
 import viewDocumentAction from '../../actions/docActions/viewDocuments';
-import searchDocumentAction from '../../actions/docActions/searchDocument';
+import searchDocumentAction from '../../actions/docActions/searchDocuments';
 
 /**
  * MyDocuments class declaration
@@ -156,8 +156,8 @@ class MyDocuments extends React.Component {
 MyDocuments.PropTypes = {
   documents: PropTypes.array.isRequired,
   paginateDocuments: PropTypes.func.isRequired,
-  deleteMyDocument: PropTypes.func.isRequired,
-  searchMyDocument: PropTypes.func.isRequired
+  deleteDocument: PropTypes.func.isRequired,
+  searchDocument: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

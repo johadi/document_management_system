@@ -28,6 +28,7 @@ class EditUser extends React.Component {
         firstname: '',
         lastname: ''
       },
+      self: true,
       success: null,
       error: null
     };
@@ -52,6 +53,9 @@ class EditUser extends React.Component {
         browserHistory.push('/dashboard');
       }
       if (this.props.params.id) {
+        this.state = Object.assign({}, this.state, {
+          self: false
+        });
         this.props.viewUser(this.state, this.props.params.id);
       } else {
         this.props.viewUser(this.state, false);
@@ -88,10 +92,11 @@ class EditUser extends React.Component {
     $('#roleId').val(nextProps.user.roleId);
     if (this.state.success === true) {
       toastr.success('Updated Successfully');
-      if (this.state.roleId !== 1) {
-        browserHistory.push('/dashboard');
+      if (this.state.self === false) {
+        browserHistory.push('/users');
+      } else {
+        browserHistory.push('/profile');
       }
-      browserHistory.push('/profile');
     }
   }
 

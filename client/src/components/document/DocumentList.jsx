@@ -12,7 +12,7 @@ const confirmDeletion = (callback, documentId) => {
     confirmButtonColor: '#DD6B55',
     confirmButtonText: 'Yes, delete it!',
     closeOnConfirm: false,
-    closeOnCancel: false
+    closeOnCancel: true
   },
   (deletionConfirmed) => {
     if (deletionConfirmed) {
@@ -89,7 +89,7 @@ const DocumentList = (props) => {
         </li>
       </ul>);
   });
-  return (<div className='doc_list'>{list}</div>);
+  return (<div className='collection_list'>{list}</div>);
 };
 
 DocumentList.propTypes = {

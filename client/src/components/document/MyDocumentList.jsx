@@ -12,7 +12,7 @@ const confirmDeletion = (callback, documentId) => {
     confirmButtonColor: '#DD6B55',
     confirmButtonText: 'Yes, delete it!',
     closeOnConfirm: false,
-    closeOnCancel: false
+    closeOnCancel: true
   },
   (deletionConfirmed) => {
     if (deletionConfirmed) {
@@ -23,8 +23,7 @@ const confirmDeletion = (callback, documentId) => {
 };
 
 const MyDocumentList = (props) => {
-  const list = props.documents.map((document) => {
-    return (
+  const list = props.documents.map(document => (
       <ul key={document.id} className="collection">
         <li className="collection-item avatar">
           <i className="material-icons circle">note</i>
@@ -63,9 +62,9 @@ const MyDocumentList = (props) => {
             </div>
           </div>
         </li>
-      </ul>);
-  });
-  return (<div className='doc_list'>{list}</div>);
+      </ul>)
+  );
+  return (<div className='collection_list'>{list}</div>);
 };
 
 

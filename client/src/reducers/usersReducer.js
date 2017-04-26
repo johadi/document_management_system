@@ -9,6 +9,18 @@ import initialState from '../store/initialState';
  */
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
+    case actionTypes.PAGINATED_USERS:
+      return Object.assign({}, state, {
+        users: action.users,
+        pageCount: action.pageCount,
+        update_status: null,
+        delete_status: null
+      });
+    case actionTypes.SEARCH_USERS:
+      return Object.assign({}, state, {
+        users: action.users,
+        pageCount: action.pageCount,
+        update_status: null });
     case actionTypes.PASSWORD_UPDATED:
       return Object.assign({}, state,
         { update_status: true,
@@ -21,7 +33,7 @@ export default function usersReducer(state = initialState, action) {
       });
     case actionTypes.UPDATE_USER:
       return Object.assign({}, state,
-        { update_s144307323tatus: true,
+        { update_status: true,
           error: null,
           user: action.user });
     default:

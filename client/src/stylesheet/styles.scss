@@ -159,19 +159,19 @@ a {
   margin-top:-1px !important;
 }
 
-.doc_list {
+.collection_list {
   margin:0 auto;
 }
 
-.doc_list a{
+.collection_list a{
   color:black;
 }
 
-.doc_list a:hover{
+.collection_list a:hover{
   color:teal;
 }
 
-.doc_list th{
+.collection_list th{
   font-size: 14px;
   padding-left: 20px;
   padding-right: 20px;
@@ -184,7 +184,7 @@ a {
   cursor: not-allowed;
   font-weight: bold;
 }
-.doc_list td {
+.collection_list td {
   padding-left: 20px;
   padding-right: 20px;
   height: 45px;

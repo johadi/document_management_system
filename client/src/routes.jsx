@@ -10,6 +10,7 @@ import ViewDocument from './components/document/ViewOneDocument.jsx';
 import ChangePassword from './components/user/ChangePassword.jsx';
 import ViewUser from './components/user/ViewUser.jsx';
 import EditUser from './components/user/EditUser.jsx';
+import ViewAllUsers from './components/user/ViewAllUsers.jsx';
 
 export default(
   <Route path="/">
@@ -23,8 +24,9 @@ export default(
     <Route path="/my-documents" component={MyDocument} />
     <Route path="/change-password" component={ChangePassword} />
     <Route path="/profile" component={ViewUser} />
-    <Route path="/profile/:id" component={ViewUser} />
+    <Route path="/view-user/:id" component={ViewUser} />
     <Route path="/edit-profile" component={EditUser} />
-    <Route path="/edit-profile/:id" component={EditUser} />
+    <Route path="/edit-user/:id" component={EditUser} />
+    <Route path="/users" component={ViewAllUsers} />
   </Route>
 );

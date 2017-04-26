@@ -9,7 +9,7 @@ import Sidebar from './../common/Sidebar.jsx';
 import DocumentList from './../document/DocumentList.jsx';
 import deleteDocumentAction from '../../actions/docActions/deleteDocument';
 import viewDocumentAction from '../../actions/docActions/viewDocuments';
-import searchDocumentAction from '../../actions/docActions/searchDocument';
+import searchDocumentAction from '../../actions/docActions/searchDocuments';
 
 /**
  * ViewDocuments class declaration
