@@ -21,6 +21,11 @@ export default function usersReducer(state = initialState, action) {
         users: action.users,
         pageCount: action.pageCount,
         update_status: null });
+    case actionTypes.USER_CREATED:
+      return Object.assign({}, state, {
+        success: true,
+        error: null,
+        message: action.message });
     case actionTypes.PASSWORD_UPDATED:
       return Object.assign({}, state,
         { update_status: true,

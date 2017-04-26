@@ -1,16 +1,13 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import actionTypes from '../actionTypes';
 
 export default userData =>
   dispatch =>
-    axios.post('/api/v1/users', userData.user)
+    axios.post('/api/v1/users', userData)
       .then((response) => {
-        window.localStorage.setItem('token', response.data.token);
-        const user = jwtDecode(response.data.token);
         dispatch({
-          type: actionTypes.SIGNUP_SUCCESSFUL,
-          user
+          type: actionTypes.USER_CREATED,
+          message: response.data.message
         });
       })
       .catch((error) => {
@@ -20,4 +17,4 @@ export default userData =>
             error.response.data.message : error.response.data.errors
         });
       });
-  
+

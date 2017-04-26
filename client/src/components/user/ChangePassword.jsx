@@ -152,7 +152,7 @@ class ChangePassword extends React.Component {
               </div>
             </div>
 
-            <div className="col s5 mt-15 mb-20">
+            <div className="col s5 mt-10 mb-20">
               <button className="btn" type="submit">Update password</button>
             </div>
           </form>

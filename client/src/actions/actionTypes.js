@@ -16,6 +16,7 @@ export default keymirror({
   CLEAR_ALL: null,
   PAGINATED_USERS: null,
   SEARCH_USERS: null,
+  USER_CREATED: null,
   USER_UPDATED: null,
   USER_DELETED: null,
   VIEW_USER: null,

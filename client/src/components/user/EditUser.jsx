@@ -214,7 +214,7 @@ class EditUser extends React.Component {
               <div className="col m9 s12"></div>
               <div className="row">
                 <div className="col s5 mt-15 mb-20">
-                  <button className="btn" type="submit">Update password</button>
+                  <button className="btn" type="submit">Save</button>
                 </div>
               </div>
             </div>
