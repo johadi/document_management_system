@@ -41,6 +41,14 @@ export default function usersReducer(state = initialState, action) {
         { update_status: true,
           error: null,
           user: action.user });
+    case actionTypes.USER_DELETED:
+      return Object.assign({}, state, {
+        users: state.users.filter(user =>
+          user.id !== action.userId
+        ),
+        delete_status: true,
+        error: null
+      });
     default:
       return state;
   }

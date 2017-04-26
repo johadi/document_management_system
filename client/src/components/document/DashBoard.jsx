@@ -6,10 +6,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
-import DocumentList from './../document/DocumentList.jsx';
-import deleteDocumentAction from '../../actions/docActions/deleteDocument';
-import viewDocumentAction from '../../actions/docActions/viewDocuments';
-import searchDocumentAction from '../../actions/docActions/searchDocuments';
+import DocumentList from './DocumentList.jsx';
+import deleteDocumentAction from '../../actions/documentActions/deleteDocument';
+import viewDocumentAction from '../../actions/documentActions/viewDocuments';
+import searchDocumentAction from '../../actions/documentActions/searchDocuments';
 
 /**
  * ViewDocuments class declaration

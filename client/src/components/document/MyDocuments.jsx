@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import MyDocumentList from './MyDocumentList.jsx';
-import deleteDocumentAction from '../../actions/docActions/deleteDocument';
-import viewDocumentAction from '../../actions/docActions/viewDocuments';
-import searchDocumentAction from '../../actions/docActions/searchDocuments';
+import deleteDocumentAction from '../../actions/documentActions/deleteDocument';
+import viewDocumentAction from '../../actions/documentActions/viewDocuments';
+import searchDocumentAction from '../../actions/documentActions/searchDocuments';
 
 /**
  * MyDocuments class declaration

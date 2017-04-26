@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
-import viewDocumentAction from '../../actions/docActions/viewOneDocument';
+import viewDocumentAction from '../../actions/documentActions/viewOneDocument';
 
 /**
  * React component for ViewDocument.

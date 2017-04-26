@@ -7,8 +7,8 @@ import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import Alert from './../common/Alert.jsx';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import viewDocument from '../../actions/docActions/viewOneDocument';
-import editDocument from '../../actions/docActions/editDocument';
+import viewDocument from '../../actions/documentActions/viewOneDocument';
+import editDocument from '../../actions/documentActions/editDocument';
 
 /**
  * React component for EditDocument.

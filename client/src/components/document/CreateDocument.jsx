@@ -7,7 +7,7 @@ import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import Alert from './../common/Alert.jsx';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import newDocument from '../../actions/docActions/newDocument';
+import newDocument from '../../actions/documentActions/newDocument';
 
 /**
  * React component for CreateDocument.
