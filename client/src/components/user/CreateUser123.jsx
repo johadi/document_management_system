@@ -196,7 +196,6 @@ class CreateUser extends React.Component {
           </form>
         </div>
       </div>
-
     );
   }
 }
