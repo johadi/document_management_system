@@ -7,7 +7,10 @@ describe('Document Model: ', () => {
       testData.validUser.roleId = createdRole.id;
       return db.User.create(testData.validUser);
     })
-    .then(() => db.Document.create(testData.testDoc))
+    .then((createdUser) => {
+      testData.testDoc.creatorId = createdUser.id;
+      return db.Document.create(testData.testDoc);
+    })
     .then(() => {
       done();
     });
