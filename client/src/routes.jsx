@@ -11,7 +11,7 @@ import ChangePassword from './components/user/ChangePassword.jsx';
 import ViewUser from './components/user/ViewUser.jsx';
 import EditUser from './components/user/EditUser.jsx';
 import ViewAllUsers from './components/user/ViewAllUsers.jsx';
-import CreateUser from './components/user/CreateUser123.jsx';
+import CreateUser from './components/user/CreateUser.jsx';
 
 export default(
   <Route path="/">
