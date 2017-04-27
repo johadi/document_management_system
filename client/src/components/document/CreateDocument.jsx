@@ -38,7 +38,7 @@ class CreateDocument extends React.Component {
    * componentDidMount
    * @return {void}
    */
-  componentDidMount(){
+  componentDidMount() {
     $(this.refs.access).material_select(this.handleChange.bind(this));
   }
 
@@ -102,7 +102,7 @@ class CreateDocument extends React.Component {
           <form onSubmit={this.handleSubmit} className="panel">
 
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="col s12">
               <div className="col m9 s12">
@@ -110,7 +110,8 @@ class CreateDocument extends React.Component {
                   type="text" name="title"
                   id="title"
                   onChange={this.handleChange}
-                  placeholder="Name of Document" />
+                  placeholder="Name of Document" 
+                />
               </div>
               <div className="col m3 s12">
                 <select
@@ -118,7 +119,8 @@ class CreateDocument extends React.Component {
                   id="access"
                   onChange={this.handleChange}
                   value={this.state.value}
-                  className="browser-default">
+                  className="browser-default"
+                >
                   <option value="">Select Access Type</option>
                   <option value="public">Public</option>
                   <option value="private">Private</option>

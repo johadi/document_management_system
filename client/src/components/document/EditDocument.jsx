@@ -122,7 +122,7 @@ class EditDocument extends React.Component {
           </div>
           <form onSubmit={this.handleSubmit} className="panel">
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="col s12">
               <div className="col s12">
@@ -132,7 +132,8 @@ class EditDocument extends React.Component {
                     id="title"
                     onChange={this.handleChange}
                     placeholder="Name of Document"
-                    value={this.state.document.title}/>
+                    value={this.state.document.title}
+                  />
                 </div>
                 <div className="col m3 s12">
                   <select
@@ -140,7 +141,8 @@ class EditDocument extends React.Component {
                     id="access"
                     onChange={this.handleChange}
                     value={this.state.value}
-                    className="browser-default">
+                    className="browser-default"
+                  >
                     <option value="" disabled >Select Access Type</option>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
@@ -154,7 +156,8 @@ class EditDocument extends React.Component {
                   id="content"
                   onChange={this.handleChange}
                   placeholder="Type your content here..."
-                  value={this.state.document.content}/>
+                  value={this.state.document.content}
+                />
               </div>
               <div className="col s2 mt-15">
                 <button className="btn" type="submit">Save</button>

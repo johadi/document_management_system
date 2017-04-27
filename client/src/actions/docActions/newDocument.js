@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
 import actionTypes from '../actionTypes';
 
 export default (details) => {
   const token = window.localStorage.getItem('token');
-  return (dispatch) => {
-    return axios.post('/api/v1/documents/', details, {
+  return dispatch =>
+    axios.post('/api/v1/documents/', details, {
       headers: {
         Authorization: token
       }
@@ -22,5 +21,4 @@ export default (details) => {
           error.response.data.message : error.response.data.errors
       });
     });
-  };
 };

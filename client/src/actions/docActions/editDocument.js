@@ -1,9 +1,9 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (details, token, documentid) => {
-  return (dispatch) => {
-    return axios.put(`/api/v1/documents/${documentid}`, details, {
+export default (details, token, documentid) =>
+  dispatch =>
+    axios.put(`/api/v1/documents/${documentid}`, details, {
       headers: {
         Authorization: token
       }
@@ -13,12 +13,12 @@ export default (details, token, documentid) => {
         type: actionTypes.DOCUMENT_UPDATED,
         document: response.data.data
       });
-    }).catch((error) => {
+    })
+    .catch((error) => {
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: (error.response.data.message) ?
           error.response.data.message : error.response.data.errors
       });
     });
-  };
-};
+

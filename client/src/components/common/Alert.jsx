@@ -1,12 +1,5 @@
 import React from 'react';
-
-const AlertList = (props) => {
-  const list = props.messageList.map((message, i) =>
-    <p key={i}>{message}</p>
-  );
-  return (<div>{list}</div>);
-};
-
+import AlertList from './AlertList.jsx';
 
 /**
  * LoginPage class declaration
@@ -29,18 +22,22 @@ class Alert extends React.Component {
           {
             ((message.constructor !== Array) ?
               <p>{message}</p> :
-              <AlertList messageList={message}/>
+              <AlertList messageList={message} />
             )
           }
         </div>
         {
           (this.props.onClose) ?
-            <button type="button" className="close white-text"
-                    data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"
-                      onClick={ () => this.props.onClose() }>
-                  ×
-                </span>
+            <button type="button"
+              className="close white-text"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+            <span aria-hidden="true"
+              onClick={() => this.props.onClose()}
+            >
+              ×
+            </span>
             </button>
             :
             ''

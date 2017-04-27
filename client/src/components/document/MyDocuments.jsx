@@ -45,7 +45,6 @@ class MyDocuments extends React.Component {
     } else {
       browserHistory.push('/');
     }
-    console.log('on will mount',this.state);
   }
 
   /**
@@ -62,7 +61,6 @@ class MyDocuments extends React.Component {
    * @return {void} void
    */
   searchDocument() {
-    console.log('search',this.state);
     this.props.searchDocument(this.state.token, this.state.searchTerms);
   }
 
@@ -81,7 +79,7 @@ class MyDocuments extends React.Component {
 
     return (
       <div className="row dashboardContainer col s12">
-        <Header/>
+        <Header />
         <Sidebar />
         <div className="col s12 workspace">
           <div className="row workspace-header">
@@ -94,9 +92,11 @@ class MyDocuments extends React.Component {
                 name="searchTerms"
                 value={this.state.searchTerms}
                 placeholder="Search..."
-                onChange={this.handleChange}/>
+                onChange={this.handleChange}
+              />
               <button className="btn col s2" id="searchBtn"
-                      onClick={this.searchDocument}>
+                onClick={this.searchDocument}
+              >
                 <i className="material-icons">search</i></button>
             </div>
 
@@ -112,7 +112,8 @@ class MyDocuments extends React.Component {
           <div className="col s10 offset-s1 card-panel">
             <MyDocumentList
               documents={this.props.documents || []}
-              deleteDocument={this.props.deleteDocument}/>
+              deleteDocument={this.props.deleteDocument}
+            />
           </div>
           <div className="col s12">
             <center>
@@ -126,7 +127,7 @@ class MyDocuments extends React.Component {
                       this.props.paginateDocuments(token,
                         offset, this.state.limit);
                     }
-                }/> : '')
+                } /> : '')
               }
             </center>
           </div>

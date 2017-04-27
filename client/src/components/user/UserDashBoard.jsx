@@ -93,7 +93,7 @@ class ViewDocuments extends React.Component {
     }
     return (
       <div className="row dashboardContainer col s12">
-        <Header/>
+        <Header />
         <Sidebar />
         <div className="col s12 workspace">
           <div className="row workspace-header">
@@ -106,9 +106,11 @@ class ViewDocuments extends React.Component {
                 name="searchTerms"
                 value={this.state.searchTerms}
                 placeholder="Search..."
-                onChange={this.handleChange}/>
+                onChange={this.handleChange}
+              />
               <button className="btn col s2" id="searchBtn"
-                onClick={this.searchDocument}>
+                onClick={this.searchDocument}
+              >
               <i className="material-icons">search</i></button>
             </div>
 
@@ -141,7 +143,7 @@ class ViewDocuments extends React.Component {
                       this.props.paginateDocuments(token,
                         offset, this.state.limit);
                     }
-                }/> : '')
+                } /> : '')
               }
             </center>
           </div>
