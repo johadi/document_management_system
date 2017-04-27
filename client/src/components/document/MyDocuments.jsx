@@ -93,7 +93,7 @@ class MyDocuments extends React.Component {
 
     return (
       <div className="row dashboardContainer col s12">
-        <Header/>
+        <Header />
         <Sidebar />
         <div className="col s12 workspace">
           <div className="row workspace-header">
@@ -106,9 +106,11 @@ class MyDocuments extends React.Component {
                 name="searchTerms"
                 value={this.state.searchTerms}
                 placeholder="Search..."
-                onChange={this.handleChange}/>
+                onChange={this.handleChange}
+              />
               <button className="btn col s2" id="searchBtn"
-                      onClick={this.searchDocument}>
+                onClick={this.searchDocument}
+              >
                 <i className="material-icons">search</i></button>
             </div>
             <div className="col m1 offset-m11">
@@ -129,7 +131,8 @@ class MyDocuments extends React.Component {
           <div className="col s10 offset-s1 card-panel">
             <MyDocumentList
               documents={this.props.documents || []}
-              deleteDocument={this.props.deleteDocument}/>
+              deleteDocument={this.props.deleteDocument}
+            />
           </div>
           <div className="col s12">
             <center>
@@ -143,7 +146,7 @@ class MyDocuments extends React.Component {
                       this.props.paginateDocuments(token,
                         offset, this.state.limit);
                     }
-                }/> : '')
+                } /> : '')
               }
             </center>
           </div>

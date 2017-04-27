@@ -39,7 +39,7 @@ class CreateDocument extends React.Component {
    * componentDidMount
    * @return {void}
    */
-  componentDidMount(){
+  componentDidMount() {
     $(this.refs.access).material_select(this.handleChange.bind(this));
   }
 
@@ -104,7 +104,7 @@ class CreateDocument extends React.Component {
           <form onSubmit={this.handleSubmit} className="panel">
 
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="row">
               <div className="input-field col m9 s12">
@@ -114,7 +114,8 @@ class CreateDocument extends React.Component {
                   name="title"
                   id="title"
                   onChange={this.handleChange}
-                  required/>
+                  required
+                />
                 <label htmlFor="title">Title of Document</label>
               </div>
 
@@ -124,7 +125,8 @@ class CreateDocument extends React.Component {
                   id="access"
                   onChange={this.handleChange}
                   value={this.state.value}
-                  className="browser-default">
+                  className="browser-default"
+                >
                   <option value="">Select Access Type</option>
                   <option value="public">Public</option>
                   <option value="private">Private</option>
@@ -138,7 +140,8 @@ class CreateDocument extends React.Component {
                   name="content"
                   id="content"
                   onChange={this.handleChange}
-                  placeholder="Type your content here..."/>
+                  placeholder="Type your content here..."
+                />
               </div>
             </div>
             <div className="col s12">
