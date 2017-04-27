@@ -12,18 +12,20 @@ const confirmDeletion = (callback, documentId) => {
     confirmButtonColor: '#DD6B55',
     confirmButtonText: 'Yes, delete it!',
     closeOnConfirm: false,
-    closeOnCancel: true
+    closeOnCancel: false
   },
   (deletionConfirmed) => {
     if (deletionConfirmed) {
       callback(documentId);
-      swal('Deleted!', 'Your document has been deleted.', 'success');
+      swal('Deleted!', 'Document has been deleted.', 'success');
+    } else {
+      swal('Cancelled!', 'Document was not deleted.', 'error');
     }
   });
 };
 
-const DocumentList = (props) => {
-  return (
+const DocumentList = props =>
+  (
     <table id="document-list" className="highlight doc_list pagination">
       <thead>
       <tr>
@@ -52,11 +54,11 @@ const DocumentList = (props) => {
             <td>{document.access}</td>
             <td>{moment(document.createdAt).format('L')}</td>
             {
-              ((props.userId === document.creatorId) ?
+              ((props.userId === document.creatorId || props.roleId === 1) ?
                 <td>
                   <Link to={`/edit-document/${document.id}`}
-                    className="btn-floating action-edit-color tooltipped"
-                    data-tooltip="Delete document">
+                    className="btn-floating action-edit-color"
+                  >
                     <i className="small material-icons edit-btn">mode_edit</i>
                   </Link>
                 </td>
@@ -64,16 +66,18 @@ const DocumentList = (props) => {
               )
             }
             {
-              ((props.userId === document.creatorId) ?
-                <td><Link
-                  className="btn-floating red tooltipped"
-                  data-tooltip="Delete document"onClick={
-                    () => confirmDeletion(props.deleteDocument, document.id)
-                    }>
+              ((props.userId === document.creatorId || props.roleId === 1) ?
+                <td>
+                  <Link
+                    className="btn-floating red"
+                    onClick={
+                      () => confirmDeletion(props.deleteDocument, document.id)
+                      }
+                  >
                   <i className="small material-icons delete-btn">delete</i>
                 </Link></td>
                 : <td />
-            )
+              )
             }
           </tr>);
         }
@@ -81,7 +85,6 @@ const DocumentList = (props) => {
       </tbody>
     </table>
   );
-};
 
 
 DocumentList.propTypes = {

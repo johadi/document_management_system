@@ -276,7 +276,6 @@ describe('Document Api', () => {
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.documents[0].title.should.equal('Cool title');
             response.body.data.paginationMeta.should.have.property('pageCount');
             response.body.data.paginationMeta.outputCount.should.equal(2);
             done();

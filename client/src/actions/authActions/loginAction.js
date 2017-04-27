@@ -2,9 +2,9 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import actionTypes from '../actionTypes';
 
-export default (credentials) => {
-  return (dispatch) => {
-    return axios.post('/api/v1/users/login', credentials.user)
+export default credentials =>
+  dispatch =>
+    axios.post('/api/v1/users/login', credentials.user)
       .then((response) => {
         const token = response.data.token;
         const user = jwtDecode(token);
@@ -12,17 +12,13 @@ export default (credentials) => {
         dispatch({
           type: actionTypes.LOGIN_SUCCESSFUL,
           user,
-          token,
-          message: 'Login Successful'
+          token
         });
       })
       .catch((error) => {
-        console.log(error);
         dispatch({
-          type: actionTypes.LOGIN_ERROR,
+          type: actionTypes.RESPONSE_ERROR,
           message: (error.response.data.message) ?
             error.response.data.message : null
         });
       });
-  };
-};

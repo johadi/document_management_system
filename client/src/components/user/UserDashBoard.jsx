@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import { Pagination } from 'react-materialize';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './Header.jsx';
-import Sidebar from './Sidebar.jsx';
-import DocumentList from '../components/DocumentList.jsx';
-import deleteDocumentAction from '../actions/docActions/deleteDocument';
-import viewDocumentAction from '../actions/docActions/viewDocuments';
-import searchDocumentAction from '../actions/docActions/searchDocument';
+import Header from './../common/Header.jsx';
+import Sidebar from './../common/Sidebar.jsx';
+import DocumentList from './../document/DocumentList.jsx';
+import deleteDocumentAction from '../../actions/docActions/deleteDocument';
+import viewDocumentAction from '../../actions/docActions/viewDocuments';
+import searchDocumentAction from '../../actions/docActions/searchDocument';
 
 /**
  * ViewDocuments class declaration
@@ -51,15 +51,6 @@ class ViewDocuments extends React.Component {
   }
 
   /**
-   * On receiving of props
-   * @param {Object} nextProps
-   * @return {void} void
-   */
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps.documents);
-  }
-
-  /**
    * On change of search values
    * @param {object} event
    * @return {void} void
@@ -97,9 +88,12 @@ class ViewDocuments extends React.Component {
     if (!window.localStorage.getItem('token')) {
       browserHistory.push('/');
     }
+    if (this.props.documents && this.props.documents.length === 0) {
+      return (<p>There are no documents yet in your collection.</p>);
+    }
     return (
       <div className="row dashboardContainer col s12">
-        <Header/>
+        <Header />
         <Sidebar />
         <div className="col s12 workspace">
           <div className="row workspace-header">
@@ -112,11 +106,21 @@ class ViewDocuments extends React.Component {
                 name="searchTerms"
                 value={this.state.searchTerms}
                 placeholder="Search..."
-                onChange={this.handleChange}/>
+                onChange={this.handleChange}
+              />
               <button className="btn col s2" id="searchBtn"
-                onClick={this.searchDocument}>
+                onClick={this.searchDocument}
+              >
               <i className="material-icons">search</i></button>
             </div>
+
+            <div className="col s5 btnAddDocument">
+              <Link className="waves-effect waves-light btn" to="/create-document">
+                <i className="material-icons left">note_add</i>
+                Add Document
+              </Link>
+            </div>
+
           </div>
 
           <div className="col s10 offset-s1 card-panel">
@@ -129,16 +133,18 @@ class ViewDocuments extends React.Component {
           </div>
           <div className="col s12">
             <center>
-              <Pagination
-                items={this.props.pageCount}
-                onSelect={(page) => {
-                  const token = window.localStorage.getItem('token');
-                  const offset = (page - 1) * this.state.limit;
-                  this.props.paginateDocuments(token,
-                    offset, this.state.limit);
-                }
-                }
-              />
+              {
+                ((this.props.pageCount) ?
+                  <Pagination
+                    items={this.props.pageCount}
+                    onSelect={(page) => {
+                      const token = window.localStorage.getItem('token');
+                      const offset = (page - 1) * this.state.limit;
+                      this.props.paginateDocuments(token,
+                        offset, this.state.limit);
+                    }
+                } /> : '')
+              }
             </center>
           </div>
         </div>
@@ -150,25 +156,23 @@ class ViewDocuments extends React.Component {
 
 ViewDocuments.PropTypes = {
   documents: PropTypes.array.isRequired,
-  paginateDocuments: PropTypes.func.isRequired
+  paginateDocuments: PropTypes.func.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
+  searchDocument: PropTypes.func.isRequired
 };
 
-const mapStoreToProps = (state) => {
-  return {
-    documents: state.documentsReducer.documents,
-    pageCount: state.documentsReducer.pageCount
-  };
-};
+const mapStoreToProps = state => ({
+  documents: state.documentsReducer.documents,
+  pageCount: state.documentsReducer.pageCount
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteDocument: documentid =>
-      dispatch(deleteDocumentAction(documentid)),
-    paginateDocuments: (usertoken, offset, limit) =>
-      dispatch(viewDocumentAction(usertoken, offset, limit)),
-    searchDocument: (usertoken, documentName) =>
-      dispatch(searchDocumentAction(usertoken, documentName))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  deleteDocument: documentid =>
+    dispatch(deleteDocumentAction(documentid)),
+  paginateDocuments: (usertoken, offset, limit) =>
+    dispatch(viewDocumentAction(usertoken, offset, limit)),
+  searchDocument: (usertoken, documentName) =>
+    dispatch(searchDocumentAction(usertoken, documentName))
+});
 
 export default connect(mapStoreToProps, mapDispatchToProps)(ViewDocuments);

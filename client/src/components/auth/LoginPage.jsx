@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Alert from './Alert.jsx';
-import loginAction from '../actions/authActions/loginAction';
-import { loginAlert } from '../actions/authActions/alertAction';
-import Header from './Header.jsx';
+import Alert from './../common/Alert.jsx';
+import loginAction from '../../actions/authActions/loginAction';
+import clearErrorAlert from '../../actions/errorActions/errorActions';
+import Header from './../common/Header.jsx';
 
 /**
  * LoginPage class declaration
@@ -66,7 +66,7 @@ class LoginPage extends React.Component {
    * @return {void} void
    */
   redirectIfLoggedIn() {
-    if (this.state.success !== null) {
+    if (this.state.success === true) {
       browserHistory.push('/dashboard');
     }
   }
@@ -108,7 +108,7 @@ class LoginPage extends React.Component {
                 <h4 className="center-align">LOGIN</h4>
                 <form className="col s12 l12 loginForm" onSubmit={this.handleSubmit}>
                   { this.state.error ?
-                    <Alert info={this.state} onClose={this.onClose}/> : ''
+                    <Alert info={this.state} onClose={this.onClose} /> : ''
                   }
                   <div className="row">
                     <div className="input-field col s12">
@@ -141,7 +141,6 @@ class LoginPage extends React.Component {
                       <span className="changeLogin">New User? <Link to="/register">Register Here</Link></span>
                     </div>
                   </div>
-                  <label className="loginError" id="loginError"></label>
 
                   <br />
                   <center>
@@ -151,7 +150,8 @@ class LoginPage extends React.Component {
                         type="submit"
                         name="btn_login"
                         id="btn_login"
-                        className="col s12 btn btn-large waves-effect">
+                        className="col s12 btn btn-large waves-effect"
+                      >
                         Login
                       </button>
                     </div>
@@ -180,13 +180,13 @@ LoginPage.contextTypes = {
 const mapStoreToProps = state => ({
   user: state.loginReducer.user,
   loginSuccess: state.loginReducer.success,
-  loginError: state.loginReducer.error,
+  loginError: state.errorReducer.error,
   token: state.loginReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
   login: credentials => dispatch(loginAction(credentials)),
-  alertClose: () => dispatch(loginAlert())
+  alertClose: () => dispatch(clearErrorAlert())
 });
 
 export default connect(mapStoreToProps, mapDispatchToProps)(LoginPage);

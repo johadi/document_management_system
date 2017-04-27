@@ -2,18 +2,19 @@ import { browserHistory, Link } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Alert from './Alert.jsx';
-import signUpAction from '../actions/authActions/signUpAction';
-import { registerAlert } from '../actions/authActions/alertAction';
-import Header from '../components/Header.jsx';
+import Alert from './../common/Alert.jsx';
+import signUpAction from '../../actions/authActions/signUpAction';
+import clearErrorAlert from '../../actions/errorActions/errorActions';
+import Header from '../common/Header.jsx';
 
 /**
- * My SignUpPage declaration
+ * React component for Signup.
+ * @class Signup
  */
 class SignUpPage extends React.Component {
 
   /**
-   * My SignUpPage constructor
+   * SignUpPage constructor
    * @param {Object} props
    */
   constructor(props) {
@@ -56,7 +57,6 @@ class SignUpPage extends React.Component {
     this.state = Object.assign({}, this.state, {
       error: nextProps.error, success: nextProps.success
     });
-    console.log('stte', this.state);
     this.redirectIfSignUp();
   }
 
@@ -105,13 +105,13 @@ class SignUpPage extends React.Component {
    */
   render() {
     return (
-      <div className="row body-content">
+      <div className="row">
         <Header />
         <div className="col s8 offset-s2 card-panel">
           <h4 className="center-align">SIGN UP</h4>
           <form className="loginForm" onSubmit={this.handleSubmit} >
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
           <div className="row">
             <div className="input-field col s12">
@@ -206,7 +206,8 @@ class SignUpPage extends React.Component {
                   type="submit"
                   name="btn_login"
                   id="btn_login"
-                  className="col s6 offset-s3 btn btn-large waves-effect">
+                  className="col s6 offset-s3 btn btn-large waves-effect"
+                >
                   Register
                 </button>
               </div>
@@ -229,13 +230,13 @@ SignUpPage.contextTypes = {
 
 const mapStoreToProps = state => ({
   user: state.signUpReducer.user,
-  error: state.signUpReducer.error,
+  error: state.errorReducer.error,
   success: state.signUpReducer.success
 });
 
 const mapDispatchToProps = dispatch => ({
   signup: userDetails => dispatch(signUpAction(userDetails)),
-  alertClose: () => dispatch(registerAlert())
+  alertClose: () => dispatch(clearErrorAlert())
 });
 
 export default connect(mapStoreToProps, mapDispatchToProps)(SignUpPage);

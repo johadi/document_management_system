@@ -127,9 +127,9 @@ const Helpers = {
       offset = 0;
     }
     if (req.query.order && req.query.order.toLowerCase() === 'desc') {
-      order = '"createdAt" DESC';
-    } else {
       order = '"createdAt" ASC';
+    } else {
+      order = '"createdAt" DESC';
     }
     return { limit, offset, order };
   }
