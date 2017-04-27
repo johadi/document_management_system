@@ -12,57 +12,62 @@ const confirmDeletion = (callback, documentId) => {
     confirmButtonColor: '#DD6B55',
     confirmButtonText: 'Yes, delete it!',
     closeOnConfirm: false,
-    closeOnCancel: false
+    closeOnCancel: true
   },
   (deletionConfirmed) => {
     if (deletionConfirmed) {
       callback(documentId);
       swal('Deleted!', 'Document has been deleted.', 'success');
-    } else {
-      swal('Cancelled!', 'Document  was not deleted.', 'error');
     }
   });
 };
 
-const MyDocumentList = props =>
-  (
-    <table id="document-list" className="highlight doc_list pagination">
-      <thead>
-      <tr>
-        <th>Title</th>
-        <th>Access</th>
-        <th>Created on</th>
-      </tr>
-      </thead>
-
-      <tbody>
-      {props.documents.map(document =>
-        (<tr key={document.id}>
-          <td className="doc-title"> <Link to={`/view-document/${document.id}`}>
-            {document.title}</Link></td>
-          <td>{document.access}</td>
-          <td>{moment(document.createdAt).format('L')}</td>
-          <td>
-            <Link to={`/edit-document/${document.id}`}
-                  className="btn-floating action-edit-color"
-            >
-              <i className="small material-icons edit-btn">mode_edit</i>
-            </Link>
-          </td>
-          <td>
-            <Link
-              className="btn-floating red"
-              onClick={
-                () => confirmDeletion(props.deleteDocument, document.id)
+const MyDocumentList = (props) => {
+  const list = props.documents.map(document => (
+      <ul key={document.id} className="collection">
+        <li className="collection-item avatar">
+          <i className="material-icons circle">note</i>
+          <div className='col s11'>
+            <span className="title truncate">
+              <Link to={`/view-document/${document.id}`}>
+                {document.title}
+              </Link>
+            </span>
+            <div className="row mb-10">
+              <div className="col s1"><strong> Access</strong></div>
+              <div className="col s11">
+                {document.access}
+              </div>
+            </div>
+            <div className="row mb-10">
+              <div className="col s1"><strong> Created</strong></div>
+              <div className="col s11">
+                {moment(document.createdAt).format('L')}
+              </div>
+            </div>
+          </div>
+          <div className="col s1">
+            <div className="secondary-content">
+              <Link to={`/edit-document/${document.id}`}
+                className="btn-floating action-edit-color"
+              >
+                <i className="small material-icons edit-btn">mode_edit</i>
+              </Link>
+              <Link
+                className="btn-floating red"
+                onClick={
+                  () => confirmDeletion(props.deleteDocument, document.id)
                 }
-            >
-            <i className="small material-icons delete-btn">delete</i>
-          </Link></td>
-        </tr>)
-      )}
-      </tbody>
-    </table>
+              >
+                <i className="small material-icons delete-btn">delete</i>
+              </Link>
+            </div>
+          </div>
+        </li>
+      </ul>)
   );
+  return (<div className='collection_list'>{list}</div>);
+};
 
 
 MyDocumentList.propTypes = {

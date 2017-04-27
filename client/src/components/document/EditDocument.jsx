@@ -2,12 +2,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import React from 'react';
+import toastr from 'toastr';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import Alert from './../common/Alert.jsx';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import viewDocument from '../../actions/docActions/viewOneDocument';
-import editDocument from '../../actions/docActions/editDocument';
+import viewDocument from '../../actions/documentActions/viewOneDocument';
+import editDocument from '../../actions/documentActions/editDocument';
 
 /**
  * React component for EditDocument.
@@ -70,6 +71,7 @@ class EditDocument extends React.Component {
     });
     $('#access').val(nextProps.document.access);
     if (this.state.success === true) {
+      toastr.success('Updated Successfully');
       browserHistory.push('/dashboard');
     }
   }
@@ -124,46 +126,51 @@ class EditDocument extends React.Component {
             { this.state.error ?
               <Alert info={this.state} onClose={this.onClose} /> : ''
             }
-            <div className="col s12">
-              <div className="col s12">
-                <div className="col m9 s12 document-name-field">
-                  <input
-                    type="text" name="title"
-                    id="title"
-                    onChange={this.handleChange}
-                    placeholder="Name of Document"
-                    value={this.state.document.title}
-                  />
-                </div>
-                <div className="col m3 s12">
-                  <select
-                    name="access"
-                    id="access"
-                    onChange={this.handleChange}
-                    value={this.state.value}
-                    className="browser-default"
-                  >
-                    <option value="" disabled >Select Access Type</option>
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                    <option value="role">Role</option>
-                  </select>
-                </div>
+            <div className="row">
+              <div className="input-field col m9 s12">
+                <input
+                  className="validate"
+                  type="text"
+                  name="title"
+                  id="title"
+                  onChange={this.handleChange}
+                  value={this.state.document.title}
+                  required
+                />
+                <label className='active' htmlFor="title">Title of Document</label>
               </div>
-              <div className="col s12">
+
+              <div className="col m3 s12">
+                <select
+                  name="access"
+                  id="access"
+                  onChange={this.handleChange}
+                  value={this.state.value}
+                  className="browser-default"
+                >
+                  <option value="">Select Access Type</option>
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                  <option value="role">Role</option>
+                </select>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
                 <textarea
                   name="content"
                   id="content"
                   onChange={this.handleChange}
-                  placeholder="Type your content here..."
                   value={this.state.document.content}
+                  placeholder="Type your content here..."
                 />
               </div>
+            </div>
+            <div className="col s12">
               <div className="col s2 mt-15">
                 <button className="btn" type="submit">Save</button>
               </div>
             </div>
-
           </form>
         </div>
       </div>

@@ -12,80 +12,87 @@ const confirmDeletion = (callback, documentId) => {
     confirmButtonColor: '#DD6B55',
     confirmButtonText: 'Yes, delete it!',
     closeOnConfirm: false,
-    closeOnCancel: false
+    closeOnCancel: true
   },
   (deletionConfirmed) => {
     if (deletionConfirmed) {
       callback(documentId);
       swal('Deleted!', 'Document has been deleted.', 'success');
-    } else {
-      swal('Cancelled!', 'Document was not deleted.', 'error');
     }
   });
 };
 
-const DocumentList = props =>
-  (
-    <table id="document-list" className="highlight doc_list pagination">
-      <thead>
-      <tr>
-        <th>Title</th>
-        <th>Creator</th>
-        <th>Access</th>
-        <th>Created on</th>
-      </tr>
-      </thead>
-
-      <tbody>
-        {props.documents.map((document) => {
-          const firstname = (document.User !== undefined)
-            ? document.User.firstname
-            : document.firstname;
-          const lastname = (document.User !== undefined)
-            ? document.User.lastname
-            : document.lastname;
-          return (<tr key={document.id}>
-            <td className="doc-title"> <Link to={`/view-document/${document.id}`}>
-              {document.title}</Link></td>
-            <td className="doc-title">
-              <Link to={`/profile/${document.creatorId}`}>
-                {`${firstname} ${lastname}`}
-              </Link></td>
-            <td>{document.access}</td>
-            <td>{moment(document.createdAt).format('L')}</td>
-            {
-              ((props.userId === document.creatorId || props.roleId === 1) ?
-                <td>
-                  <Link to={`/edit-document/${document.id}`}
-                    className="btn-floating action-edit-color"
-                  >
-                    <i className="small material-icons edit-btn">mode_edit</i>
-                  </Link>
-                </td>
-                : <td />
-              )
-            }
-            {
-              ((props.userId === document.creatorId || props.roleId === 1) ?
-                <td>
-                  <Link
-                    className="btn-floating red"
-                    onClick={
-                      () => confirmDeletion(props.deleteDocument, document.id)
+const DocumentList = (props) => {
+  const list = props.documents.map((document) => {
+    const firstname = (document.User !== undefined)
+      ? document.User.firstname
+      : document.firstname;
+    const lastname = (document.User !== undefined)
+      ? document.User.lastname
+      : document.lastname;
+    return (
+      <ul key={document.id} className="collection">
+        <li className="collection-item avatar">
+          <i className="material-icons circle">note</i>
+          <div className='col s11'>
+            <span className="title truncate">
+              <Link to={`/view-document/${document.id}`}>
+                {document.title}
+              </Link>
+            </span>
+            <div className="row mb-10">
+              <div className="col s1"><strong> Owner</strong></div>
+              <div className="col s11">
+                <Link to={`/profile/${document.creatorId}`}>
+                  {`${firstname} ${lastname}`}
+                </Link>
+              </div>
+            </div>
+            <div className="row mb-10">
+              <div className="col s1"><strong> Access</strong></div>
+              <div className="col s11">
+                {document.access}
+              </div>
+            </div>
+            <div className="row mb-10">
+              <div className="col s1"><strong> Created</strong></div>
+              <div className="col s11">
+                {moment(document.createdAt).format('L')}
+              </div>
+            </div>
+          </div>
+          <div className="col s1">
+            <div className="secondary-content">
+              {
+                ((props.userId === document.creatorId || props.roleId === 1) ?
+                    <Link to={`/edit-document/${document.id}`}
+                      className="btn-floating action-edit-color"
+                    >
+                      <i className="small material-icons edit-btn">mode_edit</i>
+                    </Link>
+                    : ''
+                )
+              }
+              {
+                ((props.userId === document.creatorId || props.roleId === 1) ?
+                    <Link
+                      className="btn-floating red"
+                      onClick={
+                        () => confirmDeletion(props.deleteDocument, document.id)
                       }
-                  >
-                  <i className="small material-icons delete-btn">delete</i>
-                </Link></td>
-                : <td />
-              )
-            }
-          </tr>);
-        }
-        )}
-      </tbody>
-    </table>
-  );
-
+                    >
+                      <i className="small material-icons delete-btn">delete</i>
+                    </Link>
+                    : ''
+                )
+              }
+            </div>
+          </div>
+        </li>
+      </ul>);
+  });
+  return (<div className='collection_list'>{list}</div>);
+};
 
 DocumentList.propTypes = {
   documents: PropTypes.array,

@@ -159,19 +159,19 @@ a {
   margin-top:-1px !important;
 }
 
-.doc_list {
+.collection_list {
   margin:0 auto;
 }
 
-.doc_list a{
+.collection_list a{
   color:black;
 }
 
-.doc_list a:hover{
+.collection_list a:hover{
   color:teal;
 }
 
-.doc_list th{
+.collection_list th{
   font-size: 14px;
   padding-left: 20px;
   padding-right: 20px;
@@ -184,7 +184,7 @@ a {
   cursor: not-allowed;
   font-weight: bold;
 }
-.doc_list td {
+.collection_list td {
   padding-left: 20px;
   padding-right: 20px;
   height: 45px;
@@ -288,6 +288,7 @@ a {
 }
 .action-edit-color {
   color: $primary_color;
+  margin-right: 10px;
 }
 .title {
   color: white;
@@ -305,12 +306,40 @@ a {
 header, main, footer, .dashboardContainer {
   padding-left: 300px;
 }
-.mt-15{
-  margin-top: 15px;
-}
+
 .card-content{
   .card-title {
     margin-top: 10px;
     color: $primary_color;
   }
+}
+.collection {
+  .collection-item.avatar .title {
+    font-size: 16px;
+    color: $primary_color;
+  }
+}
+.mr-20 {
+  margin-right: 30px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-15{
+  margin-top: 15px;
+}
+.mt-10{
+  margin-top: 10px;
+}
+.mt-20{
+  margin-top: 20px;
+}
+.pt-20{
+  padding-top: 20px;
 }

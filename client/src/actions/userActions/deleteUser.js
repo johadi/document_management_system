@@ -1,23 +1,24 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (details) => {
+export default (userId) => {
   const token = window.localStorage.getItem('token');
   return dispatch =>
-    axios.post('/api/v1/documents/', details, {
+    axios.delete(`/api/v1/users/${userId}`, {
       headers: {
         Authorization: token
       }
     })
-    .then((response) => {
+    .then(() => {
       dispatch({
-        type: actionTypes.DOCUMENT_CREATED,
-        document: response.data.data
+        type: actionTypes.USER_DELETED,
+        userId
       });
-    }).catch((error) => {
+    })
+    .catch((error) => {
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
-        message: (error.response.data.message) ?
+        message: (error.response && error.response.data.message) ?
           error.response.data.message : error.response.data.errors
       });
     });

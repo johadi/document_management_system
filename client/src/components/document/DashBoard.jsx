@@ -6,10 +6,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
-import DocumentList from './../document/DocumentList.jsx';
-import deleteDocumentAction from '../../actions/docActions/deleteDocument';
-import viewDocumentAction from '../../actions/docActions/viewDocuments';
-import searchDocumentAction from '../../actions/docActions/searchDocument';
+import DocumentList from './DocumentList.jsx';
+import deleteDocumentAction from '../../actions/documentActions/deleteDocument';
+import viewDocumentAction from '../../actions/documentActions/viewDocuments';
+import searchDocumentAction from '../../actions/documentActions/searchDocuments';
 
 /**
  * ViewDocuments class declaration
@@ -68,13 +68,13 @@ class ViewDocuments extends React.Component {
   }
 
   /**
-   * Changes list of documents
+   * Refresh list of documents
    * @return {void} void
    */
   refreshDocumentsList() {
     const offset = 0;
     this.props.paginateDocuments(this.state.token,
-      this.state.roleId, offset, this.state.limit);
+      offset, this.state.limit);
     this.setState({
       searchTerms: ''
     });
@@ -112,6 +112,13 @@ class ViewDocuments extends React.Component {
                 onClick={this.searchDocument}
               >
               <i className="material-icons">search</i></button>
+            </div>
+
+            <div className="col m1 offset-m11">
+              <Link onClick={this.refreshDocumentsList}>
+                <i className="material-icons refresh-list-btn">
+                  autorenew</i>
+              </Link>
             </div>
 
             <div className="col s5 btnAddDocument">
