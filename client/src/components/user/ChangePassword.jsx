@@ -111,7 +111,7 @@ class ChangePassword extends React.Component {
           </div>
           <form className="col s8 offset-s2 card-panel" onSubmit={this.handleSubmit} >
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="row">
               <div className="input-field col s12 mt-20">
@@ -121,7 +121,8 @@ class ChangePassword extends React.Component {
                   name="old_password"
                   id="old_password"
                   onChange={this.handleChange}
-                  required/>
+                  required
+                />
                 <label htmlFor="old_password">Enter your old password</label>
               </div>
             </div>
@@ -134,7 +135,8 @@ class ChangePassword extends React.Component {
                   name="new_password"
                   id="new_password"
                   onChange={this.handleChange}
-                  required/>
+                  required
+                />
                 <label htmlFor="new_password">Enter your new password</label>
               </div>
             </div>
@@ -147,7 +149,8 @@ class ChangePassword extends React.Component {
                   name="new_password_confirmation"
                   id="new_password_confirmation"
                   onChange={this.handleChange}
-                  required/>
+                  required
+                />
                 <label htmlFor="new_password_confirmation">Confirm your new password</label>
               </div>
             </div>

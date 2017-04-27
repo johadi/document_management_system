@@ -102,9 +102,11 @@ class ViewAllUsers extends React.Component {
                 name="searchTerms"
                 value={this.state.searchTerms}
                 placeholder="Search..."
-                onChange={this.handleChange}/>
+                onChange={this.handleChange}
+              />
               <button className="btn col s2" id="searchBtn"
-                      onClick={this.searchUsers}>
+                onClick={this.searchUsers}
+              >
                 <i className="material-icons">search</i></button>
             </div>
             <div className="col m1 offset-m11">
@@ -125,7 +127,8 @@ class ViewAllUsers extends React.Component {
           <div className="col s10 offset-s1 card-panel">
             <UsersList
               users={this.props.users || []}
-              deleteUser={this.props.deleteUser}/>
+              deleteUser={this.props.deleteUser}
+            />
           </div>
           <div className="col s12">
             <center>
@@ -139,7 +142,7 @@ class ViewAllUsers extends React.Component {
                       this.props.paginateUsers(token,
                         offset, this.state.limit);
                     }
-                }/> : '')
+                } /> : '')
               }
             </center>
           </div>

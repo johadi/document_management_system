@@ -49,14 +49,16 @@ const UsersList = (props) => {
         <div className="col s1">
           <div className="secondary-content">
             <Link to={`/edit-user/${user.id}`}
-                  className="btn-floating action-edit-color">
+              className="btn-floating action-edit-color"
+            >
               <i className="small material-icons edit-btn">mode_edit</i>
             </Link>
             <Link
               className="btn-floating red"
               onClick={
-                  () => confirmDeletion(props.deleteUser, user.id)
-                  }>
+                () => confirmDeletion(props.deleteUser, user.id)
+              }
+            >
               <i className="small material-icons delete-btn">delete</i>
             </Link>
           </div>

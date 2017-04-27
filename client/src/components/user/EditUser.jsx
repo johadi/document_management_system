@@ -151,7 +151,7 @@ class EditUser extends React.Component {
           </div>
           <form onSubmit={this.handleSubmit} className="col s8 offset-s2 card-panel">
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="col s12 mt-20">
               <div className="row">
@@ -163,7 +163,8 @@ class EditUser extends React.Component {
                     id="username"
                     onChange={this.handleChange}
                     value={this.state.user.username}
-                    required/>
+                    required
+                  />
                   <label className="active" htmlFor="username">Username</label>
                 </div>
               </div>
@@ -176,7 +177,8 @@ class EditUser extends React.Component {
                     id="firstname"
                     onChange={this.handleChange}
                     value={this.state.user.firstname}
-                    required/>
+                    required
+                  />
                   <label className="active" htmlFor="firstname">Firstname</label>
                 </div>
               </div>
@@ -189,7 +191,8 @@ class EditUser extends React.Component {
                     id="lastname"
                     onChange={this.handleChange}
                     value={this.state.user.lastname}
-                    required/>
+                    required
+                  />
                   <label className="active" htmlFor="lastname">Lastname</label>
                 </div>
               </div>
@@ -201,7 +204,8 @@ class EditUser extends React.Component {
                       id="roleId"
                       onChange={this.handleChange}
                       value={this.state.value}
-                      className="browser-default">
+                      className="browser-default"
+                    >
                       <option value="">Select Role</option>
                       <option value="1">Admin</option>
                       <option value="2">Regular</option>
@@ -211,7 +215,6 @@ class EditUser extends React.Component {
                   }
                 </div>
               </div>
-              <div className="col m9 s12"></div>
               <div className="row">
                 <div className="col s5 mt-15 mb-20">
                   <button className="btn" type="submit">Save</button>

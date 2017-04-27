@@ -103,7 +103,7 @@ class CreateUser extends React.Component {
           <form onSubmit={this.handleSubmit} className="col s8 offset-s2 card-panel">
 
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="row">
               <div className="input-field col s12 mt-20">
