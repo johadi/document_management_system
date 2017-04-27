@@ -68,6 +68,11 @@ const data = {
     content: faker.lorem.paragraph(),
     access: 'private'
   },
+  testDocApi: {
+    title: 'Cool title',
+    content: faker.lorem.paragraph(),
+    access: 'private'
+  },
   testDocCRUD: {
     creatorId: 1,
     title: 'Nice Title',

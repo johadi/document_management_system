@@ -68,7 +68,7 @@ export default {
         responseInfo.status = 'success';
         if (req.decoded.RoleId === 1
           || (req.decoded.UserId === foundDocument.creatorId)
-          || foundDocument.access !== 'public') {
+          || foundDocument.access === 'public') {
           return res.status(200)
             .json(helpers.responseFormat(responseInfo, foundDocument));
         }
@@ -225,11 +225,10 @@ export default {
     const order = page.order;
 
     db.sequelize.query(getAccessibleDocs(req, limit, offset, order), {
-    // db.sequelize.query(getAccessibleDocs(req), {
       type: db.sequelize.QueryTypes.SELECT
     })
     .then((documents) => {
-      if (!documents) {
+      if (documents.length === 0) {
         responseInfo.message = 'No document found';
         responseInfo.status = 'fail';
         return res.status(404)

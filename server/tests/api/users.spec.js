@@ -2,7 +2,7 @@ import { app, db, testData } from '../helpers.spec';
 
 let regularUser, adminToken, regularUserToken;
 
-describe('Users:', () => {
+describe('Users Api:', () => {
   before((done) => {
     db.Role.create(testData.adminRole)
       .then(() => db.Role.create(testData.regularRole))
