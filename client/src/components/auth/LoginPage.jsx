@@ -108,7 +108,7 @@ class LoginPage extends React.Component {
                 <h4 className="center-align">LOGIN</h4>
                 <form className="col s12 l12 loginForm" onSubmit={this.handleSubmit}>
                   { this.state.error ?
-                    <Alert info={this.state} onClose={this.onClose}/> : ''
+                    <Alert info={this.state} onClose={this.onClose} /> : ''
                   }
                   <div className="row">
                     <div className="input-field col s12">
@@ -141,7 +141,6 @@ class LoginPage extends React.Component {
                       <span className="changeLogin">New User? <Link to="/register">Register Here</Link></span>
                     </div>
                   </div>
-                  <label className="loginError" id="loginError"></label>
 
                   <br />
                   <center>
@@ -151,7 +150,8 @@ class LoginPage extends React.Component {
                         type="submit"
                         name="btn_login"
                         id="btn_login"
-                        className="col s12 btn btn-large waves-effect">
+                        className="col s12 btn btn-large waves-effect"
+                      >
                         Login
                       </button>
                     </div>
