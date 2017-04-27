@@ -292,5 +292,47 @@ export default {
       res.status(400)
         .json(helpers.catchErrorsResponse(error));
     });
+  },
+
+  /**
+   * Method getUserDocuments to obtain all documents of a user
+   * @param {Object} req - request Object
+   * @param {Object} res - request Object
+   * @return {Object} response Object
+   */
+  getUserDocuments(req, res) {
+    const responseInfo = {};
+    const page = helpers.pagination(req);
+    const limit = page.limit;
+    const offset = page.offset;
+    const order = page.order;
+    const criteria = {
+      creatorId: req.params.id
+    };
+    if (req.query.q) {
+      criteria.title = {
+        $iLike: `%${req.query.q}%`
+      };
+    }
+    document.findAndCountAll({
+      where: criteria, limit, offset, order
+    })
+    .then((documents) => {
+      if (documents.rows.length === 0) {
+        responseInfo.message = 'No document found';
+        responseInfo.status = 'fail';
+        return res.status(404)
+          .json(helpers.responseFormat(responseInfo));
+      }
+      responseInfo.status = 'success';
+      const data = {};
+      data.paginationMeta = helpers.generatePaginationMeta(documents, page);
+      data.documents = documents.rows;
+      res.status(200).json(helpers.responseFormat(responseInfo, data));
+    })
+    .catch((error) => {
+      res.status(400)
+        .json(helpers.catchErrorsResponse(error));
+    });
   }
 };
