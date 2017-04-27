@@ -14,7 +14,7 @@ describe('Search Api', () => {
       .then(() => db.Document.create(testData.testDoc))
       .then(() => {
         testData.testDoc.creatorId = 2;
-        testData.testDoc.title = 'Cool title by regular user';
+        testData.testDoc.title = 'Title by regular user';
         db.Document.create(testData.testDoc);
       })
       .then(() => app.post('/api/v1/users/login').send({
@@ -57,7 +57,7 @@ describe('Search Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.documents[0].title.should.equal('Cool title by regular user');
+          response.body.data.documents[0].title.should.equal('Title by regular user');
           response.body.data.paginationMeta.should.have.property('pageSize');
           done();
         });
@@ -78,12 +78,11 @@ describe('Search Api', () => {
 
     it('should be able to get current page base on offset set for documents returned',
       (done) => {
-        app.get('/api/v1/search/documents/?q=cool&offset=1')
+        app.get('/api/v1/search/documents/?q=cool&offset=0')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.documents[0].title.should.equal('Cool title by regular user');
             response.body.data.paginationMeta.should.have.property('currentPage');
             response.body.data.paginationMeta.currentPage.should.equal(1);
             done();
@@ -105,7 +104,7 @@ describe('Search Api', () => {
 
   describe('Search users: ', () => {
     it('should allow admin search for users with username', (done) => {
-      app.get('/api/v1/search/users/?q=Ande')
+      app.get('/api/v1/search/users/?q=Andela_1')
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
           response.status.should.equal(200);
@@ -161,7 +160,6 @@ describe('Search Api', () => {
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.users[0].username.should.equal('Andela');
             response.body.data.paginationMeta.should.have.property('currentPage');
             response.body.data.paginationMeta.currentPage.should.equal(1);
             done();
