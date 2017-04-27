@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import SignUpPage from './components/auth/SignUpPage.jsx';
-import LoginPage from './components/auth/LoginPage.jsx';
+import SignUpComponent from './components/auth/SignUpPage.jsx';
+import LoginComponent from './components/auth/LoginPage.jsx';
 import UserDashBoard from './components/document/DashBoard.jsx';
 import CreateDocument from './components/document/CreateDocument.jsx';
 import EditDocument from './components/document/EditDocument.jsx';
@@ -15,9 +15,9 @@ import CreateUser from './components/user/CreateUser.jsx';
 
 export default(
   <Route path="/">
-    <IndexRoute component={LoginPage} />
-    <Route path="/login" component={LoginPage} />
-    <Route path="/register" component={SignUpPage} />
+    <IndexRoute component={LoginComponent} />
+    <Route path="/login" component={LoginComponent} />
+    <Route path="/register" component={SignUpComponent} />
     <Route path="/dashboard" component={UserDashBoard} />
     <Route path="/create-document" component={CreateDocument} />
     <Route path="/edit-document/:id" component={EditDocument} />

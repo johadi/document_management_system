@@ -45,7 +45,7 @@ describe('LoginPage Page', () => {
     expect(wrapper.find('button').text()).toEqual('Login');
   });
 
-  it('should have a form  with an onSubmit property' ,() => {
+  it('should have a form  with an onSubmit property', () => {
     expect(wrapper.find('form').props().onSubmit).toExist();
   });
 });
