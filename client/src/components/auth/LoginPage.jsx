@@ -10,7 +10,7 @@ import Header from './../common/Header.jsx';
 /**
  * LoginPage class declaration
  */
-class LoginPage extends React.Component {
+export class LoginPage extends React.Component {
   /**
    * LoginPage class constructor
    * @param {Object} props
