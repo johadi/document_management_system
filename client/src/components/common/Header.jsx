@@ -25,7 +25,6 @@ class Header extends React.Component {
    */
   componentDidMount() {
     $(document).ready(() => {
-      $('select').material_select();
       $('#collapse_btn').sideNav();
       $('#collapse_btn').sideNav('hide');
     });

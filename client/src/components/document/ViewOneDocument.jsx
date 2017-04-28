@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FroalaEditorView } from './../common/FraolaComponent';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import viewDocumentAction from '../../actions/documentActions/viewOneDocument';
@@ -40,7 +41,9 @@ class ViewDocument extends React.Component {
               <div className="card">
                 <div className="card-content">
                   <span className="card-title">{this.props.document.title || ''}</span>
-                  <p>{ this.props.document.content || '' }</p>
+                    <FroalaEditorView
+                      model={this.props.document.content || ''}
+                    />
                 </div>
                 <div className="card-action">
                   {this.props.document.access || ''}
