@@ -13,6 +13,8 @@
     "test_undo_migrate": "NODE_ENV=test sequelize db:migrate:undo:all",
     "test": "NODE_ENV=test sequelize db:migrate && NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --slow 5000",
     "test_frontend": "NODE_ENV=test mocha --compilers js:babel-register --require client/tests/component/setUp.js client/tests/component/*.spec.js",
+    "e2e-test": "NODE_ENV=test node_modules/.bin/nightwatch --config nightwatch.conf.js",
+    "e2e-setup": "node_modules/selenium-standalone/bin/selenium-standalone install",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -69,6 +71,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.18.0",
     "morgan": "^1.8.1",
+    "nightwatch": "^0.9.14",
     "node-sass": "^4.5.2",
     "nodemon": "^1.11.0",
     "pg": "^6.1.5",

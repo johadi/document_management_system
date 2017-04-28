@@ -88,6 +88,8 @@ if (process.env.NODE_ENV !== 'test') {
         jsLogger.error(err);
       }
     });
+} else {
+  app.listen(port, () => jsLogger.debug(`App is running on port ${port}`));
 }
 
 export default app;

@@ -43,3 +43,6 @@ Thumbs.db
 
 # Environment Varialbes
 .env
+
+reports/
+screenshots/
