@@ -188,8 +188,8 @@ class CreateUser extends React.Component {
               </div>
             </div>
             <div className="col s12">
-              <div className="col s4 mt-10 mb-20">
-                <button className="btn" type="submit">Create User</button>
+              <div className="mt-10 mb-20">
+                <button className="btn col s4 offset-s8" type="submit">Create User</button>
               </div>
             </div>
 

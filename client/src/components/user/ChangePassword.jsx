@@ -155,8 +155,8 @@ class ChangePassword extends React.Component {
               </div>
             </div>
 
-            <div className="col s5 mt-10 mb-20">
-              <button className="btn" type="submit">Update password</button>
+            <div className="mt-10">
+              <button className="btn col s5 offset-s7 mb-20" type="submit">Update password</button>
             </div>
           </form>
         </div>

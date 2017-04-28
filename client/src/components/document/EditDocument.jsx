@@ -180,8 +180,8 @@ class EditDocument extends React.Component {
               </div>
             </div>
             <div className="col s12">
-              <div className="col s2 mt-15">
-                <button className="btn" type="submit">Save</button>
+              <div className="mt-15">
+                <button className="btn col s3 offset-s9" type="submit">Save</button>
               </div>
             </div>
           </form>
