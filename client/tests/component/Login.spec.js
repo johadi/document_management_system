@@ -4,7 +4,7 @@ import expect from 'expect';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import React from 'react';
-import { LoginPage } from
+import LoginPageComponent from
   '../../src/components/auth/LoginPage.jsx';
 import initialState from '../../src/store/initialState';
 import configureStore from '../../src/store/configureStore';
@@ -14,12 +14,12 @@ const store = configureStore(initialState);
 
 const wrapper = mount(
   <Provider store={store}>
-    <LoginPage />
+    <LoginPageComponent />
   </Provider>
 );
 
 
-describe('LoginPage Page', () => {
+describe('LoginPage Component', () => {
   it('should mount the LoginPage component', () => {
     expect(wrapper.find('LoginPage').length).toBe(1);
     expect(wrapper.find('Header').length).toBe(1);

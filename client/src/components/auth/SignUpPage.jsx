@@ -11,7 +11,7 @@ import Header from '../common/Header.jsx';
  * React component for Signup.
  * @class Signup
  */
-export class SignUpPage extends React.Component {
+class SignUpPage extends React.Component {
 
   /**
    * SignUpPage constructor
