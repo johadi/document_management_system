@@ -6,6 +6,7 @@ import toastr from 'toastr';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import Alert from './../common/Alert.jsx';
+import { FroalaEditor } from './../common/FraolaComponent';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
 import newDocument from '../../actions/documentActions/newDocument';
 
@@ -32,6 +33,7 @@ class CreateDocument extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
     this.onClose = this.onClose.bind(this);
   }
 
@@ -66,6 +68,17 @@ class CreateDocument extends React.Component {
   handleChange(event) {
     const document = this.state.document;
     document[event.target.name] = event.target.value;
+    this.setState({ document });
+  }
+
+  /**
+   * handleContentChange
+   * @param {object} content - text in the content text area
+   * @return {void}
+   */
+  handleContentChange(content) {
+    const document = this.state.document;
+    document.content = content;
     this.setState({ document });
   }
 
@@ -135,12 +148,11 @@ class CreateDocument extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
-                <textarea
-                  name="content"
-                  id="content"
-                  onChange={this.handleChange}
-                  placeholder="Type your content here..."
+              <div className="col s12">
+                <FroalaEditor
+                  tag='textarea'
+                  model={this.state.document.content}
+                  onModelChange={this.handleContentChange}
                 />
               </div>
             </div>

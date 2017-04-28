@@ -7,7 +7,9 @@ import configureStore from './store/configureStore.dev';
 import initialState from './store/initialState';
 import routes from './routes.jsx';
 import '../../node_modules/toastr/build/toastr.min.css';
+import './font-awesome/scss/font-awesome.scss';
 import './stylesheet/styles.scss';
+
 
 const store = configureStore(initialState);
 

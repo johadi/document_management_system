@@ -15,6 +15,7 @@ export default (token, documentid) =>
       });
     })
     .catch((error) => {
+      console.log(error);
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: (error.response && error.response.data.message) ?
