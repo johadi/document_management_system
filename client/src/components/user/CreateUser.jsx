@@ -103,7 +103,7 @@ class CreateUser extends React.Component {
           <form onSubmit={this.handleSubmit} className="col s8 offset-s2 card-panel">
 
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="row">
               <div className="input-field col s12 mt-20">
@@ -188,15 +188,14 @@ class CreateUser extends React.Component {
               </div>
             </div>
             <div className="col s12">
-              <div className="col s4 mt-10 mb-20">
-                <button className="btn" type="submit">Create User</button>
+              <div className="mt-10 mb-20">
+                <button className="btn col s4 offset-s8" type="submit">Create User</button>
               </div>
             </div>
 
           </form>
         </div>
       </div>
-
     );
   }
 }

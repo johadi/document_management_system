@@ -6,6 +6,7 @@ import toastr from 'toastr';
 import Header from './../common/Header.jsx';
 import Sidebar from './../common/Sidebar.jsx';
 import Alert from './../common/Alert.jsx';
+import { FroalaEditor } from './../common/FraolaComponent';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
 import viewDocument from '../../actions/documentActions/viewOneDocument';
 import editDocument from '../../actions/documentActions/editDocument';
@@ -32,6 +33,7 @@ class EditDocument extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
     this.onClose = this.onClose.bind(this);
   }
 
@@ -88,6 +90,19 @@ class EditDocument extends React.Component {
   }
 
   /**
+   * handleContentChange
+   * @param {object} content - text in the content text area
+   * @return {void}
+   */
+  handleContentChange(content) {
+    if (this.state) {
+      const document = this.state.document;
+      document.content = content;
+      this.setState({ document });
+    }
+  }
+
+  /**
    * On create document submit
    * @param {object }event
    * @return {void} void
@@ -124,7 +139,7 @@ class EditDocument extends React.Component {
           </div>
           <form onSubmit={this.handleSubmit} className="panel">
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
             <div className="row">
               <div className="input-field col m9 s12">
@@ -135,7 +150,8 @@ class EditDocument extends React.Component {
                   id="title"
                   onChange={this.handleChange}
                   value={this.state.document.title}
-                  required/>
+                  required
+                />
                 <label className='active' htmlFor="title">Title of Document</label>
               </div>
 
@@ -145,7 +161,8 @@ class EditDocument extends React.Component {
                   id="access"
                   onChange={this.handleChange}
                   value={this.state.value}
-                  className="browser-default">
+                  className="browser-default"
+                >
                   <option value="">Select Access Type</option>
                   <option value="public">Public</option>
                   <option value="private">Private</option>
@@ -154,18 +171,17 @@ class EditDocument extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s12">
-                <textarea
-                  name="content"
-                  id="content"
-                  onChange={this.handleChange}
-                  value={this.state.document.content}
-                  placeholder="Type your content here..."/>
+              <div className="col s12">
+                <FroalaEditor
+                  tag='textarea'
+                  model={this.state.document.content}
+                  onModelChange={this.handleContentChange}
+                />
               </div>
             </div>
             <div className="col s12">
-              <div className="col s2 mt-15">
-                <button className="btn" type="submit">Save</button>
+              <div className="mt-15">
+                <button className="btn col s3 offset-s9" type="submit">Save</button>
               </div>
             </div>
           </form>

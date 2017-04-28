@@ -111,7 +111,7 @@ export class SignUpPage extends React.Component {
           <h4 className="center-align">SIGN UP</h4>
           <form className="loginForm" onSubmit={this.handleSubmit} >
             { this.state.error ?
-              <Alert info={this.state} onClose={this.onClose}/> : ''
+              <Alert info={this.state} onClose={this.onClose} /> : ''
             }
           <div className="row">
             <div className="input-field col s12">
@@ -206,7 +206,8 @@ export class SignUpPage extends React.Component {
                   type="submit"
                   name="btn_login"
                   id="btn_login"
-                  className="col s6 offset-s3 btn btn-large waves-effect">
+                  className="col s6 offset-s3 btn btn-large waves-effect"
+                >
                   Register
                 </button>
               </div>

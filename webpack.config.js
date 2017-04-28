@@ -19,7 +19,11 @@ const config = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin(GLOBALS)
+    new webpack.DefinePlugin(GLOBALS),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    })
   ],
   module: {
     loaders: [{
@@ -47,17 +51,25 @@ const config = {
       loaders: ['style-loader', 'css-loader']
     },
     {
-      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+      test: /\.(ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'file'
     },
     {
-      test: /\.(woff|png|jpg|gif)$/,
+      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: 'url?limit=10000&mimetype=application/font-woff'
+    },
+    {
+      test: /\.(png|jpg|gif)$/,
       loader: 'url-loader?limit=250000'
     }]
   },
   devServer: {
     contentBase: 'client/src',
     historyApiFallback: true
+  },
+  externals: {
+    jquery: 'jQuery'
   }
 };
+
 module.exports = config;

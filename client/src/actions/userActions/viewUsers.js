@@ -17,7 +17,6 @@ export default (token, offset, limit) => {
       });
     })
     .catch((error) => {
-      console.log(error);
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: error.message

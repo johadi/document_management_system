@@ -25,7 +25,6 @@ class Header extends React.Component {
    */
   componentDidMount() {
     $(document).ready(() => {
-      $('select').material_select();
       $('#collapse_btn').sideNav();
       $('#collapse_btn').sideNav('hide');
     });
@@ -99,11 +98,9 @@ class Header extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logoutAction())
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logoutAction())
+});
 const mapStoreToProps = state => ({
   user: state.loginReducer.user,
   token: state.loginReducer.token

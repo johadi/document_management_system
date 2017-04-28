@@ -49,14 +49,16 @@ const MyDocumentList = (props) => {
           <div className="col s1">
             <div className="secondary-content">
               <Link to={`/edit-document/${document.id}`}
-                    className="btn-floating action-edit-color">
+                className="btn-floating action-edit-color"
+              >
                 <i className="small material-icons edit-btn">mode_edit</i>
               </Link>
               <Link
                 className="btn-floating red"
                 onClick={
                   () => confirmDeletion(props.deleteDocument, document.id)
-                  }>
+                }
+              >
                 <i className="small material-icons delete-btn">delete</i>
               </Link>
             </div>

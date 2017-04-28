@@ -1,9 +1,9 @@
 import actionTypes from '../actionTypes';
 
-export default () => {
-  return (dispatch) => {
+export default () =>
+  (dispatch) => {
     dispatch({
       type: actionTypes.CLEAR_ERROR
     });
   };
-};
+

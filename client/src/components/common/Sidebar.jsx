@@ -32,7 +32,15 @@ export default class Sidebar extends React.Component {
                   <i className="material-icons">view_list</i>
                 </center>
             </div>
-              <p className="col s10 action_desc">All Documents</p>
+              { jwtDecode(this.state.token).RoleId === 1 ?
+                <p className="col s10 action_desc">
+                  All Documents
+                </p>
+                :
+                <p className="col s10 action_desc">
+                  Other Documents
+                </p>
+              }
             </Link>
           </li>
           <li>

@@ -2,9 +2,9 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import actionTypes from '../actionTypes';
 
-export default (credentials) => {
-  return (dispatch) => {
-    return axios.post('/api/v1/users/login', credentials.user)
+export default credentials =>
+  dispatch =>
+    axios.post('/api/v1/users/login', credentials.user)
       .then((response) => {
         const token = response.data.token;
         const user = jwtDecode(token);
@@ -22,5 +22,3 @@ export default (credentials) => {
             error.response.data.message : null
         });
       });
-  };
-};
