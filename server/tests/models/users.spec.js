@@ -11,7 +11,6 @@ describe('User Model: ', () => {
       done();
     });
   });
-
   after(() => db.sequelize.sync({ force: true }));
 
   describe('Validations: ', () => {
