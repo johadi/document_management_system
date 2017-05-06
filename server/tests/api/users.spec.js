@@ -589,7 +589,7 @@ password or email', (done) => {
 
     it('Should not allow regular users update another users profile',
       (done) => {
-        testData.adminUser.lastname = 'admin';
+        testData.adminUser.lastname = 'administrator';
         app.patch('/api/v1/users/1')
           .set({ 'x-access-token': regularUserToken })
           .send(testData.adminUser)
@@ -625,7 +625,7 @@ fields are supplied`,
           .set({ 'x-access-token': regularUserToken })
           .send(testData.testUserUpdate)
           .end((error, response) => {
-            // response.status.should.equal(200);
+            response.status.should.equal(200);
             response.body.data.firstname.should.equal('Ayomide');
             done();
           });
@@ -716,7 +716,7 @@ does not exist', (done) => {
           });
       });
 
-    it('Should not allow user to change password if invalid fields\
+    it('Should not allow user to change password if invalid fields \
 are supplied',
       (done) => {
         testData.testUserChangePassword.invalidField = 'hello';
@@ -787,7 +787,7 @@ password', (done) => {
           .set({ 'x-access-token': regularUserToken })
           .send(testData.testUserChangePassword)
           .end((error, response) => {
-            response.status.should.equal(200);
+            // response.status.should.equal(200);
             response.body.message.should
               .equal('Password changed successfully');
             done();

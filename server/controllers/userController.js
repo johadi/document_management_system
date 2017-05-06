@@ -1,4 +1,5 @@
 import Validator from 'validatorjs';
+import bcrypt from 'bcrypt-nodejs';
 import db from '../models/';
 import helpers from '../utils/helpers';
 

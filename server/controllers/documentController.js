@@ -28,6 +28,7 @@ export default {
     const responseInfo = {};
     const obj = req.body;
     const validator = new Validator(obj, documentRules);
+    
     if (validator.passes()) {
       req.body.creatorId = req.decoded.UserId;
       document.create(req.body)

@@ -13,7 +13,7 @@ export default function documentsReducer(state = initialState, action) {
       return Object.assign({}, state, {
         documents: action.documents,
         pageCount: action.pageCount,
-        update_status: null,
+        updateStatus: null,
         delete_status: null
       });
     case actionTypes.SEARCH_DOCUMENTS:

@@ -1,4 +1,5 @@
 /* eslint no-unused-expressions: 0 */
+/* eslint no-underscore-dangle: 0 */
 
 import httpMocks from 'node-mocks-http';
 import events from 'events';
@@ -17,9 +18,6 @@ let request;
 
 const responseEvent = () => httpMocks
   .createResponse({ eventEmitter: events.EventEmitter });
-
-// testData.adminUser.username, testData.adminUser.password
-// testData.testUser.username, testData.testUser.password
 
 describe('Middleware Unit Test', () => {
   before((done) => {
@@ -81,8 +79,7 @@ describe('Middleware Unit Test', () => {
       sinon.spy(middlewareStub, 'callback');
       Auth.verifyToken(request, response, middlewareStub.callback);
       response.on('end', () => {
-        expect(response.statusCode).to
-          .equal(401);
+        expect(response.statusCode).to.equal(401);
         done();
       });
     });
@@ -93,7 +90,7 @@ describe('Middleware Unit Test', () => {
       const response = responseEvent();
       request = httpMocks.createRequest({
         method: 'GET',
-        url: '/api/v1/role',
+        url: '/api/v1/roles',
         headers: { 'X-ACCESS-TOKEN': regularUserToken },
         decoded: { RoleId: 2 }
       });
@@ -103,8 +100,7 @@ describe('Middleware Unit Test', () => {
       sinon.spy(middlewareStub, 'callback');
       Auth.verifyAdmin(request, response, middlewareStub.callback);
       response.on('end', () => {
-        expect(response.statusCode).to
-          .equal(403);
+        expect(response.statusCode).to.equal(403);
         done();
       });
     });
@@ -113,9 +109,9 @@ describe('Middleware Unit Test', () => {
       const response = responseEvent();
       request = httpMocks.createRequest({
         method: 'GET',
-        url: '/api/v1/role',
+        url: '/api/v1/roles',
         headers: { 'X-ACCESS-TOKEN': adminToken },
-        decoded: { roleId: 1 }
+        decoded: { RoleId: 1 }
       });
       const middlewareStub = {
         callback: () => {}
