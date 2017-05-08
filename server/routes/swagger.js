@@ -1,5 +1,4 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import path from 'path';
 
 // swagger definition
 const swaggerDefinition = {
@@ -27,11 +26,6 @@ const swaggerRoute = (router) => {
     .get((req, res) => {
       res.send(swaggerSpec);
     });
-  // router.route('/documentation')
-  //   .get((req, res) => {
-  //     res.status(200)
-  //       .sendFile(path.join(__dirname, '../docs/index.html'));
-  //   });
 };
 
 export default swaggerRoute;

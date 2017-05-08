@@ -7,7 +7,7 @@ const roleRules = {
   title: 'required|between:3,254'
 };
 
-export default {
+const roleCtrl = {
 
   /**
    * Method to create a new role
@@ -24,12 +24,11 @@ export default {
         .then((newRole) => {
           responseInfo.status = 'success';
           responseInfo.message = 'Role created successfully.';
-          return res.status(201)
-            .json(helpers.responseFormat(responseInfo, newRole));
+          responseInfo.role = newRole;
+          return res.status(201).json(responseInfo);
         })
         .catch((error) => {
-          res.status(400)
-            .json(helpers.catchErrorsResponse(error));
+          res.status(400).json(helpers.catchErrorsResponse(error));
         });
     } else {
       return res.status(400)
@@ -50,18 +49,16 @@ export default {
         if (!foundRole) {
           responseInfo.message = 'Role not found';
           responseInfo.status = 'fail';
-          return res.status(404)
-            .json(helpers.responseFormat(responseInfo));
+          return res.status(404).json(responseInfo);
         }
 
         responseInfo.message = 'Role found';
         responseInfo.status = 'success';
-        return res.status(200)
-          .json(helpers.responseFormat(responseInfo, foundRole));
+        responseInfo.role = foundRole;
+        return res.status(200).json(responseInfo);
       })
       .catch((error) => {
-        res.status(400)
-          .json(helpers.catchErrorsResponse(error));
+        res.status(400).json(helpers.catchErrorsResponse(error));
       });
   },
 
@@ -72,22 +69,20 @@ export default {
    * @returns {Object} Response object
    */
   getAllRoles: (req, res) => {
-    // return res.json({ hello : 'hello' });
     const responseInfo = {};
     role.findAll()
       .then((roles) => {
         if (!roles) {
           responseInfo.message = 'No Role found';
           responseInfo.status = 'fail';
-          return res.status(404)
-            .json(helpers.responseFormat(responseInfo));
+          return res.status(404).json(responseInfo);
         }
         responseInfo.status = 'success';
-        res.status(200).json(helpers.responseFormat(responseInfo, roles));
+        responseInfo.roles = roles;
+        res.status(200).json(responseInfo);
       })
       .catch((error) => {
-        res.status(400)
-          .json(helpers.catchErrorsResponse(error));
+        res.status(400).json(helpers.catchErrorsResponse(error));
       });
   },
 
@@ -106,20 +101,18 @@ export default {
           if (!foundRole) {
             responseInfo.message = 'Role not found';
             responseInfo.status = 'fail';
-            return res.status(404)
-              .json(helpers.responseFormat(responseInfo));
+            return res.status(404).json(responseInfo);
           }
           foundRole.update(req.body)
             .then((updatedRole) => {
               responseInfo.status = 'success';
               responseInfo.message = 'Role title updated successfully';
-              return res.status(200)
-                .json(helpers.responseFormat(responseInfo, updatedRole));
+              responseInfo.role = updatedRole;
+              return res.status(200).json(responseInfo);
             });
         })
         .catch((error) => {
-          res.status(400)
-            .json(helpers.catchErrorsResponse(error));
+          res.status(400).json(helpers.catchErrorsResponse(error));
         });
     } else {
       return res.status(400)
@@ -140,20 +133,19 @@ export default {
       if (!foundRole) {
         responseInfo.message = 'Role not found';
         responseInfo.status = 'fail';
-        return res.status(404)
-          .json(helpers.responseFormat(responseInfo));
+        return res.status(404).json(responseInfo);
       }
       foundRole.destroy()
         .then(() => {
           responseInfo.status = 'success';
           responseInfo.message = 'Role deleted successfully';
-          return res.status(200)
-            .json(helpers.responseFormat(responseInfo));
+          return res.status(200).json(responseInfo);
         });
     })
     .catch((error) => {
-      res.status(400)
-        .json(helpers.catchErrorsResponse(error));
+      res.status(400).json(helpers.catchErrorsResponse(error));
     });
   }
 };
+
+export default roleCtrl;

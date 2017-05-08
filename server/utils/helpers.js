@@ -3,30 +3,8 @@ import _ from 'underscore';
 
 const secret = process.env.JWT_SECRET_TOKEN || 'docman';
 const expiresIn = process.env.JWT_EXPIRES_IN || '5h';
-const responseInfo = {};
 
 const Helpers = {
-
-  responseFormat(info, data = undefined) {
-    const response = {};
-
-    if (info.status) {
-      response.status = info.status;
-    }
-    if (info.message) {
-      response.message = info.message;
-    }
-    if (data) {
-      response.data = data;
-    }
-    if (info.token) {
-      response.token = info.token;
-    }
-    if (info.errors) {
-      response.errors = info.errors;
-    }
-    return response;
-  },
   signToken(user) {
     return jwt.sign({
       UserId: user.id,
@@ -74,19 +52,34 @@ const Helpers = {
     ];
   },
   catchErrorsResponse(error) {
+    const responseInfo = {};
     responseInfo.status = 'error';
     responseInfo.errors = error.errors;
     return responseInfo;
   },
   validationResponse(validationErrors) {
+    const responseInfo = {};
     responseInfo.status = 'error';
     responseInfo.errors = this.validationErrorsToArray(validationErrors);
     return responseInfo;
   },
   unauthorizedResponse() {
+    const responseInfo = {};
     responseInfo.status = 'fail';
     responseInfo.message =
       'User is unauthorized for this request';
+    return responseInfo;
+  },
+  noDocumentFound() {
+    const responseInfo = {};
+    responseInfo.status = 'fail';
+    responseInfo.message = 'No document found';
+    return responseInfo;
+  },
+  userDoesNotExist() {
+    const responseInfo = {};
+    responseInfo.status = 'fail';
+    responseInfo.message = 'User does not exist';
     return responseInfo;
   },
   generatePaginationMeta(dbResult, page, count = undefined) {

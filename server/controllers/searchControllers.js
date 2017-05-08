@@ -1,10 +1,9 @@
 import db from '../models';
 import helpers from '../utils/helpers';
 
-const responseInfo = {};
-
-export default {
+const searchCtrl = {
   searchUser(req, res) {
+    const responseInfo = {};
     const page = helpers.pagination(req);
     const limit = page.limit;
     const offset = page.offset;
@@ -37,22 +36,19 @@ export default {
       if (users.rows.length === 0) {
         responseInfo.message = 'No User found';
         responseInfo.status = 'fail';
-        return res.status(404)
-          .json(helpers.responseFormat(responseInfo));
+        return res.status(404).json(responseInfo);
       }
       responseInfo.status = 'success';
-      const data = {};
-      data.paginationMeta = helpers.generatePaginationMeta(users, page);
-      data.users = users.rows;
-      return res.status(200)
-        .json(helpers.responseFormat(responseInfo, data));
+      responseInfo.paginationMeta = helpers.generatePaginationMeta(users, page);
+      responseInfo.users = users.rows;
+      return res.status(200).json(responseInfo);
     })
     .catch((error) => {
-      res.status(400)
-        .json(helpers.catchErrorsResponse(error));
+      res.status(400).json(helpers.catchErrorsResponse(error));
     });
   },
   searchDocument(req, res) {
+    const responseInfo = {};
     const page = helpers.pagination(req);
     const queryBuilder = {
       include: [{
@@ -68,39 +64,21 @@ export default {
         $iLike: `%${req.query.q}%`
       }
     };
+
     db.Document.findAndCountAll(queryBuilder)
-    // const page = helpers.pagination(req);
-    // const limit = page.limit;
-    // const offset = page.offset;
-    // const order = page.order;
-    // const criteria = {
-    //   title: {
-    //     $iLike: `%${req.query.q}%`
-    //   }
-    // };
-    // db.Document.findAndCountAll({ where: criteria,
-    //   limit,
-    //   offset,
-    //   order
-    // })
     .then((documents) => {
       if (documents.rows.length === 0) {
-        responseInfo.message = 'No document found';
-        responseInfo.status = 'fail';
-        return res.status(404)
-          .json(helpers.responseFormat(responseInfo));
+        return res.status(404).json(helpers.noDocumentFound());
       }
       responseInfo.status = 'success';
-      const data = {};
-      data.paginationMeta = helpers.generatePaginationMeta(documents, page);
-      data.documents = documents.rows;
-      return res.status(200)
-        .json(helpers.responseFormat(responseInfo, data));
+      responseInfo.paginationMeta = helpers.generatePaginationMeta(documents, page);
+      responseInfo.documents = documents.rows;
+      return res.status(200).json(responseInfo);
     })
     .catch((error) => {
-      res.status(400)
-        .json(helpers.catchErrorsResponse(error));
+      res.status(400).json(helpers.catchErrorsResponse(error));
     });
   }
 };
 
+export default searchCtrl;

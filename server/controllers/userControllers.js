@@ -1,5 +1,4 @@
 import Validator from 'validatorjs';
-import bcrypt from 'bcrypt-nodejs';
 import db from '../models/';
 import helpers from '../utils/helpers';
 
@@ -19,7 +18,7 @@ const createUserRules = {
   email: 'required|email'
 };
 
-export default {
+const userCtrl = {
 
   /**
    * Create a new user
@@ -47,8 +46,7 @@ export default {
                 `This username ${obj.username} is already in use`;
             }
             responseInfo.status = 'fail';
-            return res.status(409)
-              .json(helpers.responseFormat(responseInfo));
+            return res.status(409).json(responseInfo);
           }
           user.create(req.body)
             .then((newUser) => {
@@ -58,18 +56,16 @@ export default {
               responseInfo.message =
                 `User created successfully. Token will expire in ${expiresIn}`;
               newUser = helpers.userDetailsToShow(newUser);
-              return res.status(201)
-                .json(helpers.responseFormat(responseInfo, newUser));
+              responseInfo.user = newUser;
+              return res.status(201).json(responseInfo);
             })
             .catch((error) => {
-              res.status(400)
-                .json(helpers.catchErrorsResponse(error));
+              res.status(400).json(helpers.catchErrorsResponse(error));
             });
         });
     } else {
       return res.status(400)
         .json(helpers.validationResponse(validator.errors.all()));
-        // .send(validator.errors.all());
     }
   },
 
@@ -85,19 +81,15 @@ export default {
     user.findById(req.params.id, { attributes })
       .then((foundUser) => {
         if (!foundUser) {
-          responseInfo.message = 'User does not exist';
-          responseInfo.status = 'fail';
-          return res.status(404)
-            .json(helpers.responseFormat(responseInfo));
+          return res.status(404).json(helpers.userDoesNotExist());
         }
         responseInfo.message = 'User found';
         responseInfo.status = 'success';
-        return res.status(200)
-          .json(helpers.responseFormat(responseInfo, foundUser));
+        responseInfo.user = foundUser;
+        return res.status(200).json(responseInfo);
       })
       .catch((error) => {
-        res.status(400)
-          .json(helpers.catchErrorsResponse(error));
+        res.status(400).json(helpers.catchErrorsResponse(error));
       });
   },
 
@@ -114,23 +106,21 @@ export default {
     const offset = page.offset;
     const order = page.order;
     const attributes = helpers.filterUserDetails();
+
     user.findAndCountAll({ attributes, limit, offset, order })
       .then((users) => {
         if (users.rows.length === 0) {
-          responseInfo.message = 'No user found';
           responseInfo.status = 'fail';
-          return res.status(404)
-            .json(helpers.responseFormat(responseInfo));
+          responseInfo.message = 'No user found';
+          return res.status(404).json(responseInfo);
         }
         responseInfo.status = 'success';
-        const data = {};
-        data.paginationMeta = helpers.generatePaginationMeta(users, page);
-        data.users = users.rows;
-        res.status(200).json(helpers.responseFormat(responseInfo, data));
+        responseInfo.paginationMeta = helpers.generatePaginationMeta(users, page);
+        responseInfo.users = users.rows;
+        res.status(200).json(responseInfo);
       })
       .catch((error) => {
-        res.status(400)
-          .json(helpers.catchErrorsResponse(error));
+        res.status(400).json(helpers.catchErrorsResponse(error));
       });
   },
 
@@ -147,23 +137,18 @@ export default {
       user.findById(req.params.id)
         .then((foundUser) => {
           if (!foundUser) {
-            responseInfo.message = 'User does not exist';
-            responseInfo.status = 'fail';
-            return res.status(404)
-              .json(helpers.responseFormat(responseInfo));
+            return res.status(404).json(helpers.userDoesNotExist());
           }
           foundUser.update(req.body)
             .then((updatedUser) => {
               responseInfo.status = 'success';
               responseInfo.message = 'User updated successfully';
-              updatedUser = helpers.userDetailsToShow(updatedUser);
-              return res.status(200)
-                .json(helpers.responseFormat(responseInfo, updatedUser));
+              responseInfo.user = helpers.userDetailsToShow(updatedUser);
+              return res.status(200).json(responseInfo);
             });
         })
         .catch((error) => {
-          res.status(400)
-            .json(helpers.catchErrorsResponse(error));
+          res.status(400).json(helpers.catchErrorsResponse(error));
         });
     } else {
       return res.status(400)
@@ -189,35 +174,29 @@ export default {
       user.findById(req.params.id)
         .then((foundUser) => {
           if (!foundUser) {
-            responseInfo.message = 'User does not exist';
-            responseInfo.status = 'fail';
-            return res.status(404)
-              .json(helpers.responseFormat(responseInfo));
+            return res.status(404).json(helpers.userDoesNotExist());
           }
           if (foundUser.passwordMatch(req.body.old_password)) {
             if (req.body.old_password === req.body.new_password) {
               responseInfo.status = 'fail';
               responseInfo.message =
                 'Current password can\'t be same with new password';
-              return res.status(400)
-                .json(helpers.responseFormat(responseInfo));
+              return res.status(400).json(responseInfo);
             }
             foundUser.update({ password: req.body.new_password })
               .then(() => {
                 responseInfo.status = 'success';
                 responseInfo.message = 'Password changed successfully';
-                return res.status(200)
-                  .json(helpers.responseFormat(responseInfo));
+                return res.status(200).json(responseInfo);
               });
           } else {
             responseInfo.status = 'fail';
             responseInfo.message = 'Incorrect current password';
-            return res.status(400)
-              .json(helpers.responseFormat(responseInfo));
+            return res.status(400).json(responseInfo);
           }
         })
-        .catch((err) => {
-          res.status(400).send(err.errors);
+        .catch((error) => {
+          res.status(400).json(helpers.catchErrorsResponse(error));
         });
     } else {
       return res.status(400)
@@ -236,22 +215,17 @@ export default {
     user.findById(req.params.id)
       .then((foundUser) => {
         if (!foundUser) {
-          responseInfo.message = 'User does not exist';
-          responseInfo.status = 'fail';
-          return res.status(404)
-            .json(helpers.responseFormat(responseInfo));
+          return res.status(404).json(helpers.userDoesNotExist());
         }
         foundUser.destroy()
           .then(() => {
             responseInfo.status = 'success';
             responseInfo.message = 'User deleted successfully';
-            return res.status(200)
-              .json(helpers.responseFormat(responseInfo));
+            return res.status(200).json(responseInfo);
           });
       })
       .catch((error) => {
-        res.status(400)
-          .json(helpers.catchErrorsResponse(error));
+        res.status(400).json(helpers.catchErrorsResponse(error));
       });
   },
 
@@ -277,17 +251,14 @@ export default {
           responseInfo.token = token;
           responseInfo.message =
             `User login successfully.Token will expire in ${expiresIn}`;
-          return res.status(200)
-            .json(helpers.responseFormat(responseInfo));
+          return res.status(200).json(responseInfo);
         }
         responseInfo.status = 'fail';
         responseInfo.message = 'Authentication failed.';
-        return res.status(401)
-          .json(helpers.responseFormat(responseInfo));
+        return res.status(401).json(responseInfo);
       })
       .catch((error) => {
-        res.status(400)
-          .json(helpers.catchErrorsResponse(error));
+        res.status(400).json(helpers.catchErrorsResponse(error));
       });
   },
 
@@ -301,7 +272,8 @@ export default {
     const responseInfo = {};
     responseInfo.status = 'success';
     responseInfo.message = 'Successfully logged out.';
-    res.status(200)
-      .json(helpers.responseFormat(responseInfo));
+    res.status(200).json(responseInfo);
   }
 };
+
+export default userCtrl;

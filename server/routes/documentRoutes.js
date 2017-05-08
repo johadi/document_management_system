@@ -52,7 +52,7 @@ const documentRoute = (router) => {
      *           items:
      *             $ref: '#/definitions/Document'
      */
-    .get(auth.verifyToken, auth.verifyAdmin, docCtrl.getAllDocuments)
+    .get(auth.verifyToken, docCtrl.getAllDocuments)
     /**
      * @swagger
      * /api/v1/documents:
@@ -82,32 +82,6 @@ const documentRoute = (router) => {
      *           $ref: '#/definitions/Document'
      */
     .post(auth.verifyToken, utils.isValidDocumentBody, docCtrl.createDocument);
-
-  router.route('/documents/accessible')
-    /**
-     * @swagger
-     * /api/v1/documents/accessible:
-     *   get:
-     *     description: Returns paginated list of documents accessible by non admin user
-     *     tags:
-     *      - Find Documents
-     *     produces:
-     *      - application/json
-     *     parameters:
-     *      - name: x-access-token
-     *        in: header
-     *        description: an authorization header of user
-     *        required: true
-     *        type: string
-     *     responses:
-     *       200:
-     *         description: documents
-     *         schema:
-     *           type: array
-     *           items:
-     *             $ref: '#/definitions/Document'
-     */
-    .get(auth.verifyToken, docCtrl.getAccessibleDocument);
 
   /**
    * @swagger
@@ -166,7 +140,7 @@ const documentRoute = (router) => {
      */
     .get(auth.verifyToken, utils.isValidRequestId, docCtrl.getOneDocument)
     .patch(auth.verifyToken, utils.isValidRequestId,
-      utils.isValidDocumentBody, docCtrl.updateDocument)
+      utils.canUpdateOrDeleteDocument, utils.isValidDocumentBody, docCtrl.updateDocument)
     /**
      * @swagger
      * /api/v1/documents/{id}:
@@ -201,7 +175,7 @@ const documentRoute = (router) => {
      *           $ref: '#/definitions/DocUpdate'
      */
     .put(auth.verifyToken, utils.isValidRequestId,
-      utils.isValidDocumentBody, docCtrl.updateDocument)
+      utils.canUpdateOrDeleteDocument, utils.isValidDocumentBody, docCtrl.updateDocument)
     /**
      * @swagger
      * /api/v1/documents/{id}:
@@ -230,7 +204,8 @@ const documentRoute = (router) => {
      *            items:
      *              $ref: '#/definitions/DocUpdate'
      */
-    .delete(auth.verifyToken, utils.isValidRequestId, docCtrl.deleteDocument);
+    .delete(auth.verifyToken, utils.isValidRequestId, utils.canUpdateOrDeleteDocument,
+      docCtrl.deleteDocument);
 };
 
 export default documentRoute;

@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
 import validate from './validate';
+import db from '../models/';
+
+const document = db.Document;
 
 const secret = process.env.JWT_SECRET_TOKEN || 'docman';
 
@@ -35,7 +38,8 @@ export default {
     if (parseInt(req.params.id, 10) === 1) {
       return res.status(403).send({
         status: 'fail',
-        message: 'You cannot delete the default admin account' });
+        message: 'You cannot delete the default admin account'
+      });
     }
     next();
   },
@@ -75,7 +79,7 @@ export default {
   },
 
   /**
-   * canUpdateOrFindUserOrDocuments checks if user authorized to
+   * canUpdateOrFindUser checks if user authorized to
    * find or update user
    * @param {Object} req the request object
    * @param {Object} res the response object
@@ -90,6 +94,42 @@ export default {
       });
     }
     next();
+  },
+
+  /**
+   * canUpdateOrDeleteDocument checks if user authorized to
+   * delete or update user
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @param {Function} next the callback function
+   * @returns {Object} validity response
+   */
+  canUpdateOrDeleteDocument(req, res, next) {
+    document.findById(req.params.id)
+      .then((foundDocument) => {
+        if (!foundDocument) {
+          return res.status(404).json({
+            status: 'fail',
+            message: 'Document not found'
+          });
+        }
+        if (req.decoded.UserId === foundDocument.creatorId) {
+          req.foundDocument = foundDocument;
+          next();
+        } else {
+          return res.status(401).send({
+            status: 'fail',
+            message: 'You don\'t have authorization for this action'
+          });
+        }
+      })
+      .catch((error) => {
+        const response = {
+          status: 'error',
+          errors: error.errors
+        };
+        return res.status(400).json(response);
+      });
   },
 
   /**

@@ -141,9 +141,6 @@ const userRoute = (router) => {
   router.route('/users/logout')
     .post(auth.verifyToken, userCtrl.logout);
 
-  router.route('/users/documents')
-    .get(auth.verifyToken, docCtrl.getMyDocuments);
-
   /**
    * @swagger
    * definitions:
@@ -375,8 +372,7 @@ const userRoute = (router) => {
      *           items:
      *             $ref: '#/definitions/FetchDoc'
      */
-    .get(auth.verifyToken, auth.verifyAdmin, utils.isValidRequestId,
-      docCtrl.getUserDocuments);
+    .get(auth.verifyToken, utils.isValidRequestId, docCtrl.getUserDocuments);
 };
 
 export default userRoute;
