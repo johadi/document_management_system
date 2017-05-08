@@ -45,20 +45,20 @@ describe('Search Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.documents[0].title.should.equal('Cool title');
-          response.body.data.paginationMeta.should.have.property('pageSize');
+          response.body.documents[0].title.should.equal('Cool title');
+          response.body.paginationMeta.should.have.property('pageSize').equal(10);
           done();
         });
     });
 
-    it('should user search for peronal documents with document title', (done) => {
-      app.get('/api/v1/users/documents/?q=by regular user')
+    it('should allow user search for accessible documents with document title', (done) => {
+      app.get('/api/v1/documents?q=by regular user')
         .set({ 'x-access-token': regularUserToken })
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.documents[0].title.should.equal('Title by regular user');
-          response.body.data.paginationMeta.should.have.property('pageSize');
+          response.body.documents[0].title.should.equal('Title by regular user');
+          response.body.paginationMeta.should.have.property('pageSize').equal(10);
           done();
         });
     });
@@ -68,7 +68,7 @@ describe('Search Api', () => {
         app.get('/api/v1/search/documents/?q=cool&limit=3')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
-            const documentLength = response.body.data.paginationMeta.outputCount;
+            const documentLength = response.body.paginationMeta.outputCount;
             response.status.should.equal(200);
             response.body.status.should.equal('success');
             documentLength.should.belowOrEqual(3);
@@ -83,8 +83,7 @@ describe('Search Api', () => {
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.paginationMeta.should.have.property('currentPage');
-            response.body.data.paginationMeta.currentPage.should.equal(1);
+            response.body.paginationMeta.should.have.property('currentPage').equal(1);
             done();
           });
       });
@@ -109,8 +108,8 @@ describe('Search Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.users[0].username.should.equal('Andela_1');
-          response.body.data.paginationMeta.should.have.property('pageSize');
+          response.body.users[0].username.should.equal('Andela_1');
+          response.body.paginationMeta.should.have.property('pageSize').equal(10);
           done();
         });
     });
@@ -121,8 +120,8 @@ describe('Search Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.users[0].firstname.should.equal('Ayobami');
-          response.body.data.paginationMeta.should.have.property('pageSize');
+          response.body.users[0].firstname.should.equal('Ayobami');
+          response.body.paginationMeta.should.have.property('pageSize').equal(10);
           done();
         });
     });
@@ -133,8 +132,8 @@ describe('Search Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.users[0].lastname.should.equal('Shaibu');
-          response.body.data.paginationMeta.should.have.property('pageSize');
+          response.body.users[0].lastname.should.equal('Shaibu');
+          response.body.paginationMeta.should.have.property('currentPage').equal(1);
           done();
         });
     });
@@ -145,7 +144,7 @@ describe('Search Api', () => {
         app.get('/api/v1/search/users/?q=Ande&limit=3')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
-            const userLength = response.body.data.paginationMeta.outputCount;
+            const userLength = response.body.paginationMeta.outputCount;
             response.status.should.equal(200);
             response.body.status.should.equal('success');
             userLength.should.belowOrEqual(3);
@@ -160,8 +159,7 @@ describe('Search Api', () => {
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.paginationMeta.should.have.property('currentPage');
-            response.body.data.paginationMeta.currentPage.should.equal(1);
+            response.body.paginationMeta.should.have.property('currentPage').equal(1);
             done();
           });
       });
