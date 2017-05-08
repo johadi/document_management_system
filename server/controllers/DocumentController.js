@@ -35,7 +35,7 @@ const docCtrl = {
     const validator = new Validator(obj, documentRules);
 
     if (validator.passes()) {
-      req.body.creatorId = req.decoded.UserId;
+      req.body.creatorId = req.decoded.userId;
       document.create(req.body)
         .then((newDocument) => {
           responseInfo.status = 'success';
@@ -69,8 +69,8 @@ const docCtrl = {
         responseInfo.status = 'success';
         responseInfo.message = 'Document found';
         responseInfo.document = foundDocument;
-        if (req.decoded.RoleId === 1
-          || (req.decoded.UserId === foundDocument.creatorId)
+        if (req.decoded.roleId === 1
+          || (req.decoded.userId === foundDocument.creatorId)
           || foundDocument.access === 'public') {
           return res.status(200).json(responseInfo);
         }
@@ -78,7 +78,7 @@ const docCtrl = {
         if (foundDocument.access === accessCategories.role) {
           return db.User.findById(foundDocument.creatorId)
             .then((documentOwner) => {
-              if (documentOwner.roleId === req.decoded.RoleId) {
+              if (documentOwner.roleId === req.decoded.roleId) {
                 return res.status(200).json(responseInfo);
               }
               return res.status(401)
@@ -105,7 +105,7 @@ const docCtrl = {
     const limit = page.limit;
     const offset = page.offset;
     const order = page.order;
-    if (req.decoded.RoleId === 1) {
+    if (req.decoded.roleId === 1) {
       const queryBuilder = {
         include: [{
           model: db.User,
@@ -115,6 +115,13 @@ const docCtrl = {
         limit,
         offset
       };
+      if (req.query.q) {
+        queryBuilder.where = {
+          title: {
+            $iLike: `%${req.query.q}%`
+          }
+        };
+      }
       document.findAndCountAll(queryBuilder)
         .then((documents) => {
           if (documents.rows.length === 0) {
@@ -206,7 +213,7 @@ const docCtrl = {
    */
   getUserDocuments(req, res) {
     const responseInfo = {};
-    const loggedInUserId = req.decoded.UserId;
+    const loggedInUserId = req.decoded.userId;
 
     const page = helpers.pagination(req);
     const limit = page.limit;
@@ -214,7 +221,7 @@ const docCtrl = {
     const order = page.order;
 
     if ((loggedInUserId === parseInt(req.params.id, 10))
-      || ((loggedInUserId !== parseInt(req.params.id, 10)) && req.decoded.RoleId === 1)) {
+      || ((loggedInUserId !== parseInt(req.params.id, 10)) && req.decoded.roleId === 1)) {
       const criteria = {
         creatorId: req.params.id
       };

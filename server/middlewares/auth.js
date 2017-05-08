@@ -46,7 +46,7 @@ export default {
    * @returns {Object} Response Object
    */
   verifyAdmin: (req, res, next) => {
-    db.Role.findById(req.decoded.RoleId)
+    db.Role.findById(req.decoded.roleId)
       .then((role) => {
         if (role.title.toLowerCase() === 'admin') {
           next();

@@ -87,7 +87,7 @@ export default {
    * @returns {Object} validity response
    */
   canUpdateOrFindUser(req, res, next) {
-    if (req.decoded.RoleId !== 1 && (+req.params.id !== req.decoded.UserId)) {
+    if (req.decoded.roleId !== 1 && (+req.params.id !== req.decoded.userId)) {
       return res.status(401).send({
         status: 'fail',
         message: 'You don\'t have authorization for this action'
@@ -113,7 +113,7 @@ export default {
             message: 'Document not found'
           });
         }
-        if (req.decoded.UserId === foundDocument.creatorId) {
+        if (req.decoded.userId === foundDocument.creatorId) {
           req.foundDocument = foundDocument;
           next();
         } else {
@@ -154,7 +154,7 @@ export default {
           });
         }
         req.decoded = decoded;
-        if (req.decoded.RoleId === 1) {
+        if (req.decoded.roleId === 1) {
           isValidRequestBody = validate.validateUserKeys(req.body, true);
         } else {
           isValidRequestBody = validate.validateUserKeys(req.body);
@@ -198,7 +198,7 @@ export default {
    */
   isValidUserUpdateBody(req, res, next) {
     let isValidRequestBody;
-    if (req.decoded.RoleId === 1) {
+    if (req.decoded.roleId === 1) {
       isValidRequestBody = validate.validateUserUpdateKeys(req.body, true);
     } else {
       isValidRequestBody = validate.validateUserUpdateKeys(req.body);

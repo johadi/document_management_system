@@ -40,7 +40,7 @@ describe('Search Api', () => {
 
   describe('Search documents: ', () => {
     it('should allow admin search for every documents with document title', (done) => {
-      app.get('/api/v1/search/documents/?q=cool')
+      app.get('/api/v1/search/documents?q=cool')
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
           response.status.should.equal(200);
@@ -52,7 +52,7 @@ describe('Search Api', () => {
     });
 
     it('should allow user search for accessible documents with document title', (done) => {
-      app.get('/api/v1/documents?q=by regular user')
+      app.get('/api/v1/search/documents?q=by regular user')
         .set({ 'x-access-token': regularUserToken })
         .end((error, response) => {
           response.status.should.equal(200);
@@ -65,7 +65,7 @@ describe('Search Api', () => {
 
     it('should be able to limit the number of documents returned',
       (done) => {
-        app.get('/api/v1/search/documents/?q=cool&limit=3')
+        app.get('/api/v1/search/documents?q=cool&limit=3')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             const documentLength = response.body.paginationMeta.outputCount;
@@ -78,7 +78,7 @@ describe('Search Api', () => {
 
     it('should be able to get current page base on offset set for documents returned',
       (done) => {
-        app.get('/api/v1/search/documents/?q=cool&offset=0')
+        app.get('/api/v1/search/documents?q=cool&offset=0')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             response.status.should.equal(200);
@@ -90,7 +90,7 @@ describe('Search Api', () => {
 
     it('should return not found for offset the database can\'t reach',
       (done) => {
-        app.get('/api/v1/search/documents/?q=cool&offset=6')
+        app.get('/api/v1/search/documents?q=cool&offset=6')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             response.status.should.equal(404);
@@ -103,7 +103,7 @@ describe('Search Api', () => {
 
   describe('Search users: ', () => {
     it('should allow admin search for users with username', (done) => {
-      app.get('/api/v1/search/users/?q=Andela_1')
+      app.get('/api/v1/search/users?q=Andela_1')
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
           response.status.should.equal(200);
@@ -115,7 +115,7 @@ describe('Search Api', () => {
     });
 
     it('should allow admin search for users with firstname', (done) => {
-      app.get('/api/v1/search/users/?q=Ayo')
+      app.get('/api/v1/search/users?q=Ayo')
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
           response.status.should.equal(200);
@@ -127,7 +127,7 @@ describe('Search Api', () => {
     });
 
     it('should allow admin search for users with lastname', (done) => {
-      app.get('/api/v1/search/users/?q=Shaibu')
+      app.get('/api/v1/search/users?q=Shaibu')
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
           response.status.should.equal(200);
@@ -141,7 +141,7 @@ describe('Search Api', () => {
 
     it('should be able to limit the number of users returned',
       (done) => {
-        app.get('/api/v1/search/users/?q=Ande&limit=3')
+        app.get('/api/v1/search/users?q=Ande&limit=3')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             const userLength = response.body.paginationMeta.outputCount;
@@ -154,7 +154,7 @@ describe('Search Api', () => {
 
     it('should be able to get current page base on offset set for users returned',
       (done) => {
-        app.get('/api/v1/search/users/?q=Ande&offset=1')
+        app.get('/api/v1/search/users?q=Ande&offset=1')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             response.status.should.equal(200);
@@ -166,7 +166,7 @@ describe('Search Api', () => {
 
     it('should return not found for offset the database can\'t reach',
       (done) => {
-        app.get('/api/v1/search/users/?q=Ande&offset=6')
+        app.get('/api/v1/search/users?q=Ande&offset=6')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             response.status.should.equal(404);

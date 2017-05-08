@@ -7,10 +7,10 @@ const expiresIn = process.env.JWT_EXPIRES_IN || '5h';
 const Helpers = {
   signToken(user) {
     return jwt.sign({
-      UserId: user.id,
-      RoleId: user.roleId,
-      Email: user.email,
-      Username: user.username
+      userId: user.id,
+      roleId: user.roleId,
+      email: user.email,
+      username: user.username
     }, secret, { expiresIn });
   },
   validationErrorsToArray(error) {
