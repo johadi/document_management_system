@@ -85,11 +85,11 @@ const Helpers = {
   generatePaginationMeta(dbResult, page, count = undefined) {
     const paginationMeta = {};
     if (count === undefined) {
-      paginationMeta.pageCount = Math.floor(dbResult.count / page.limit) + 1;
+      paginationMeta.pageCount = Math.ceil(dbResult.count / page.limit);
       paginationMeta.totalCount = dbResult.count;
       paginationMeta.outputCount = dbResult.rows.length;
     } else {
-      paginationMeta.pageCount = Math.floor(count / page.limit) + 1;
+      paginationMeta.pageCount = Math.ceil(count / page.limit);
       paginationMeta.totalCount = count;
       paginationMeta.outputCount = dbResult.length;
     }

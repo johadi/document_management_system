@@ -29,7 +29,7 @@ const MyDocumentList = (props) => {
           <i className="material-icons circle">note</i>
           <div className='col s11'>
             <span className="title truncate">
-              <Link to={`/view-document/${document.id}`}>
+              <Link to={`/document/${document.id}`}>
                 {document.title}
               </Link>
             </span>
@@ -48,7 +48,7 @@ const MyDocumentList = (props) => {
           </div>
           <div className="col s1">
             <div className="secondary-content">
-              <Link to={`/edit-document/${document.id}`}
+              <Link to={`/document/${document.id}/edit`}
                 className="btn-floating action-edit-color"
               >
                 <i className="small material-icons edit-btn">mode_edit</i>

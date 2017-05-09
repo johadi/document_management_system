@@ -92,7 +92,7 @@ describe('Middleware Unit Test', () => {
         method: 'GET',
         url: '/api/v1/roles',
         headers: { 'X-ACCESS-TOKEN': regularUserToken },
-        decoded: { RoleId: 2 }
+        decoded: { roleId: 2 }
       });
       const middlewareStub = {
         callback: () => { }
@@ -111,7 +111,7 @@ describe('Middleware Unit Test', () => {
         method: 'GET',
         url: '/api/v1/roles',
         headers: { 'X-ACCESS-TOKEN': adminToken },
-        decoded: { RoleId: 1 }
+        decoded: { roleId: 1 }
       });
       const middlewareStub = {
         callback: () => {}

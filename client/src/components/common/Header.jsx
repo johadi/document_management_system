@@ -2,14 +2,14 @@ import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
-import logoutAction from '../../actions/authActions/logoutAction';
+import { logoutAction } from '../../actions/authActions';
 
 /**
- * My Header declaration
+ * Header component class declaration
  */
 class Header extends React.Component {
   /**
-   * My Header constructor
+   * Header component constructor
    * @param {Object} props
    */
   constructor(props) {
@@ -21,32 +21,33 @@ class Header extends React.Component {
   }
 
   /**
+   * Function when component about to mount
+   * @return {void} void
+   */
+  componentWillMount() {
+    if (localStorage.getItem('token')) {
+      const decodedToken = jwtDecode(localStorage.getItem('token'));
+      this.state = Object.assign({}, this.state, {
+        id: decodedToken.userId,
+        username: decodedToken.username,
+        token: localStorage.getItem('token')
+      });
+    }
+  }
+
+  /**
    * @return {void} void
    */
   componentDidMount() {
     $(document).ready(() => {
       $('#collapse_btn').sideNav();
       $('#collapse_btn').sideNav('hide');
+      $('.dropdown-button').dropdown();
     });
   }
 
   /**
-   * On receiving of props
-   * @param {Object} nextProps
-   * @return {void} void
-   */
-  componentWillReceiveProps(nextProps) {
-    const token = nextProps.token;
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      this.state = Object.assign({}, this.state, {
-        id: decodedToken.UserId,
-        username: decodedToken.Username,
-        token
-      });
-    }
-  }
-  /**
+   * On logout clicked
    * @return {void} void
    */
   logout() {
@@ -56,7 +57,7 @@ class Header extends React.Component {
   }
 
   /**
-  * Renders component
+  * Renders Header component
   * @return {HTML} JSX
   */
   render() {
@@ -69,8 +70,35 @@ class Header extends React.Component {
                 <Link to="/dashboard" className="brand-logo">DMS</Link>
               </div>
               <ul id="loggedinNav">
-                <li><Link id="logout" onClick={this.logout}>
-                  Sign Out</Link>
+                <li>
+                  <Link className="dropdown-button" data-activates="dropdown1">
+                    {this.state.username}<i className="material-icons right">arrow_drop_down</i>
+                  </Link>
+                  <ul id="dropdown1" className="dropdown-content">
+                    <li>
+                      <Link to={'/password'} >
+                        <left>
+                          Change password
+                        </left>
+                      </Link>
+                    </li>
+                    <li className="divider"></li>
+                    <li>
+                      <Link to={'/profile'}>
+                        <left>
+                          My profile
+                        </left>
+                      </Link>
+                    </li>
+                    <li className="divider"></li>
+                    <li>
+                      <Link id="logout" onClick={this.logout} >
+                        <left>
+                          Sign Out
+                        </left>
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
               </ul>
               <ul id="nav-mobile" className="right hide-on-med-and-down" />

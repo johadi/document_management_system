@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Alert from './../common/Alert.jsx';
-import loginAction from '../../actions/authActions/loginAction';
+import { Alert, Header } from './../common';
+import { loginAction } from '../../actions/authActions';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import Header from './../common/Header.jsx';
 
 /**
  * LoginPage class declaration
@@ -33,6 +32,7 @@ class LoginPage extends React.Component {
   }
 
   /**
+   * Function when component about to mount
    * @return {void} void
    */
   componentWillMount() {
@@ -40,7 +40,7 @@ class LoginPage extends React.Component {
   }
 
   /**
-   * On receiving of props
+   * On receiving of props from reducers
    * @param {Object} nextProps
    * @return {void} void
    */
@@ -52,7 +52,7 @@ class LoginPage extends React.Component {
   }
 
   /**
-   * On change of input values
+   * On change of input values in login form
    * @param {object} event
    * @return {void} void
    */
@@ -63,6 +63,7 @@ class LoginPage extends React.Component {
   }
 
   /**
+   * Function to redirect on successful login
    * @return {void} void
    */
   redirectIfLoggedIn() {
@@ -91,7 +92,7 @@ class LoginPage extends React.Component {
   }
 
   /**
-   * Renders component
+   * Renders login component
    * @return {XML} JSX
    */
   render() {

@@ -4,12 +4,13 @@ import { Pagination } from 'react-materialize';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
+import { Header, Sidebar } from './../common';
 import DocumentList from './DocumentList.jsx';
-import deleteDocumentAction from '../../actions/documentActions/deleteDocument';
-import viewDocumentAction from '../../actions/documentActions/viewDocuments';
-import searchDocumentAction from '../../actions/documentActions/searchDocuments';
+import {
+  deleteDocumentAction,
+  viewDocumentsAction,
+  searchDocumentsAction
+} from '../../actions/documentActions';
 
 /**
  * ViewDocuments class declaration
@@ -28,6 +29,7 @@ class ViewDocuments extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchDocument = this.searchDocument.bind(this);
+    this.changeLimit = this.changeLimit.bind(this);
     this.refreshDocumentsList = this.refreshDocumentsList.bind(this);
   }
 
@@ -38,8 +40,8 @@ class ViewDocuments extends React.Component {
     if (localStorage.getItem('token') !== null) {
       const decodedToken = jwtDecode(localStorage.getItem('token'));
       this.state = Object.assign({}, this.state, {
-        userId: decodedToken.UserId,
-        roleId: decodedToken.RoleId,
+        userId: decodedToken.userId,
+        roleId: decodedToken.roleId,
         token: localStorage.getItem('token')
       });
       const offset = 0;
@@ -65,6 +67,17 @@ class ViewDocuments extends React.Component {
    */
   searchDocument() {
     this.props.searchDocument(this.state.token, this.state.searchTerms);
+  }
+
+  /**
+   * Change limit of documents to display per page
+   * @param {any} event
+   * @return {void}
+   */
+  changeLimit(event) {
+    const value = Math.abs(parseInt(event.target.value, 10));
+    this.state = (Object.assign({}, this.state, { limit: value }));
+    this.refreshDocumentsList();
   }
 
   /**
@@ -97,32 +110,52 @@ class ViewDocuments extends React.Component {
         <Sidebar />
         <div className="col s12 workspace">
           <div className="row workspace-header">
-            <h4 className="col s8">Public/Role Access Documents</h4>
-            <div className="col s4">
-              <input
-                className="col s10"
-                type="text"
-                id="searchTerms"
-                name="searchTerms"
-                value={this.state.searchTerms}
-                placeholder="Search..."
-                onChange={this.handleChange}
-              />
-              <button className="btn col s2" id="searchBtn"
-                onClick={this.searchDocument}
-              >
-              <i className="material-icons">search</i></button>
+            <div className="row">
+              <h4 className="col s8">Documents</h4>
+              <div className="col s4">
+                <input
+                  className="col s10"
+                  type="text"
+                  id="searchTerms"
+                  name="searchTerms"
+                  value={this.state.searchTerms}
+                  placeholder="Search..."
+                  onChange={this.handleChange}
+                />
+                <button className="btn col s2" id="searchBtn"
+                  onClick={this.searchDocument}
+                >
+                <i className="material-icons">search</i></button>
+              </div>
             </div>
-
-            <div className="col m1 offset-m11">
-              <Link onClick={this.refreshDocumentsList}>
-                <i className="material-icons refresh-list-btn">
-                  autorenew</i>
-              </Link>
+            <div className="row">
+              <div className="col m2">
+                <label htmlFor="limit">Set limit</label>
+                <select
+                  name="limit"
+                  id="limit"
+                  onChange={this.changeLimit}
+                  value={this.state.limit}
+                  className="browser-default"
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="25">25</option>
+                  <option value="50">20</option>
+                </select>
+              </div>
+              <div className="col m1 offset-m9">
+                <Link onClick={this.refreshDocumentsList}>
+                  <i className="material-icons refresh-list-btn">
+                    autorenew</i>
+                </Link>
+              </div>
             </div>
 
             <div className="col s5 btnAddDocument">
-              <Link className="waves-effect waves-light btn" to="/create-document">
+              <Link className="waves-effect waves-light btn" to="/document">
                 <i className="material-icons left">note_add</i>
                 Add Document
               </Link>
@@ -174,12 +207,12 @@ const mapStoreToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteDocument: documentid =>
-    dispatch(deleteDocumentAction(documentid)),
+  deleteDocument: documentId =>
+    dispatch(deleteDocumentAction(documentId)),
   paginateDocuments: (usertoken, offset, limit) =>
-    dispatch(viewDocumentAction(usertoken, offset, limit)),
-  searchDocument: (usertoken, documentName) =>
-    dispatch(searchDocumentAction(usertoken, documentName))
+    dispatch(viewDocumentsAction(usertoken, offset, limit)),
+  searchDocument: (usertoken, searchTerm) =>
+    dispatch(searchDocumentsAction(usertoken, searchTerm))
 });
 
 export default connect(mapStoreToProps, mapDispatchToProps)(ViewDocuments);

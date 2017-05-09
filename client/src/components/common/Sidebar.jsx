@@ -7,7 +7,7 @@ import jwtDecode from 'jwt-decode';
  */
 export default class Sidebar extends React.Component {
   /**
-   * LoginPage class constructor
+   * Sidebar class constructor
    * @param {Object} props
    */
   constructor(props) {
@@ -18,7 +18,7 @@ export default class Sidebar extends React.Component {
   }
 
   /**
-   * Renders component
+   * Renders sidebar component
    * @return {XML} JSX
    */
   render() {
@@ -32,7 +32,7 @@ export default class Sidebar extends React.Component {
                   <i className="material-icons">view_list</i>
                 </center>
             </div>
-              { jwtDecode(this.state.token).RoleId === 1 ?
+              { jwtDecode(this.state.token).roleId === 1 ?
                 <p className="col s10 action_desc">
                   All Documents
                 </p>
@@ -44,7 +44,7 @@ export default class Sidebar extends React.Component {
             </Link>
           </li>
           <li>
-            <Link to="/my-documents" className="col s12 menu_link">
+            <Link to="/documents" className="col s12 menu_link">
               <div className="col s2">
                 <center className="circle useractions">
                   <i className="material-icons">view_list</i>
@@ -53,7 +53,7 @@ export default class Sidebar extends React.Component {
               <p className="col s10 action_desc">My Documents</p>
             </Link>
           </li>
-          { jwtDecode(this.state.token).RoleId === 1 ?
+          { jwtDecode(this.state.token).roleId === 1 ?
             (
               <div>
                 <li>
@@ -75,15 +75,6 @@ export default class Sidebar extends React.Component {
                   <i className="material-icons">account_circle</i></center>
               </div>
               <p className="col s10 action_desc">Profile</p>
-            </Link>
-          </li>
-          <li>
-            <Link to={'/change-password'} className="col s12 menu_link">
-              <div className="col s2">
-                <center className="circle useractions">
-                  <i className="material-icons">vpn_key</i></center>
-              </div>
-              <p className="col s10 action_desc">Change password</p>
             </Link>
           </li>
 

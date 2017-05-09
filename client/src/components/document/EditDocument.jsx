@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import React from 'react';
 import toastr from 'toastr';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
-import Alert from './../common/Alert.jsx';
+import { Header, Sidebar, Alert } from './../common';
 import { FroalaEditor } from './../common/FraolaComponent';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import viewDocument from '../../actions/documentActions/viewOneDocument';
-import editDocument from '../../actions/documentActions/editDocument';
+import {
+  viewDocumentAction,
+  editDocumentAction,
+} from '../../actions/documentActions';
 
 /**
  * React component for EditDocument.
@@ -192,7 +192,7 @@ class EditDocument extends React.Component {
 }
 
 
-EditDocument.PropTypes = {
+EditDocument.propTypes = {
   document: PropTypes.object.isRequired
 };
 
@@ -203,13 +203,13 @@ EditDocument.contextTypes = {
 const mapStoreToProps = state => ({
   document: state.documentsReducer.document,
   error: state.errorReducer.error,
-  success: state.documentsReducer.update_status
+  success: state.documentsReducer.updateStatus
 });
 
 const mapDispatchToProps = dispatch => ({
-  viewDocument: (token, documentid) => dispatch(viewDocument(token, documentid)),
-  editDocument: (documentDetails, token, documentid) =>
-    dispatch(editDocument(documentDetails, token, documentid)),
+  viewDocument: (token, documentId) => dispatch(viewDocumentAction(token, documentId)),
+  editDocument: (documentDetails, token, documentId) =>
+    dispatch(editDocumentAction(documentDetails, token, documentId)),
   alertClose: () => dispatch(clearErrorAlert())
 });
 

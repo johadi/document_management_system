@@ -3,9 +3,8 @@ import { browserHistory } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FroalaEditorView } from './../common/FraolaComponent';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
-import viewDocumentAction from '../../actions/documentActions/viewOneDocument';
+import { Header, Sidebar } from './../common';
+import { viewDocumentAction } from '../../actions/documentActions';
 
 /**
  * React component for ViewDocument.
