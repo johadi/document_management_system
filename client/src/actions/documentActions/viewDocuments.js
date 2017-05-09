@@ -1,13 +1,10 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import actionTypes from '../actionTypes';
 
-export default (token, offset, limit, all = true) => {
-  const decodedToken = jwtDecode(token);
-  let route = '/api/v1/users/documents';
-  if (all === true) {
-    route = (decodedToken.RoleId === 1) ? '/api/v1/documents/'
-      : '/api/v1/documents/accessible/';
+export default (token, offset, limit, userId = false) => {
+  let route = '/api/v1/documents';
+  if (userId) {
+    route = `/api/v1/users/${userId}/documents`;
   }
   return dispatch =>
     axios.get(`${route}?limit=${limit}&offset=${offset}`, {
@@ -18,8 +15,8 @@ export default (token, offset, limit, all = true) => {
     .then((response) => {
       dispatch({
         type: actionTypes.PAGINATED_DOCUMENTS,
-        documents: response.data.data.documents,
-        pageCount: response.data.data.paginationMeta.pageCount
+        documents: response.data.documents,
+        pageCount: response.data.paginationMeta.pageCount
       });
     })
     .catch((error) => {

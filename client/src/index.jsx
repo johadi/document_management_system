@@ -10,7 +10,6 @@ import '../../node_modules/toastr/build/toastr.min.css';
 import './font-awesome/scss/font-awesome.scss';
 import './stylesheet/styles.scss';
 
-
 const store = configureStore(initialState);
 
 render(

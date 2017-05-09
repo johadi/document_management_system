@@ -1,16 +1,13 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import actionTypes from '../actionTypes';
 
-export default (token, documentName, all = true) => {
-  const decodedToken = jwtDecode(token);
-  let route = '/api/v1/users/documents';
-  if (all === true) {
-    route = (decodedToken.RoleId === 1) ? '/api/v1/search/documents'
-      : '/api/v1/documents/accessible';
+export default (token, searchTerm, userId = false) => {
+  let route = '/api/v1/search/documents';
+  if (userId) {
+    route = `/api/v1/users/${userId}/documents`;
   }
   return dispatch =>
-    axios.get(`${route}?q=${documentName}`, {
+    axios.get(`${route}?q=${searchTerm}`, {
       headers: {
         Authorization: token
       }
@@ -18,8 +15,8 @@ export default (token, documentName, all = true) => {
     .then((response) => {
       dispatch({
         type: actionTypes.SEARCH_DOCUMENTS,
-        documents: response.data.data.documents,
-        pageCount: response.data.data.paginationMeta.pageCount
+        documents: response.data.documents,
+        pageCount: response.data.paginationMeta.pageCount
       });
     }).catch((error) => {
       dispatch({

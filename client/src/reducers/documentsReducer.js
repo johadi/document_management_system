@@ -2,7 +2,7 @@ import actionTypes from '../actions/actionTypes';
 import initialState from '../store/initialState';
 
 /**
- *
+ * Reducers for document state
  * @param {Object} state
  * @param {Object} action
  * @returns {Object} state of props
@@ -14,14 +14,14 @@ export default function documentsReducer(state = initialState, action) {
         documents: action.documents,
         pageCount: action.pageCount,
         updateStatus: null,
-        delete_status: null
+        deleteStatus: null
       });
     case actionTypes.SEARCH_DOCUMENTS:
       return Object.assign({}, state, {
         documents: action.documents,
         pageCount: action.pageCount,
-        update_status: null,
-        delete_status: null });
+        updateStatus: null,
+        deleteStatus: null });
     case actionTypes.DOCUMENT_CREATED:
       return Object.assign({}, state,
         { success: true,
@@ -29,7 +29,7 @@ export default function documentsReducer(state = initialState, action) {
           document: action.document });
     case actionTypes.DOCUMENT_UPDATED:
       return Object.assign({}, state,
-        { update_status: true,
+        { updateStatus: true,
           error: null,
           document: action.document });
     case actionTypes.DOCUMENT_DELETED:
@@ -37,7 +37,7 @@ export default function documentsReducer(state = initialState, action) {
         documents: state.documents.filter(document =>
           document.id !== action.documentId
         ),
-        delete_status: true,
+        deleteStatus: true,
         error: null
       });
     case actionTypes.VIEW_DOCUMENT:

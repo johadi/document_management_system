@@ -1,10 +1,10 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (details) => {
+export default (userDetails) => {
   const token = localStorage.getItem('token');
   return dispatch =>
-    axios.post('/api/v1/documents/', details, {
+    axios.post('/api/v1/documents/', userDetails, {
       headers: {
         Authorization: token
       }
@@ -12,7 +12,7 @@ export default (details) => {
     .then((response) => {
       dispatch({
         type: actionTypes.DOCUMENT_CREATED,
-        document: response.data.data
+        document: response.data.document
       });
     })
     .catch((error) => {

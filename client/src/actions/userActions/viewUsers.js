@@ -12,8 +12,8 @@ export default (token, offset, limit) => {
     .then((response) => {
       dispatch({
         type: actionTypes.PAGINATED_USERS,
-        users: response.data.data.users,
-        pageCount: response.data.data.paginationMeta.pageCount
+        users: response.data.users,
+        pageCount: response.data.paginationMeta.pageCount
       });
     })
     .catch((error) => {

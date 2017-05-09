@@ -14,8 +14,6 @@ export default function signUpReducer(state = initialState, action) {
         success: true,
         error: null
       });
-    case actionTypes.CLEAR_REGISTER_ERROR:
-      return Object.assign({}, state, { error: action.error });
     default:
       return state;
   }

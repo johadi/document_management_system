@@ -1,10 +1,10 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (documentid) => {
+export default (documentId) => {
   const token = window.localStorage.getItem('token');
   return dispatch =>
-    axios.delete(`/api/v1/documents/${documentid}`, {
+    axios.delete(`/api/v1/documents/${documentId}`, {
       headers: {
         Authorization: token
       }
@@ -12,7 +12,7 @@ export default (documentid) => {
     .then(() => {
       dispatch({
         type: actionTypes.DOCUMENT_DELETED,
-        documentId: documentid
+        documentId
       });
     }).catch((error) => {
       dispatch({
