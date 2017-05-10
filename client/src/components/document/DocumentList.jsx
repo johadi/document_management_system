@@ -37,7 +37,7 @@ const DocumentList = (props) => {
           <div className='col s11'>
             <span className="title truncate">
               <Link to={`/document/${document.id}`}>
-                {document.title}
+                <span>{document.title}</span>
               </Link>
             </span>
             <div className="row mb-10">

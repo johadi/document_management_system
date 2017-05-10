@@ -65,8 +65,13 @@ describe('SignUpPage Component', () => {
     expect(wrapper.find('button').props().type).toEqual('submit');
     expect(wrapper.find('button').text()).toEqual('Register');
   });
-  it('should have a form  with an onSubmit property',() => {
+
+  it('should have a form  with an onSubmit property', () => {
     expect(wrapper.find('form').props().onSubmit).toExist();
+  });
+
+  it('should have an input  with an onChange property', () => {
+    expect(wrapper.find('input').at(0).props().onChange).toExist();
   });
 });
 

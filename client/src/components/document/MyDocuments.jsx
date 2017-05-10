@@ -101,10 +101,6 @@ class MyDocuments extends React.Component {
       browserHistory.push('/');
     }
 
-    if (this.props.documents && this.props.documents.length === 0) {
-      return (<p>There are no documents yet in your collection.</p>);
-    }
-
     return (
       <div className="row dashboardContainer col s12">
         <Header />

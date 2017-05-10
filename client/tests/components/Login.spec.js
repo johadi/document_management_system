@@ -4,8 +4,7 @@ import expect from 'expect';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import React from 'react';
-import LoginPageComponent from
-  '../../src/components/auth/LoginPage.jsx';
+import { LoginComponent } from '../../src/components/auth';
 import initialState from '../../src/store/initialState';
 import configureStore from '../../src/store/configureStore';
 
@@ -14,10 +13,9 @@ const store = configureStore(initialState);
 
 const wrapper = mount(
   <Provider store={store}>
-    <LoginPageComponent />
+    <LoginComponent />
   </Provider>
 );
-
 
 describe('LoginPage Component', () => {
   it('should mount the LoginPage component', () => {
@@ -47,5 +45,9 @@ describe('LoginPage Component', () => {
 
   it('should have a form  with an onSubmit property', () => {
     expect(wrapper.find('form').props().onSubmit).toExist();
+  });
+
+  it('should have an input  with an onChange property', () => {
+    expect(wrapper.find('input').at(0).props().onChange).toExist();
   });
 });
