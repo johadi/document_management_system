@@ -35,6 +35,7 @@
     "no-param-reassign": 0,
     "comma-dangle": 0,
     "no-multi-str": 0,
+    "no-unused-expressions": 0,
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { "commonjs": true }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],

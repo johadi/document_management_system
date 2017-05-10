@@ -12,9 +12,10 @@
     "test_db_migrate": "NODE_ENV=test sequelize db:migrate",
     "test_undo_migrate": "NODE_ENV=test sequelize db:migrate:undo:all",
     "test": "NODE_ENV=test sequelize db:migrate && NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --slow 5000",
-    "test_frontend": "NODE_ENV=test mocha --compilers js:babel-register --require client/tests/component/setUp.js client/tests/component/*.spec.js",
-    "e2e-test": "NODE_ENV=test node_modules/.bin/nightwatch --config nightwatch.conf.js",
-    "e2e-setup": "node_modules/selenium-standalone/bin/selenium-standalone install",
+    "test_frontend": "NODE_ENV=test mocha --compilers js:babel-register --require client/tests/components/setUp.js client/tests/components/*.spec.js",
+    "test_frontend2": "NODE_ENV=test mocha --compilers js:babel-register --require client/tests/components/setUp.js client/tests/reducers/*.spec.js",
+    "e2e_test": "NODE_ENV=test node_modules/.bin/nightwatch --config nightwatch.conf.js",
+    "e2e_setup": "node_modules/selenium-standalone/bin/selenium-standalone install",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -91,6 +92,7 @@
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.0",
     "redux-immutable-state-invariant": "^2.0.0",
+    "redux-mock-store": "^1.2.3",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.3",
     "sequelize": "^3.30.2",
