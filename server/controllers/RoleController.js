@@ -42,7 +42,7 @@ const roleCtrl = {
    * @param {Object} res the response object
    * @returns {Object} response body
    */
-  getOneRole(req, res) {
+  getRole(req, res) {
     const responseInfo = {};
     role.findById(req.params.id)
       .then((foundRole) => {

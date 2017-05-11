@@ -13,7 +13,7 @@
     "test_undo_migrate": "NODE_ENV=test sequelize db:migrate:undo:all",
     "test": "NODE_ENV=test sequelize db:migrate && NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --slow 5000",
     "test_frontend": "NODE_ENV=test mocha --compilers js:babel-register --require client/tests/components/setUp.js client/tests/components/*.spec.js client/tests/reducers/*.spec.js",
-    "e2e_test": "NODE_ENV=test node_modules/.bin/nightwatch --config nightwatch.conf.js",
+    "e2e_test": "node_modules/.bin/nightwatch --config nightwatch.conf.js",
     "e2e_setup": "node_modules/selenium-standalone/bin/selenium-standalone install",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

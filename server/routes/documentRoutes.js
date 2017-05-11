@@ -138,7 +138,7 @@ const documentRoute = (router) => {
      *           items:
      *             $ref: '#/definitions/DocUpdate'
      */
-    .get(auth.verifyToken, utils.isValidRequestId, docCtrl.getOneDocument)
+    .get(auth.verifyToken, utils.isValidRequestId, docCtrl.getDocument)
     .patch(auth.verifyToken, utils.isValidRequestId,
       utils.canUpdateOrDeleteDocument, utils.isValidDocumentBody, docCtrl.updateDocument)
     /**
