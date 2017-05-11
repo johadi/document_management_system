@@ -6,7 +6,7 @@ import {
   CreateDocument,
   EditDocument,
   MyDocuments,
-  ViewOneDocument
+  ViewDocument
 } from './components/document';
 import {
   ChangePassword,
@@ -24,7 +24,7 @@ export default(
     <Route path="/dashboard" component={UserDashBoard} />
     <Route path="/document" component={CreateDocument} />
     <Route path="/document/:id/edit" component={EditDocument} />
-    <Route path="/document/:id" component={ViewOneDocument} />
+    <Route path="/document/:id" component={ViewDocument} />
     <Route path="/documents" component={MyDocuments} />
     <Route path="/password" component={ChangePassword} />
     <Route path="/profile" component={ViewUser} />

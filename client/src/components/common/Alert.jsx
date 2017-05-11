@@ -14,7 +14,7 @@ class Alert extends React.Component {
     const message = (this.props.info.error) ?
       this.props.info.error : this.props.info.success;
     const classes = (this.props.info.error) ?
-      'card red' : 'card green';
+      'card red-main' : 'card green';
 
     return (
       <div id="card-alert" className={classes}>

@@ -140,7 +140,7 @@ class MyDocuments extends React.Component {
                 </Link>
               </div>
             </div>
-            <div className="col s2">
+            <div className="col s2 offset-s10">
               <label htmlFor="limit">Set limit</label>
               <select
                 name="limit"
@@ -166,8 +166,8 @@ class MyDocuments extends React.Component {
               deleteDocument={this.props.deleteDocument}
             />
           </div>
-          <div className="col s12">
-            <center>
+          <div className="col s10 offset-s1">
+            <div className="right">
               {
                 ((this.props.pageCount) ?
                   <Pagination
@@ -180,7 +180,7 @@ class MyDocuments extends React.Component {
                     }
                 } /> : '')
               }
-            </center>
+            </div>
           </div>
         </div>
       </div>
