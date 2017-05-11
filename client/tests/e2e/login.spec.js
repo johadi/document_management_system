@@ -1,22 +1,8 @@
 /* eslint-disable no-unused-vars*/
 import variables from './config';
 import config from '../../../nightwatch.conf';
-import db from '../../../server/models';
-import testData from '../../../server/tests/data.spec';
 
 export default {
-  '@disable': true,
-  before: () => {
-    delete testData.adminRole.id;
-    db.Role.create(testData.adminRole)
-      .then((createdRole) => {
-        testData.testUser.roleId = createdRole.id;
-        db.User.create(testData.testUser);
-      });
-  },
-  after: () => {
-    db.sequelize.sync({ force: true });
-  },
 
   'Login Page': (browser) => {
     browser

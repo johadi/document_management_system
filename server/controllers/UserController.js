@@ -1,6 +1,7 @@
 import Validator from 'validatorjs';
 import db from '../models/';
 import helpers from '../utils/helpers';
+import mailer from '../utils/mailer';
 
 const user = db.User;
 const expiresIn = process.env.JWT_EXPIRES_IN || '5h';
@@ -50,6 +51,10 @@ const userCtrl = {
           }
           user.create(req.body)
             .then((newUser) => {
+              console.log(req.decoded.roleId);
+              if (req.decoded.roleId === 1) {
+                mailer(req.body.password, req.body.email);
+              }
               const token = helpers.signToken(newUser);
               responseInfo.status = 'success';
               responseInfo.token = token;

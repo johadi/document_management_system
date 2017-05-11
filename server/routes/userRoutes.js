@@ -85,7 +85,7 @@ const userRoute = (router) => {
      *         schema:
      *           $ref: '#/definitions/User'
      */
-    .post(utils.isValidUserCreateBody, userCtrl.createUser);
+    .post(utils.isAdminCreateUser, utils.isValidUserCreateBody, userCtrl.createUser);
 
   /**
    * @swagger

@@ -139,12 +139,13 @@ export default {
    * @param {Function} next the callback function
    * @returns {Object} validity response
    */
-  isValidUserCreateBody(req, res, next) {
-    let isValidRequestBody;
+  isAdminCreateUser(req, res, next) {
     const token = req.headers.authorization || req.headers['x-access-token']
       || req.body.token || req.query.token;
+    req.decoded = {};
     if (!token) {
-      isValidRequestBody = validate.validateUserKeys(req.body);
+      req.decoded = { roleId: null };
+      next();
     } else {
       jwt.verify(token, secret, (err, decoded) => {
         if (err) {
@@ -154,15 +155,9 @@ export default {
           });
         }
         req.decoded = decoded;
-        if (req.decoded.roleId === 1) {
-          isValidRequestBody = validate.validateUserKeys(req.body, true);
-        } else {
-          isValidRequestBody = validate.validateUserKeys(req.body);
-        }
+        next();
       });
     }
-
-    return validate.validRequestBodyCheck(isValidRequestBody, res, next);
   },
 
   /**
@@ -202,6 +197,16 @@ export default {
       isValidRequestBody = validate.validateUserUpdateKeys(req.body, true);
     } else {
       isValidRequestBody = validate.validateUserUpdateKeys(req.body);
+    }
+    return validate.validRequestBodyCheck(isValidRequestBody, res, next);
+  },
+
+  isValidUserCreateBody(req, res, next) {
+    let isValidRequestBody;
+    if (req.decoded.roleId === 1) {
+      isValidRequestBody = validate.validateUserKeys(req.body, true);
+    } else {
+      isValidRequestBody = validate.validateUserKeys(req.body);
     }
     return validate.validRequestBodyCheck(isValidRequestBody, res, next);
   },
