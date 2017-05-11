@@ -87,7 +87,7 @@ class ViewUser extends React.Component {
               </ul>
               {
                 (!this.props.params.id) ?
-                  <Link to='/edit-profile' className="col s4 offset-s8 btn btn-large waves-effect">
+                  <Link to='/profile/edit' className="col s4 offset-s8 btn btn-large waves-effect">
                     Edit Profile
                   </Link> : ''
               }
