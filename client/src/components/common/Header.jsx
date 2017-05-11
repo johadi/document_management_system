@@ -71,7 +71,7 @@ class Header extends React.Component {
               </div>
               <ul id="loggedinNav">
                 <li>
-                  <Link className="dropdown-button" data-activates="dropdown1">
+                  <Link id="dropbtn" className="dropdown-button" data-activates="dropdown1">
                     {this.state.username}<i className="material-icons right">arrow_drop_down</i>
                   </Link>
                   <ul id="dropdown1" className="dropdown-content">

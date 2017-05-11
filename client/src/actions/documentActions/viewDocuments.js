@@ -20,9 +20,16 @@ export default (token, offset, limit, userId = false) => {
       });
     })
     .catch((error) => {
-      dispatch({
-        type: actionTypes.RESPONSE_ERROR,
-        message: error.message
-      });
+      if (error.statusCode === 404) {
+        dispatch({
+          type: actionTypes.NO_DOCUMENT_FOUND,
+          message: error.message
+        });
+      } else {
+        dispatch({
+          type: actionTypes.RESPONSE_ERROR,
+          message: error.message
+        });
+      }
     });
 };

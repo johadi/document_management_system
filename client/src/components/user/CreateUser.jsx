@@ -69,7 +69,8 @@ class CreateUser extends React.Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.createUser(this.state.user);
+    const token = localStorage.getItem('token');
+    this.props.createUser(this.state.user, token);
   }
 
   /**
@@ -213,7 +214,7 @@ const mapStoreToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createUser: userDetails => dispatch(createUserAction(userDetails)),
+  createUser: (userDetails, token) => dispatch(createUserAction(userDetails, token)),
   alertClose: () => dispatch(clearErrorAlert())
 });
 

@@ -129,24 +129,13 @@ class ViewDocuments extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="col m2">
-                <label htmlFor="limit">Set limit</label>
-                <select
-                  name="limit"
-                  id="limit"
-                  onChange={this.changeLimit}
-                  value={this.state.limit}
-                  className="browser-default"
-                >
-                  <option value="5">5</option>
-                  <option value="10">10</option>
-                  <option value="15">15</option>
-                  <option value="20">20</option>
-                  <option value="25">25</option>
-                  <option value="50">20</option>
-                </select>
+              <div className="col m4 btnAddDocument">
+                <Link className="waves-effect waves-light btn" to="/document">
+                  <i className="material-icons left">note_add</i>
+                  Add Document
+                </Link>
               </div>
-              <div className="col m1 offset-m9">
+              <div className="col m1 offset-m7">
                 <Link onClick={this.refreshDocumentsList}>
                   <i className="material-icons refresh-list-btn">
                     autorenew</i>
@@ -154,11 +143,22 @@ class ViewDocuments extends React.Component {
               </div>
             </div>
 
-            <div className="col s5 btnAddDocument">
-              <Link className="waves-effect waves-light btn" to="/document">
-                <i className="material-icons left">note_add</i>
-                Add Document
-              </Link>
+            <div className="col s2">
+              <label htmlFor="limit">Set limit</label>
+              <select
+                name="limit"
+                id="limit"
+                onChange={this.changeLimit}
+                value={this.state.limit}
+                className="browser-default"
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="50">20</option>
+              </select>
             </div>
 
           </div>

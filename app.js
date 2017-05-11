@@ -1,4 +1,5 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -12,7 +13,8 @@ import db from './server/models/';
 import initialData from './server/config/initialData';
 import webpackConfig from './webpack.config';
 
-require('dotenv').config();
+// require('dotenv').config();
+dotenv.load();
 
 jsLogger.useDefaults();
 

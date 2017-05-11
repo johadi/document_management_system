@@ -1,7 +1,8 @@
 import webpack from 'webpack';
 import path from 'path';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.load();
 
 const GLOBALS = {
   'process.env.NODE_ENV': `"${process.env.NODE_ENV || 'development'}"`
@@ -65,7 +66,8 @@ const config = {
     }]
   },
   devServer: {
-    contentBase: 'client/src',
+    contentBase: 'client/public',
+    hot: true,
     historyApiFallback: true
   },
   externals: {

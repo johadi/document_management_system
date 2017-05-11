@@ -42,6 +42,8 @@ export default function documentsReducer(state = initialState, action) {
       });
     case actionTypes.VIEW_DOCUMENT:
       return Object.assign({}, state, { document: action.document });
+    case actionTypes.NO_DOCUMENT_FOUND:
+      return Object.assign({}, state, { document: [] });
     default:
       return state;
   }
