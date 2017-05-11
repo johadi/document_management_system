@@ -36,38 +36,37 @@ const config = {
         presets: ['react', 'es2015']
       }
     },
-    {
-      test: /\.jsx$/,
-      exclude: ['node_modules', 'server', 'spec', 'dist'],
-      loader: 'babel-loader',
-      query: {
-        presets: ['react', 'es2015']
-      }
-    },
-    {
-      test: /\.scss$/,
-      loaders: ['style-loader', 'css-loader', 'sass-loader']
-    },
-    {
-      test: /(\.css)$/,
-      loaders: ['style-loader', 'css-loader']
-    },
-    {
-      test: /\.(ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file'
-    },
-    {
-      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url?limit=10000&mimetype=application/font-woff'
-    },
-    {
-      test: /\.(png|jpg|gif)$/,
-      loader: 'url-loader?limit=250000'
-    }]
+      {
+        test: /\.jsx$/,
+        exclude: ['node_modules', 'server', 'spec', 'dist'],
+        loader: 'babel-loader',
+        query: {
+          presets: ['react', 'es2015']
+        }
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /(\.css)$/,
+        loaders: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file'
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff'
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        loader: 'url-loader?limit=250000'
+      }]
   },
   devServer: {
-    contentBase: 'client/public',
-    hot: true,
+    contentBase: 'client/src',
     historyApiFallback: true
   },
   externals: {
