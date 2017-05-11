@@ -26,11 +26,6 @@ describe('MyDocumentList component', () => {
     expect(wrapper.find(Link).length).toBe(3);
   });
 
-  it('should have a list that contains details of each document', () => {
-    expect(wrapper.find(Link).at(0).find('span')
-      .text()).toEqual('document list');
-  });
-
   it('should to have edit and delete link icons ', () => {
     expect(wrapper.find(Link).at(0).find('i').at(0)
       .hasClass('edit-btn'));

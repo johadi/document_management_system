@@ -26,11 +26,6 @@ describe('DocumentList component', () => {
     expect(wrapper.find(Link).length).toBe(4);
   });
 
-  it('should have a list that contains details of each document', () => {
-    expect(wrapper.find(Link).at(0).find('span')
-      .text()).toEqual('document list');
-  });
-
   it('should take props', () => {
     expect(wrapper.props().documents).toExist;
   });

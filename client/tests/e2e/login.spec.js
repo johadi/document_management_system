@@ -1,10 +1,26 @@
-/*eslint-disable no-unused-vars*/
+/* eslint-disable no-unused-vars*/
+import variables from './config';
 import config from '../../../nightwatch.conf';
+import db from '../../../server/models';
+import testData from '../../../server/tests/data.spec';
 
 export default {
-  'Login Page': function (browser) {
+  '@disable': true,
+  before: () => {
+    delete testData.adminRole.id;
+    db.Role.create(testData.adminRole)
+      .then((createdRole) => {
+        testData.testUser.roleId = createdRole.id;
+        db.User.create(testData.testUser);
+      });
+  },
+  after: () => {
+    db.sequelize.sync({ force: true });
+  },
+
+  'Login Page': (browser) => {
     browser
-      .url('http://localhost:8000')
+      .url(variables.url)
       .waitForElementVisible('body')
       .assert.title('DMS')
       .setValue('input[type=email]', 'emmatope@gmail.com')
@@ -12,10 +28,12 @@ export default {
       .click('button[type="submit"]')
       .saveScreenshot('screenshots/loginPage.png')
       .pause(1500)
-      .assert.urlEquals('http://localhost:8000/dashboard')
+      .assert.urlEquals(`${variables.url}/dashboard`)
+      .click('#dropbtn')
+      .pause(1000)
       .click('#logout')
       .pause(1000)
-      .assert.urlEquals('http://localhost:8000/')
+      .assert.urlEquals(`${variables.url}/`)
       .end();
   }
 };
