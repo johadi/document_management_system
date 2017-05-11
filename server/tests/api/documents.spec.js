@@ -1,6 +1,7 @@
 import { app, db, testData } from '../helpers.spec';
 
-let adminToken, regularUserToken, privateDocument, personalDocument, publicDocument;
+let adminToken, regularUserToken, privateDocument, personalDocument,
+  publicDocument, documentsPaginationMeta, documentsList;
 
 describe('Document Api', () => {
   before((done) => {
@@ -38,7 +39,7 @@ describe('Document Api', () => {
         .send(testData.testDocApi)
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
-          privateDocument = response.body.data;
+          privateDocument = response.body.document;
           response.status.should.equal(201);
           response.body.status.should.equal('success');
           done();
@@ -79,9 +80,10 @@ describe('Document Api', () => {
         .send(testData.testDocApi)
         .set({ 'x-access-token': regularUserToken })
         .end((error, response) => {
-          personalDocument = response.body.data;
+          personalDocument = response.body.document;
+          response.status.should.equal(201);
           response.body.status.should.equal('success');
-          response.body.data.access.should.equal('private');
+          response.body.document.access.should.equal('private');
           done();
         });
     });
@@ -93,16 +95,21 @@ describe('Document Api', () => {
         .send(testData.testDocApi)
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
-          publicDocument = response.body.data;
+          publicDocument = response.body.document;
           response.body.status.should.equal('success');
-          response.body.data.access.should.equal('public');
+          response.body.document.access.should.equal('public');
           done();
         });
     });
 
     it('should create a document with an id', () => {
-      privateDocument.should.have.property('id');
-      publicDocument.should.have.property('id');
+      privateDocument.should.have.property('id').equal(1);
+      personalDocument.should.have.property('id').equal(2);
+    });
+
+    it('should create a document with a title', () => {
+      privateDocument.should.have.property('title').equal('Cool title');
+      publicDocument.should.have.property('title').equal('Cool title public');
     });
   });
 
@@ -113,8 +120,8 @@ describe('Document Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.should.have.property('id');
-          response.body.data.should.have.property('title');
+          response.body.document.should.have.property('id').equal(1);
+          response.body.document.should.have.property('title').equal('Cool title');
           done();
         });
     });
@@ -125,8 +132,8 @@ describe('Document Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.should.have.property('id');
-          response.body.data.should.have.property('title');
+          response.body.document.should.have.property('id').equal(3);
+          response.body.document.should.have.property('title').equal('Cool title public');
           done();
         });
     });
@@ -143,7 +150,7 @@ describe('Document Api', () => {
         });
     });
 
-    it('should not get documents for a non logged in users', (done) => {
+    it('should not get document for a non logged in users', (done) => {
       app.get(`/api/v1/documents/${privateDocument.id}`)
         .end((err, res) => {
           res.status.should.equal(401);
@@ -157,7 +164,7 @@ describe('Document Api', () => {
         .set({ 'x-access-token': adminToken })
         .end((err, res) => {
           res.status.should.equal(404);
-          res.body.message.should.equal('Document not found');
+          res.body.message.should.equal('No document found');
           done();
         });
     });
@@ -170,20 +177,33 @@ describe('Document Api', () => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.paginationMeta.should.have.property('pageCount');
-          response.body.data.paginationMeta.should.have.property('pageSize');
+          documentsPaginationMeta = response.body.paginationMeta;
+          documentsList = response.body.documents;
           done();
         });
     });
 
-    it('should not allow a regular user to get all documents', (done) => {
-      app.get('/api/v1/documents/')
-        .set({ 'x-access-token': regularUserToken })
-        .end((error, response) => {
-          response.status.should.equal(403);
-          response.body.status.should.equal('fail');
-          response.body.message.should
-            .equal('User is unauthorized for this request.');
+    it('Should ensure documents list pagination meta is correct', () => {
+      documentsPaginationMeta.should.have.property('pageSize').equal(10);
+      documentsPaginationMeta.should.have.property('currentPage').equal(1);
+      documentsPaginationMeta.should.have.property('pageCount').equal(1);
+      documentsPaginationMeta.should.have.property('totalCount').equal(3);
+    });
+
+    it('Should ensure documents list is an object', () => {
+      documentsList.should.be.an.instanceOf(Array);
+    });
+
+    it('Should ensure documents list returned is correct', () => {
+      documentsList[0].should.have.property('id').equal(3);
+      documentsList[0].should.have.property('title').equal('Cool title public');
+    });
+
+    it('should not get documents for a non logged in users', (done) => {
+      app.get('/api/v1/documents')
+        .end((err, res) => {
+          res.status.should.equal(401);
+          res.body.message.should.equal('Token required to access this route');
           done();
         });
     });
@@ -193,7 +213,7 @@ describe('Document Api', () => {
         app.get('/api/v1/documents?limit=3')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
-            const documentLength = response.body.data.paginationMeta.outputCount;
+            const documentLength = response.body.paginationMeta.outputCount;
             response.status.should.equal(200);
             response.body.status.should.equal('success');
             documentLength.should.belowOrEqual(3);
@@ -208,8 +228,7 @@ describe('Document Api', () => {
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.paginationMeta.should.have.property('currentPage');
-            response.body.data.paginationMeta.currentPage.should.equal(1);
+            response.body.paginationMeta.should.have.property('currentPage').equal(1);
             done();
           });
       });
@@ -221,33 +240,33 @@ describe('Document Api', () => {
           .end((error, response) => {
             response.status.should.equal(404);
             response.body.status.should.equal('fail');
-            response.body.message.should.equal('No Document found');
+            response.body.message.should.equal('No document found');
             done();
           });
       });
   });
 
-  describe('Regular user accessible documents: ', () => {
+  describe('Regular user get accessible documents: ', () => {
     it('should get all public and document created by user in same role',
       (done) => {
-        app.get('/api/v1/documents/accessible')
+        app.get('/api/v1/documents')
           .set({ 'x-access-token': regularUserToken })
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.documents[0].title.should.equal('Cool title public');
-            response.body.data.paginationMeta.should.have.property('pageCount');
-            response.body.data.paginationMeta.outputCount.should.equal(1);
+            response.body.documents[0].title.should.equal('Cool title public');
+            response.body.paginationMeta.should.have.property('pageCount').equal(1);
+            response.body.paginationMeta.outputCount.should.equal(2);
             done();
           });
       });
 
     it('should be able to limit the number of documents returned',
       (done) => {
-        app.get('/api/v1/documents/accessible?limit=3')
+        app.get('/api/v1/documents?limit=3')
           .set({ 'x-access-token': regularUserToken })
           .end((error, response) => {
-            const documentLength = response.body.data.paginationMeta.outputCount;
+            const documentLength = response.body.paginationMeta.outputCount;
             response.status.should.equal(200);
             response.body.status.should.equal('success');
             documentLength.should.belowOrEqual(3);
@@ -257,7 +276,7 @@ describe('Document Api', () => {
 
     it('should return not found for offset the database can\'t reach',
       (done) => {
-        app.get('/api/v1/documents/accessible?offset=6&limit=10')
+        app.get('/api/v1/documents?offset=6&limit=10')
           .set({ 'x-access-token': regularUserToken })
           .end((error, response) => {
             response.status.should.equal(404);
@@ -269,25 +288,50 @@ describe('Document Api', () => {
   });
 
   describe('Get user created documents: ', () => {
-    it('should get all document created by user',
+    it('should not get documents for a non logged in users', (done) => {
+      app.get('/api/v1/users/1/documents')
+        .end((err, res) => {
+          res.status.should.equal(401);
+          res.body.message.should.equal('Token required to access this route');
+          done();
+        });
+    });
+
+    it('should get all documents created by a user if logged in user is admin',
       (done) => {
-        app.get('/api/v1/users/documents')
+        app.get('/api/v1/users/2/documents')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.paginationMeta.should.have.property('pageCount');
-            response.body.data.paginationMeta.outputCount.should.equal(2);
+            documentsPaginationMeta = response.body.paginationMeta;
+            documentsList = response.body.documents;
             done();
           });
       });
 
+    it('Should ensure documents list pagination meta is correct', () => {
+      documentsPaginationMeta.should.have.property('pageSize').equal(10);
+      documentsPaginationMeta.should.have.property('currentPage').equal(1);
+      documentsPaginationMeta.should.have.property('pageCount').equal(1);
+      documentsPaginationMeta.should.have.property('totalCount').equal(1);
+    });
+
+    it('Should ensure documents list is an object', () => {
+      documentsList.should.be.an.instanceOf(Array);
+    });
+
+    it('Should ensure documents list returned is correct', () => {
+      documentsList[0].should.have.property('id').equal(2);
+      documentsList[0].should.have.property('title').equal('Cool title private');
+    });
+
     it('should be able to limit the number of documents returned',
       (done) => {
-        app.get('/api/v1/users/documents?limit=3')
+        app.get('/api/v1/users/1/documents?limit=3')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
-            const documentLength = response.body.data.paginationMeta.outputCount;
+            const documentLength = response.body.paginationMeta.outputCount;
             response.status.should.equal(200);
             response.body.status.should.equal('success');
             documentLength.should.belowOrEqual(3);
@@ -297,12 +341,38 @@ describe('Document Api', () => {
 
     it('should return not found for offset the database can\'t reach',
       (done) => {
-        app.get('/api/v1/users/documents?offset=6&limit=10')
+        app.get('/api/v1/users/1/documents?offset=6&limit=10')
           .set({ 'x-access-token': adminToken })
           .end((error, response) => {
             response.status.should.equal(404);
             response.body.status.should.equal('fail');
             response.body.message.should.equal('No document found');
+            done();
+          });
+      });
+
+    it('should get only public and role documents of another user if logged in user not admin',
+      (done) => {
+        app.get('/api/v1/users/1/documents')
+          .set({ 'x-access-token': regularUserToken })
+          .end((error, response) => {
+            response.status.should.equal(200);
+            response.body.status.should.equal('success');
+            response.body.paginationMeta.should.have.property('currentPage').equal(1);
+            response.body.documents[0].should.have.property('title').equal('Cool title public');
+            done();
+          });
+      });
+
+    it('should get all personal documents if logged in user',
+      (done) => {
+        app.get('/api/v1/users/1/documents')
+          .set({ 'x-access-token': adminToken })
+          .end((error, response) => {
+            response.status.should.equal(200);
+            response.body.status.should.equal('success');
+            response.body.paginationMeta.should.have.property('currentPage').equal(1);
+            response.body.documents[1].should.have.property('title').equal('Cool title');
             done();
           });
       });
@@ -332,8 +402,7 @@ describe('Document Api', () => {
           .end((error, response) => {
             response.status.should.equal(404);
             response.body.status.should.equal('fail');
-            response.body.message.should
-              .equal('Document not found');
+            response.body.message.should.equal('Document not found');
             done();
           });
       });
@@ -346,8 +415,7 @@ describe('Document Api', () => {
           .end((error, response) => {
             response.status.should.equal(401);
             response.body.status.should.equal('fail');
-            response.body.message.should
-              .equal('Invalid token');
+            response.body.message.should.equal('Invalid token');
             done();
           });
       });
@@ -365,7 +433,7 @@ describe('Document Api', () => {
           });
       });
 
-    it('Should not allow regular user update another users document',
+    it('Should not allow user update another users document',
       (done) => {
         app.patch(`/api/v1/documents/${privateDocument.id}`)
           .set({ 'x-access-token': regularUserToken })
@@ -374,7 +442,7 @@ describe('Document Api', () => {
             response.status.should.equal(401);
             response.body.status.should.equal('fail');
             response.body.message.should
-              .equal('User is unauthorized for this request');
+              .equal('You don\'t have authorization for this action');
             done();
           });
       });
@@ -403,14 +471,14 @@ fields are supplied`,
           .send(testData.testDocApi)
           .end((error, response) => {
             response.status.should.equal(200);
-            response.body.data.title.should.equal('Update Cool title');
+            response.body.document.title.should.equal('Update Cool title');
             done();
           });
       });
   });
 
   describe('Delete document: ', () => {
-    it('Should not allow a non-admin user to delete another user\'s document',
+    it('Should not allow a user to delete another user\'s document',
       (done) => {
         app.delete(`/api/v1/documents/${privateDocument.id}`)
           .set({ 'x-access-token': regularUserToken })
@@ -418,12 +486,12 @@ fields are supplied`,
             response.status.should.equal(401);
             response.body.status.should.equal('fail');
             response.body.message.should
-              .equal('User is unauthorized for this request');
+              .equal('You don\'t have authorization for this action');
             done();
           });
       });
 
-    it('Should not allow an user with an in-Valid token delete a user',
+    it('Should not allow a user with an in-Valid token delete a user',
       (done) => {
         app.delete(`/api/v1/documents/${privateDocument.id}`)
           .set({ 'x-access-token': 'invalidToken' })
@@ -435,7 +503,7 @@ fields are supplied`,
           });
       });
 
-    it('Should allow an admin user with a valid token to delete any user',
+    it('Should allow a user with a valid token to delete personal document',
       (done) => {
         app.delete(`/api/v1/documents/${privateDocument.id}`)
           .set({ 'x-access-token': adminToken })

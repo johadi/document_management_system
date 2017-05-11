@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
 import validate from './validate';
+import db from '../models/';
+
+const document = db.Document;
 
 const secret = process.env.JWT_SECRET_TOKEN || 'docman';
 
@@ -35,7 +38,8 @@ export default {
     if (parseInt(req.params.id, 10) === 1) {
       return res.status(403).send({
         status: 'fail',
-        message: 'You cannot delete the default admin account' });
+        message: 'You cannot delete the default admin account'
+      });
     }
     next();
   },
@@ -75,7 +79,7 @@ export default {
   },
 
   /**
-   * canUpdateOrFindUserOrDocuments checks if user authorized to
+   * canUpdateOrFindUser checks if user authorized to
    * find or update user
    * @param {Object} req the request object
    * @param {Object} res the response object
@@ -83,7 +87,7 @@ export default {
    * @returns {Object} validity response
    */
   canUpdateOrFindUser(req, res, next) {
-    if (req.decoded.RoleId !== 1 && (+req.params.id !== req.decoded.UserId)) {
+    if (req.decoded.roleId !== 1 && (+req.params.id !== req.decoded.userId)) {
       return res.status(401).send({
         status: 'fail',
         message: 'You don\'t have authorization for this action'
@@ -93,18 +97,55 @@ export default {
   },
 
   /**
+   * canUpdateOrDeleteDocument checks if user authorized to
+   * delete or update user
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @param {Function} next the callback function
+   * @returns {Object} validity response
+   */
+  canUpdateOrDeleteDocument(req, res, next) {
+    document.findById(req.params.id)
+      .then((foundDocument) => {
+        if (!foundDocument) {
+          return res.status(404).json({
+            status: 'fail',
+            message: 'Document not found'
+          });
+        }
+        if (req.decoded.userId === foundDocument.creatorId) {
+          req.foundDocument = foundDocument;
+          next();
+        } else {
+          return res.status(401).send({
+            status: 'fail',
+            message: 'You don\'t have authorization for this action'
+          });
+        }
+      })
+      .catch((error) => {
+        const response = {
+          status: 'error',
+          errors: error.errors
+        };
+        return res.status(400).json(response);
+      });
+  },
+
+  /**
    * isValidUserCreateBody checks if user create request body is valid
    * @param {Object} req the request object
    * @param {Object} res the response object
    * @param {Function} next the callback function
    * @returns {Object} validity response
    */
-  isValidUserCreateBody(req, res, next) {
-    let isValidRequestBody;
+  isAdminCreateUser(req, res, next) {
     const token = req.headers.authorization || req.headers['x-access-token']
       || req.body.token || req.query.token;
+    req.decoded = {};
     if (!token) {
-      isValidRequestBody = validate.validateUserKeys(req.body);
+      req.decoded = { roleId: null };
+      next();
     } else {
       jwt.verify(token, secret, (err, decoded) => {
         if (err) {
@@ -114,15 +155,9 @@ export default {
           });
         }
         req.decoded = decoded;
-        if (req.decoded.RoleId === 1) {
-          isValidRequestBody = validate.validateUserKeys(req.body, true);
-        } else {
-          isValidRequestBody = validate.validateUserKeys(req.body);
-        }
+        next();
       });
     }
-
-    return validate.validRequestBodyCheck(isValidRequestBody, res, next);
   },
 
   /**
@@ -158,10 +193,20 @@ export default {
    */
   isValidUserUpdateBody(req, res, next) {
     let isValidRequestBody;
-    if (req.decoded.RoleId === 1) {
+    if (req.decoded.roleId === 1) {
       isValidRequestBody = validate.validateUserUpdateKeys(req.body, true);
     } else {
       isValidRequestBody = validate.validateUserUpdateKeys(req.body);
+    }
+    return validate.validRequestBodyCheck(isValidRequestBody, res, next);
+  },
+
+  isValidUserCreateBody(req, res, next) {
+    let isValidRequestBody;
+    if (req.decoded.roleId === 1) {
+      isValidRequestBody = validate.validateUserKeys(req.body, true);
+    } else {
+      isValidRequestBody = validate.validateUserKeys(req.body);
     }
     return validate.validRequestBodyCheck(isValidRequestBody, res, next);
   },

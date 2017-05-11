@@ -4,10 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
 import toastr from 'toastr';
-import Alert from './../common/Alert.jsx';
-import Header from '../common/Header.jsx';
-import Sidebar from '../common/Sidebar.jsx';
-import changePasswordAction from '../../actions/userActions/changePassword';
+import { Header, Sidebar, Alert } from './../common';
+import { changePasswordAction } from '../../actions/userActions';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
 
 /**
@@ -42,7 +40,7 @@ class ChangePassword extends React.Component {
     if (localStorage.getItem('token') !== null) {
       const decodedToken = jwtDecode(localStorage.getItem('token'));
       this.state = Object.assign({}, this.state, {
-        userId: decodedToken.UserId,
+        userId: decodedToken.userId,
         token: localStorage.getItem('token')
       });
     } else {
@@ -171,7 +169,7 @@ ChangePassword.PropTypes = {
 };
 
 const mapStoreToProps = state => ({
-  success: state.usersReducer.update_status,
+  success: state.usersReducer.updateStatus,
   error: state.errorReducer.error
 });
 

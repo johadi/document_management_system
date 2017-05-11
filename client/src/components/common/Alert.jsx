@@ -2,7 +2,7 @@ import React from 'react';
 import AlertList from './AlertList.jsx';
 
 /**
- * LoginPage class declaration
+ * Alert component class declaration
  */
 class Alert extends React.Component {
   /**

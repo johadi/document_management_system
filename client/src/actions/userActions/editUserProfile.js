@@ -13,11 +13,10 @@ export default (details, id = false) => {
     .then((response) => {
       dispatch({
         type: actionTypes.UPDATE_USER,
-        user: response.data.data
+        user: response.data.user
       });
     })
     .catch((error) => {
-      console.log(error);
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: (error.response.data.message) ?

@@ -3,12 +3,10 @@ import { browserHistory } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
-import Alert from './../common/Alert.jsx';
+import { Header, Sidebar, Alert } from './../common';
 import { FroalaEditor } from './../common/FraolaComponent';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import newDocument from '../../actions/documentActions/newDocument';
+import { createDocumentAction } from '../../actions/documentActions';
 
 /**
  * React component for CreateDocument.
@@ -187,7 +185,7 @@ const mapStoreToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  create: documentDetails => dispatch(newDocument(documentDetails)),
+  create: documentDetails => dispatch(createDocumentAction(documentDetails)),
   alertClose: () => dispatch(clearErrorAlert())
 });
 

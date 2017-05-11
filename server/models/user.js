@@ -91,9 +91,6 @@ than 254 characters.'
           if (value.length < 6) {
             throw new Error('Your password cannot be less than 6 characters');
           }
-          const salt = bcrypt.genSaltSync(8);
-          const hash = bcrypt.hashSync(value, salt);
-          this.setDataValue('password', hash);
         }
       }
     }
@@ -112,22 +109,20 @@ than 254 characters.'
       },
 
       hashPassword() {
-        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
+        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync());
+      }
+    },
+
+    hooks: {
+      beforeCreate: (user) => {
+        user.hashPassword();
+      },
+      beforeUpdate: (user) => {
+        if (user.new_password) {
+          user.hashPassword();
+        }
       }
     }
-    //
-    // hooks: {
-    //   beforeCreate: (newUser) => {
-    //     if (this.getDataValue('password').length >= 6) {
-    //       newUser.hashPassword();
-    //     } else {
-    //       throw new Error('Your password cannot be less than 6 characters');
-    //     }
-    //   },
-    //   beforeUpdate: (newUser) => {
-    //     newUser.hashPassword();
-    //   }
-    // }
   });
   return User;
 };

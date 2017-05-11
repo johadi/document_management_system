@@ -1,9 +1,9 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (token, documentid) =>
+export default (token, documentId) =>
   dispatch =>
-    axios.get(`/api/v1/documents/${documentid}`, {
+    axios.get(`/api/v1/documents/${documentId}`, {
       headers: {
         Authorization: token
       }
@@ -11,11 +11,10 @@ export default (token, documentid) =>
     .then((response) => {
       dispatch({
         type: actionTypes.VIEW_DOCUMENT,
-        document: response.data.data
+        document: response.data.document
       });
     })
     .catch((error) => {
-      console.log(error);
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: (error.response && error.response.data.message) ?

@@ -2,10 +2,9 @@ import { browserHistory, Link } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Alert from './../common/Alert.jsx';
-import signUpAction from '../../actions/authActions/signUpAction';
+import { Alert, Header } from './../common';
+import { signUpAction } from '../../actions/authActions';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import Header from '../common/Header.jsx';
 
 /**
  * React component for Signup.
@@ -39,6 +38,7 @@ class SignUpPage extends React.Component {
   }
 
   /**
+   * Function when component about to mount
    * @return {void} void
    */
   componentWillMount() {
@@ -49,7 +49,7 @@ class SignUpPage extends React.Component {
   }
 
   /**
-   * On receiving of props
+   * On receiving of props from reducers
    * @param {Object} nextProps
    * @return {void} void
    */
@@ -61,7 +61,7 @@ class SignUpPage extends React.Component {
   }
 
   /**
-   * On change of input values
+   * On change of signup form input values
    * @param {object} event
    * @return {void} void
    */
@@ -88,7 +88,7 @@ class SignUpPage extends React.Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.signup(this.state);
+    this.props.signUp(this.state);
   }
 
   /**
@@ -100,14 +100,14 @@ class SignUpPage extends React.Component {
   }
 
   /**
-   * Renders component
+   * Renders signup component
    * @return {XML} JSX
    */
   render() {
     return (
       <div className="row">
         <Header />
-        <div className="col s8 offset-s2 card-panel">
+        <div className="col s6 offset-s3 card-panel">
           <h4 className="center-align">SIGN UP</h4>
           <form className="loginForm" onSubmit={this.handleSubmit} >
             { this.state.error ?
@@ -235,7 +235,7 @@ const mapStoreToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  signup: userDetails => dispatch(signUpAction(userDetails)),
+  signUp: userDetails => dispatch(signUpAction(userDetails)),
   alertClose: () => dispatch(clearErrorAlert())
 });
 

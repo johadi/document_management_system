@@ -1,34 +1,37 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import SignUpPage from './components/auth/SignUpPage.jsx';
-import LoginPage from './components/auth/LoginPage.jsx';
-import UserDashBoard from './components/document/DashBoard.jsx';
-import CreateDocument from './components/document/CreateDocument.jsx';
-import EditDocument from './components/document/EditDocument.jsx';
-import MyDocument from './components/document/MyDocuments.jsx';
-import ViewDocument from './components/document/ViewOneDocument.jsx';
-import ChangePassword from './components/user/ChangePassword.jsx';
-import ViewUser from './components/user/ViewUser.jsx';
-import EditUser from './components/user/EditUser.jsx';
-import ViewAllUsers from './components/user/ViewAllUsers.jsx';
-import CreateUser from './components/user/CreateUser.jsx';
+import { SignUpComponent, LoginComponent } from './components/auth';
+import {
+  UserDashBoard,
+  CreateDocument,
+  EditDocument,
+  MyDocuments,
+  ViewOneDocument
+} from './components/document';
+import {
+  ChangePassword,
+  ViewUser,
+  EditUser,
+  ViewAllUsers,
+  CreateUser
+} from './components/user';
 
 export default(
   <Route path="/">
-    <IndexRoute component={LoginPage} />
-    <Route path="/login" component={LoginPage} />
-    <Route path="/register" component={SignUpPage} />
+    <IndexRoute component={LoginComponent} />
+    <Route path="/login" component={LoginComponent} />
+    <Route path="/register" component={SignUpComponent} />
     <Route path="/dashboard" component={UserDashBoard} />
-    <Route path="/create-document" component={CreateDocument} />
-    <Route path="/edit-document/:id" component={EditDocument} />
-    <Route path="/view-document/:id" component={ViewDocument} />
-    <Route path="/my-documents" component={MyDocument} />
-    <Route path="/change-password" component={ChangePassword} />
+    <Route path="/document" component={CreateDocument} />
+    <Route path="/document/:id/edit" component={EditDocument} />
+    <Route path="/document/:id" component={ViewOneDocument} />
+    <Route path="/documents" component={MyDocuments} />
+    <Route path="/password" component={ChangePassword} />
     <Route path="/profile" component={ViewUser} />
-    <Route path="/view-user/:id" component={ViewUser} />
-    <Route path="/edit-profile" component={EditUser} />
-    <Route path="/edit-user/:id" component={EditUser} />
+    <Route path="/user/:id" component={ViewUser} />
+    <Route path="/profile/edit" component={EditUser} />
+    <Route path="/user/:id/edit" component={EditUser} />
     <Route path="/users" component={ViewAllUsers} />
-    <Route path="/create-user" component={CreateUser} />
+    <Route path="/user" component={CreateUser} />
   </Route>
 );

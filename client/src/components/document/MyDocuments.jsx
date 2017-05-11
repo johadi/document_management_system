@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
+import { Header, Sidebar } from './../common';
 import MyDocumentList from './MyDocumentList.jsx';
-import deleteDocumentAction from '../../actions/documentActions/deleteDocument';
-import viewDocumentAction from '../../actions/documentActions/viewDocuments';
-import searchDocumentAction from '../../actions/documentActions/searchDocuments';
+import {
+  deleteDocumentAction,
+  viewDocumentsAction,
+  searchDocumentsAction
+} from '../../actions/documentActions';
 
 /**
  * MyDocuments class declaration
@@ -27,6 +28,7 @@ class MyDocuments extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchDocument = this.searchDocument.bind(this);
+    this.changeLimit = this.changeLimit.bind(this);
     this.refreshDocumentsList = this.refreshDocumentsList.bind(this);
   }
 
@@ -37,12 +39,12 @@ class MyDocuments extends React.Component {
     if (localStorage.getItem('token') !== null) {
       const decodedToken = jwtDecode(localStorage.getItem('token'));
       this.state = Object.assign({}, this.state, {
-        userId: decodedToken.UserId,
+        userId: decodedToken.userId,
         token: localStorage.getItem('token')
       });
       const offset = 0;
       this.props.paginateDocuments(this.state.token,
-        offset, this.state.limit);
+        offset, this.state.limit, this.state.userId);
     } else {
       browserHistory.push('/');
     }
@@ -62,7 +64,8 @@ class MyDocuments extends React.Component {
    * @return {void} void
    */
   searchDocument() {
-    this.props.searchDocument(this.state.token, this.state.searchTerms);
+    this.props.searchDocument(this.state.token, this.state.searchTerms,
+      this.state.userId);
   }
 
   /**
@@ -72,10 +75,21 @@ class MyDocuments extends React.Component {
   refreshDocumentsList() {
     const offset = 0;
     this.props.paginateDocuments(this.state.token,
-      offset, this.state.limit);
+      offset, this.state.limit, this.state.userId);
     this.setState({
       searchTerms: ''
     });
+  }
+
+  /**
+   * Change limit of documents to display per page
+   * @param {any} event
+   * @return {void}
+   */
+  changeLimit(event) {
+    const value = Math.abs(parseInt(event.target.value, 10));
+    this.state = (Object.assign({}, this.state, { limit: value }));
+    this.refreshDocumentsList();
   }
 
   /**
@@ -83,12 +97,8 @@ class MyDocuments extends React.Component {
    * @return {XML} JSX
    */
   render() {
-    if (!window.localStorage.getItem('token')) {
+    if (localStorage.getItem('token') === null) {
       browserHistory.push('/');
-    }
-
-    if (this.props.documents && this.props.documents.length === 0) {
-      return (<p>There are no documents yet in your collection.</p>);
     }
 
     return (
@@ -97,33 +107,55 @@ class MyDocuments extends React.Component {
         <Sidebar />
         <div className="col s12 workspace">
           <div className="row workspace-header">
-            <h4 className="col s8">My Documents</h4>
-            <div className="col s4">
-              <input
-                className="col s10"
-                type="text"
-                id="searchTerms"
-                name="searchTerms"
-                value={this.state.searchTerms}
-                placeholder="Search..."
-                onChange={this.handleChange}
-              />
-              <button className="btn col s2" id="searchBtn"
-                onClick={this.searchDocument}
+            <div className="row">
+              <h4 className="col s8">My Documents</h4>
+              <div className="col s4">
+                <input
+                  className="col s10"
+                  type="text"
+                  id="searchTerms"
+                  name="searchTerms"
+                  value={this.state.searchTerms}
+                  placeholder="Search..."
+                  onChange={this.handleChange}
+                />
+                <button className="btn col s2" id="searchBtn"
+                  onClick={this.searchDocument}
+                >
+                  <i className="material-icons">search</i></button>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col m4 btnAddDocument">
+                <Link className="waves-effect waves-light btn" to="/document">
+                  <i className="material-icons left">note_add</i>
+                  Add Document
+                </Link>
+              </div>
+              <div className="col m1 offset-m7">
+                <Link onClick={this.refreshDocumentsList}>
+                  <i className="material-icons refresh-list-btn">
+                    autorenew</i>
+                </Link>
+              </div>
+            </div>
+            <div className="col s2">
+              <label htmlFor="limit">Set limit</label>
+              <select
+                name="limit"
+                id="limit"
+                onChange={this.changeLimit}
+                value={this.state.limit}
+                className="browser-default"
               >
-                <i className="material-icons">search</i></button>
-            </div>
-            <div className="col m1 offset-m11">
-              <Link onClick={this.refreshDocumentsList}>
-                <i className="material-icons refresh-list-btn">
-                  autorenew</i>
-              </Link>
-            </div>
-            <div className="col s5 btnAddDocument">
-              <Link className="waves-effect waves-light btn" to="/create-document">
-                <i className="material-icons left">note_add</i>
-                Add Document
-              </Link>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="50">20</option>
+              </select>
             </div>
 
           </div>
@@ -144,7 +176,7 @@ class MyDocuments extends React.Component {
                       const token = localStorage.getItem('token');
                       const offset = (page - 1) * this.state.limit;
                       this.props.paginateDocuments(token,
-                        offset, this.state.limit);
+                        offset, this.state.limit, this.state.userId);
                     }
                 } /> : '')
               }
@@ -171,10 +203,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   deleteDocument: documentid =>
     dispatch(deleteDocumentAction(documentid)),
-  paginateDocuments: (usertoken, offset, limit) =>
-    dispatch(viewDocumentAction(usertoken, offset, limit, false)),
-  searchDocument: (usertoken, documentName) =>
-    dispatch(searchDocumentAction(usertoken, documentName, false))
+  paginateDocuments: (token, offset, limit, userId) =>
+    dispatch(viewDocumentsAction(token, offset, limit, userId)),
+  searchDocument: (usertoken, searchTerm, userId) =>
+    dispatch(searchDocumentsAction(usertoken, searchTerm, userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDocuments);

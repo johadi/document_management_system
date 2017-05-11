@@ -29,7 +29,7 @@ const UsersList = (props) => {
         <i className="material-icons circle">person</i>
         <div className='col s11'>
             <span className="title truncate">
-              <Link to={`/view-user/${user.id}`}>
+              <Link to={`/user/${user.id}`}>
                 {user.lastname} {user.firstname}
               </Link>
             </span>
@@ -48,7 +48,7 @@ const UsersList = (props) => {
         </div>
         <div className="col s1">
           <div className="secondary-content">
-            <Link to={`/edit-user/${user.id}`}
+            <Link to={`/user/${user.id}/edit`}
               className="btn-floating action-edit-color"
             >
               <i className="small material-icons edit-btn">mode_edit</i>

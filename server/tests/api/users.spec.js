@@ -1,6 +1,6 @@
 import { app, db, testData } from '../helpers.spec';
 
-let regularUser, adminToken, regularUserToken;
+let regularUser, adminToken, regularUserToken, usersPaginationMeta, usersList;
 
 describe('Users Api:', () => {
   before((done) => {
@@ -23,7 +23,7 @@ describe('Users Api:', () => {
       app.post('/api/v1/users')
         .send(testData.testUser)
         .end((error, response) => {
-          regularUser = response.body.data;
+          regularUser = response.body.user;
           response.status.should.equal(201);
           done();
         });
@@ -34,15 +34,15 @@ describe('Users Api:', () => {
     });
 
     it('Should ensure that a new user has a firstname', () => {
-      regularUser.should.have.property('firstname');
+      regularUser.should.have.property('firstname').equal('Ayobami');
     });
 
     it('Should ensure that a new user has a lastname', () => {
-      regularUser.should.have.property('lastname');
+      regularUser.should.have.property('lastname').equal('Shaibu');
     });
 
     it('Should ensure that a new user has a username', () => {
-      regularUser.should.have.property('username');
+      regularUser.should.have.property('username').equal('Andela');
     });
 
     it('Should not allow duplicate username in the database', (done) => {
@@ -434,12 +434,12 @@ password or email', (done) => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.should.have.property('id');
-          response.body.data.should.have.property('username');
-          response.body.data.should.have.property('roleId');
-          response.body.data.should.have.property('firstname');
-          response.body.data.should.have.property('lastname');
-          response.body.data.should.have.property('email');
+          response.body.user.should.have.property('id').equal(2);
+          response.body.user.should.have.property('username').equal('Andela');
+          response.body.user.should.have.property('roleId').equal(2);
+          response.body.user.should.have.property('firstname').equal('Ayobami');
+          response.body.user.should.have.property('lastname').equal('Shaibu');
+          response.body.user.should.have.property('email').equal('ayo@gmail.com');
           done();
         });
     });
@@ -451,12 +451,12 @@ password or email', (done) => {
           .end((error, response) => {
             response.status.should.equal(200);
             response.body.status.should.equal('success');
-            response.body.data.should.have.property('id');
-            response.body.data.should.have.property('username');
-            response.body.data.should.have.property('roleId');
-            response.body.data.should.have.property('firstname');
-            response.body.data.should.have.property('lastname');
-            response.body.data.should.have.property('email');
+            response.body.user.should.have.property('id').equal(2);
+            response.body.user.should.have.property('username').equal('Andela');
+            response.body.user.should.have.property('roleId').equal(2);
+            response.body.user.should.have.property('firstname').equal('Ayobami');
+            response.body.user.should.have.property('lastname').equal('Shaibu');
+            response.body.user.should.have.property('email').equal('ayo@gmail.com');
             done();
           });
       });
@@ -505,18 +505,44 @@ password or email', (done) => {
         .end((error, response) => {
           response.status.should.equal(200);
           response.body.status.should.equal('success');
-          response.body.data.users.should.be.an.instanceOf(Array);
-          response.body.data.paginationMeta.should.have.property('pageSize');
-          response.body.data.paginationMeta.should.have.property('currentPage');
-          response.body.data.users[0].should.have.property('id');
-          response.body.data.users[0].should.have.property('username');
-          response.body.data.users[0].should.have.property('roleId');
-          response.body.data.users[0].should.have.property('firstname');
-          response.body.data.users[0].should.have.property('lastname');
-          response.body.data.users[0].should.have.property('email');
+          usersPaginationMeta = response.body.paginationMeta;
+          usersList = response.body.users;
           done();
         });
     });
+
+    it('Should ensure users list pagination meta is correct', () => {
+      usersPaginationMeta.should.have.property('pageSize').equal(10);
+      usersPaginationMeta.should.have.property('currentPage').equal(1);
+      usersPaginationMeta.should.have.property('pageCount').equal(1);
+      usersPaginationMeta.should.have.property('totalCount').equal(2);
+    });
+
+    it('Should ensure users list is an object', () => {
+      usersList.should.be.an.instanceOf(Array);
+    });
+
+    it('Should ensure users list returned is correct', () => {
+      usersList[0].should.have.property('id').equal(2);
+      usersList[0].should.have.property('username').equal('Andela');
+      usersList[0].should.have.property('roleId').equal(2);
+      usersList[0].should.have.property('firstname').equal('Ayobami');
+      usersList[0].should.have.property('lastname').equal('Shaibu');
+      usersList[0].should.have.property('email').equal('ayo@gmail.com');
+    });
+
+    it('should be able to limit the number of users returned',
+      (done) => {
+        app.get('/api/v1/users?limit=3')
+          .set({ 'x-access-token': adminToken })
+          .end((error, response) => {
+            const userLength = response.body.paginationMeta.outputCount;
+            response.status.should.equal(200);
+            response.body.status.should.equal('success');
+            userLength.should.belowOrEqual(3);
+            done();
+          });
+      });
 
     it('Should not find any user for offset data above the database rows',
       (done) => {
@@ -589,7 +615,7 @@ password or email', (done) => {
 
     it('Should not allow regular users update another users profile',
       (done) => {
-        testData.adminUser.lastname = 'admin';
+        testData.adminUser.lastname = 'administrator';
         app.patch('/api/v1/users/1')
           .set({ 'x-access-token': regularUserToken })
           .send(testData.adminUser)
@@ -625,8 +651,8 @@ fields are supplied`,
           .set({ 'x-access-token': regularUserToken })
           .send(testData.testUserUpdate)
           .end((error, response) => {
-            // response.status.should.equal(200);
-            response.body.data.firstname.should.equal('Ayomide');
+            response.status.should.equal(200);
+            response.body.user.firstname.should.equal('Ayomide');
             done();
           });
       });
@@ -716,7 +742,7 @@ does not exist', (done) => {
           });
       });
 
-    it('Should not allow user to change password if invalid fields\
+    it('Should not allow user to change password if invalid fields \
 are supplied',
       (done) => {
         testData.testUserChangePassword.invalidField = 'hello';

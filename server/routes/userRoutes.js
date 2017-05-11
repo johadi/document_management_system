@@ -85,7 +85,7 @@ const userRoute = (router) => {
      *         schema:
      *           $ref: '#/definitions/User'
      */
-    .post(utils.isValidUserCreateBody, userCtrl.createUser);
+    .post(utils.isAdminCreateUser, utils.isValidUserCreateBody, userCtrl.createUser);
 
   /**
    * @swagger
@@ -140,9 +140,6 @@ const userRoute = (router) => {
 
   router.route('/users/logout')
     .post(auth.verifyToken, userCtrl.logout);
-
-  router.route('/users/documents')
-    .get(auth.verifyToken, docCtrl.getMyDocuments);
 
   /**
    * @swagger
@@ -375,8 +372,7 @@ const userRoute = (router) => {
      *           items:
      *             $ref: '#/definitions/FetchDoc'
      */
-    .get(auth.verifyToken, auth.verifyAdmin, utils.isValidRequestId,
-      docCtrl.getUserDocuments);
+    .get(auth.verifyToken, utils.isValidRequestId, docCtrl.getUserDocuments);
 };
 
 export default userRoute;

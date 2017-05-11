@@ -92,6 +92,6 @@ const searchRoute = (router) => {
      *           items:
      *             $ref: '#/definitions/SearchDocument'
      */
-    .get(auth.verifyToken, auth.verifyAdmin, searchCtrl.searchDocument);
+    .get(auth.verifyToken, searchCtrl.searchDocument);
 };
 export default searchRoute;

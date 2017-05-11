@@ -3,36 +3,14 @@ import _ from 'underscore';
 
 const secret = process.env.JWT_SECRET_TOKEN || 'docman';
 const expiresIn = process.env.JWT_EXPIRES_IN || '5h';
-const responseInfo = {};
 
 const Helpers = {
-
-  responseFormat(info, data = undefined) {
-    const response = {};
-
-    if (info.status) {
-      response.status = info.status;
-    }
-    if (info.message) {
-      response.message = info.message;
-    }
-    if (data) {
-      response.data = data;
-    }
-    if (info.token) {
-      response.token = info.token;
-    }
-    if (info.errors) {
-      response.errors = info.errors;
-    }
-    return response;
-  },
   signToken(user) {
     return jwt.sign({
-      UserId: user.id,
-      RoleId: user.roleId,
-      Email: user.email,
-      Username: user.username
+      userId: user.id,
+      roleId: user.roleId,
+      email: user.email,
+      username: user.username
     }, secret, { expiresIn });
   },
   validationErrorsToArray(error) {
@@ -74,29 +52,44 @@ const Helpers = {
     ];
   },
   catchErrorsResponse(error) {
+    const responseInfo = {};
     responseInfo.status = 'error';
     responseInfo.errors = error.errors;
     return responseInfo;
   },
   validationResponse(validationErrors) {
+    const responseInfo = {};
     responseInfo.status = 'error';
     responseInfo.errors = this.validationErrorsToArray(validationErrors);
     return responseInfo;
   },
   unauthorizedResponse() {
+    const responseInfo = {};
     responseInfo.status = 'fail';
     responseInfo.message =
       'User is unauthorized for this request';
     return responseInfo;
   },
+  noDocumentFound() {
+    const responseInfo = {};
+    responseInfo.status = 'fail';
+    responseInfo.message = 'No document found';
+    return responseInfo;
+  },
+  userDoesNotExist() {
+    const responseInfo = {};
+    responseInfo.status = 'fail';
+    responseInfo.message = 'User does not exist';
+    return responseInfo;
+  },
   generatePaginationMeta(dbResult, page, count = undefined) {
     const paginationMeta = {};
     if (count === undefined) {
-      paginationMeta.pageCount = Math.floor(dbResult.count / page.limit) + 1;
+      paginationMeta.pageCount = Math.ceil(dbResult.count / page.limit);
       paginationMeta.totalCount = dbResult.count;
       paginationMeta.outputCount = dbResult.rows.length;
     } else {
-      paginationMeta.pageCount = Math.floor(count / page.limit) + 1;
+      paginationMeta.pageCount = Math.ceil(count / page.limit);
       paginationMeta.totalCount = count;
       paginationMeta.outputCount = dbResult.length;
     }

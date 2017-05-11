@@ -1,7 +1,7 @@
-import userCtrl from './userController';
-import docCtrl from './documentController';
-import roleCtrl from './roleController';
-import searchCtrl from './searchController';
+import userCtrl from './UserController';
+import docCtrl from './DocumentController';
+import roleCtrl from './RoleController';
+import searchCtrl from './SearchController';
 
 export {
   userCtrl,

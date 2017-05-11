@@ -4,12 +4,9 @@ import { browserHistory } from 'react-router';
 import React from 'react';
 import toastr from 'toastr';
 import jwtDecode from 'jwt-decode';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
-import Alert from './../common/Alert.jsx';
+import { Header, Sidebar, Alert } from './../common';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import viewUserAction from '../../actions/userActions/viewUserProfile';
-import editUserAction from '../../actions/userActions/editUserProfile';
+import { viewUserAction, editUserAction } from '../../actions/userActions';
 
 /**
  * React component for EditUser.
@@ -45,11 +42,11 @@ class EditUser extends React.Component {
     if (localStorage.getItem('token') !== null) {
       const decodedToken = jwtDecode(localStorage.getItem('token'));
       this.state = Object.assign({}, this.state, {
-        userId: decodedToken.UserId,
-        roleId: decodedToken.RoleId,
+        userId: decodedToken.userId,
+        roleId: decodedToken.roleId,
         token: localStorage.getItem('token')
       });
-      if (this.props.params.id && (decodedToken.RoleId !== 1)) {
+      if (this.props.params.id && (decodedToken.roleId !== 1)) {
         browserHistory.push('/dashboard');
       }
       if (this.props.params.id) {
@@ -241,13 +238,13 @@ EditUser.contextTypes = {
 const mapStoreToProps = state => ({
   user: state.usersReducer.user,
   error: state.errorReducer.error,
-  success: state.usersReducer.update_status
+  success: state.usersReducer.updateStatus
 });
 
 const mapDispatchToProps = dispatch => ({
   viewUser: (token, userId) => dispatch(viewUserAction(token, userId)),
-  editUser: (documentDetails, token, documentid) =>
-    dispatch(editUserAction(documentDetails, token, documentid)),
+  editUser: (documentDetails, token, documentId) =>
+    dispatch(editUserAction(documentDetails, token, documentId)),
   alertClose: () => dispatch(clearErrorAlert())
 });
 

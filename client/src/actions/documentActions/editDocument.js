@@ -1,9 +1,9 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (details, token, documentid) =>
+export default (details, token, documentId) =>
   dispatch =>
-    axios.put(`/api/v1/documents/${documentid}`, details, {
+    axios.put(`/api/v1/documents/${documentId}`, details, {
       headers: {
         Authorization: token
       }
@@ -11,7 +11,7 @@ export default (details, token, documentid) =>
     .then((response) => {
       dispatch({
         type: actionTypes.DOCUMENT_UPDATED,
-        document: response.data.data
+        document: response.data.document
       });
     })
     .catch((error) => {

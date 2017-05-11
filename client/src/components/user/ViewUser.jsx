@@ -3,9 +3,8 @@ import { browserHistory, Link } from 'react-router';
 import React from 'react';
 import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
-import viewUserAction from '../../actions/userActions/viewUserProfile';
+import { Header, Sidebar } from './../common';
+import { viewUserAction } from '../../actions/userActions';
 
 /**
  * React component for ViewUser.
@@ -32,7 +31,7 @@ class ViewUser extends React.Component {
     if (localStorage.getItem('token') !== null) {
       const decodedToken = jwtDecode(localStorage.getItem('token'));
       this.state = Object.assign({}, this.state, {
-        userId: decodedToken.UserId,
+        userId: decodedToken.userId,
         token: localStorage.getItem('token')
       });
       if (this.props.params.id) {
@@ -88,7 +87,7 @@ class ViewUser extends React.Component {
               </ul>
               {
                 (!this.props.params.id) ?
-                  <Link to='/edit-profile' className="col s4 offset-s8 btn btn-large waves-effect">
+                  <Link to='/profile/edit' className="col s4 offset-s8 btn btn-large waves-effect">
                     Edit Profile
                   </Link> : ''
               }

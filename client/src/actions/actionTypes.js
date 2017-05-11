@@ -23,5 +23,6 @@ export default keymirror({
   UPDATE_USER: null,
   PASSWORD_UPDATED: null,
   RESPONSE_ERROR: null,
-  CLEAR_ERROR: null
+  CLEAR_ERROR: null,
+  NO_DOCUMENT_FOUND: null
 });

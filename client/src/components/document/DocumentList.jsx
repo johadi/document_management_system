@@ -36,14 +36,14 @@ const DocumentList = (props) => {
           <i className="material-icons circle">note</i>
           <div className='col s11'>
             <span className="title truncate">
-              <Link to={`/view-document/${document.id}`}>
-                {document.title}
+              <Link to={`/document/${document.id}`}>
+                <span>{document.title}</span>
               </Link>
             </span>
             <div className="row mb-10">
               <div className="col s1"><strong> Owner</strong></div>
               <div className="col s11">
-                <Link to={`/profile/${document.creatorId}`}>
+                <Link to={`/user/${document.creatorId}`}>
                   {`${firstname} ${lastname}`}
                 </Link>
               </div>
@@ -64,8 +64,8 @@ const DocumentList = (props) => {
           <div className="col s1">
             <div className="secondary-content">
               {
-                ((props.userId === document.creatorId || props.roleId === 1) ?
-                    <Link to={`/edit-document/${document.id}`}
+                ((props.userId === document.creatorId) ?
+                    <Link to={`/document/${document.id}/edit`}
                       className="btn-floating action-edit-color"
                     >
                       <i className="small material-icons edit-btn">mode_edit</i>
@@ -74,7 +74,7 @@ const DocumentList = (props) => {
                 )
               }
               {
-                ((props.userId === document.creatorId || props.roleId === 1) ?
+                ((props.userId === document.creatorId) ?
                     <Link
                       className="btn-floating red"
                       onClick={

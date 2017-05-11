@@ -3,11 +3,9 @@ import { browserHistory } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
-import Alert from './../common/Alert.jsx';
+import { Header, Sidebar, Alert } from './../common';
 import clearErrorAlert from '../../actions/errorActions/errorActions';
-import newUserAction from '../../actions/userActions/createUser';
+import { createUserAction } from '../../actions/userActions';
 
 /**
  * React component for CreateUser.
@@ -71,7 +69,8 @@ class CreateUser extends React.Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.createUser(this.state.user);
+    const token = localStorage.getItem('token');
+    this.props.createUser(this.state.user, token);
   }
 
   /**
@@ -188,8 +187,8 @@ class CreateUser extends React.Component {
               </div>
             </div>
             <div className="col s12">
-              <div className="mt-10 mb-20">
-                <button className="btn col s4 offset-s8" type="submit">Create User</button>
+              <div className="mt-10">
+                <button className="btn col s4 offset-s8 mb-20" type="submit">Create User</button>
               </div>
             </div>
 
@@ -215,7 +214,7 @@ const mapStoreToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createUser: userDetails => dispatch(newUserAction(userDetails)),
+  createUser: (userDetails, token) => dispatch(createUserAction(userDetails, token)),
   alertClose: () => dispatch(clearErrorAlert())
 });
 

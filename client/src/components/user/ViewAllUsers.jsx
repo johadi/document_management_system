@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './../common/Header.jsx';
-import Sidebar from './../common/Sidebar.jsx';
+import { Header, Sidebar } from './../common';
 import UsersList from './UsersList.jsx';
-import deleteUserAction from '../../actions/userActions/deleteUser';
-import viewUserAction from '../../actions/userActions/viewUsers';
-import searchUsersAction from '../../actions/userActions/searchUsers';
+import { deleteUserAction, viewUsersAction, searchUsersAction } from '../../actions/userActions';
 
 /**
  * ViewAllUsers class declaration
@@ -27,7 +24,8 @@ class ViewAllUsers extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchUsers = this.searchUsers.bind(this);
-    this.refreshDocumentsList = this.refreshDocumentsList.bind(this);
+    this.changeLimit = this.changeLimit.bind(this);
+    this.refreshUsersList = this.refreshUsersList.bind(this);
   }
 
   /**
@@ -37,7 +35,7 @@ class ViewAllUsers extends React.Component {
     if (localStorage.getItem('token') !== null) {
       const decodedToken = jwtDecode(localStorage.getItem('token'));
       this.state = Object.assign({}, this.state, {
-        userId: decodedToken.UserId,
+        userId: decodedToken.userId,
         token: localStorage.getItem('token')
       });
       const offset = 0;
@@ -66,10 +64,21 @@ class ViewAllUsers extends React.Component {
   }
 
   /**
+   * Change limit of users to display per page
+   * @param {any} event
+   * @return {void}
+   */
+  changeLimit(event) {
+    const value = Math.abs(parseInt(event.target.value, 10));
+    this.state = (Object.assign({}, this.state, { limit: value }));
+    this.refreshUsersList();
+  }
+
+  /**
    * Refresh list of documents
    * @return {void} void
    */
-  refreshDocumentsList() {
+  refreshUsersList() {
     const offset = 0;
     this.props.paginateUsers(this.state.token,
       offset, this.state.limit);
@@ -93,8 +102,9 @@ class ViewAllUsers extends React.Component {
         <Sidebar />
         <div className="col s12 workspace">
           <div className="row workspace-header">
-            <h4 className="col s8">Users</h4>
-            <div className="col s4">
+            <div className="row">
+              <h4 className="col s8">Users</h4>
+              <div className="col s4">
               <input
                 className="col s10"
                 type="text"
@@ -109,17 +119,38 @@ class ViewAllUsers extends React.Component {
               >
                 <i className="material-icons">search</i></button>
             </div>
-            <div className="col m1 offset-m11">
-              <Link onClick={this.refreshDocumentsList}>
-                <i className="material-icons refresh-list-btn">
-                  autorenew</i>
-              </Link>
             </div>
-            <div className="col s5 btnAddDocument">
-              <Link className="waves-effect waves-light btn" to="/create-user">
-                <i className="material-icons left">person add</i>
-                Add User
-              </Link>
+
+            <div className="row">
+              <div className="col m4 btnAddDocument">
+                <Link className="waves-effect waves-light btn" to="/user">
+                  <i className="material-icons left">person add</i>
+                  Add User
+                </Link>
+              </div>
+              <div className="col m1 offset-m7">
+                <Link onClick={this.refreshUsersList}>
+                  <i className="material-icons refresh-list-btn">
+                    autorenew</i>
+                </Link>
+              </div>
+            </div>
+            <div className="col s2">
+              <label htmlFor="limit">Set limit</label>
+              <select
+                name="limit"
+                id="limit"
+                onChange={this.changeLimit}
+                value={this.state.limit}
+                className="browser-default"
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="50">20</option>
+              </select>
             </div>
 
           </div>
@@ -168,7 +199,7 @@ const mapDispatchToProps = dispatch => ({
   deleteUser: userId =>
     dispatch(deleteUserAction(userId)),
   paginateUsers: (usertoken, offset, limit) =>
-    dispatch(viewUserAction(usertoken, offset, limit)),
+    dispatch(viewUsersAction(usertoken, offset, limit)),
   searchUsers: (usertoken, searchTerm) =>
     dispatch(searchUsersAction(usertoken, searchTerm))
 });

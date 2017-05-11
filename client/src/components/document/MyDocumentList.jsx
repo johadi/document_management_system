@@ -23,13 +23,15 @@ const confirmDeletion = (callback, documentId) => {
 };
 
 const MyDocumentList = (props) => {
-  const list = props.documents.map(document => (
+  let list;
+  if (props.documents.length > 0) {
+    list = props.documents.map(document => (
       <ul key={document.id} className="collection">
         <li className="collection-item avatar">
           <i className="material-icons circle">note</i>
           <div className='col s11'>
             <span className="title truncate">
-              <Link to={`/view-document/${document.id}`}>
+              <Link to={`/document/${document.id}`}>
                 {document.title}
               </Link>
             </span>
@@ -48,8 +50,8 @@ const MyDocumentList = (props) => {
           </div>
           <div className="col s1">
             <div className="secondary-content">
-              <Link to={`/edit-document/${document.id}`}
-                className="btn-floating action-edit-color"
+              <Link to={`/document/${document.id}/edit`}
+                    className="btn-floating action-edit-color"
               >
                 <i className="small material-icons edit-btn">mode_edit</i>
               </Link>
@@ -65,7 +67,10 @@ const MyDocumentList = (props) => {
           </div>
         </li>
       </ul>)
-  );
+    );
+  } else {
+    list = (<p>No document found</p>);
+  }
   return (<div className='collection_list'>{list}</div>);
 };
 
