@@ -81,7 +81,6 @@ describe('Users Api:', () => {
       app.get(`/api/v1/roles/${roleCreated.id}`)
         .set({ 'x-access-token': adminToken })
         .end((error, response) => {
-          console.log(response.body);
           response.status.should.equal(200);
           response.body.status.should.equal('success');
           response.body.role.should.have.property('title').equal('editor');

@@ -12,10 +12,10 @@ m._load = function hookedLoader(request, parent, isMain) {
   return originalLoader(request, parent, isMain);
 };
 
-// const doc = jsdom.jsdom('<!doctype html><html><body></body></html>', {
-//   url: 'http://localhost'
-// });
-const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+const doc = jsdom.jsdom('<!doctype html><html><body></body></html>', {
+  url: 'http://localhost'
+});
+// const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 global.document = doc;
 global.window = doc.defaultView;
 global.$ = $(global.window);
@@ -23,7 +23,7 @@ global.$ = $(global.window);
 // mock calls to localStorage
 global.window.localStorage = {
   getItem: () => {
-    return null
+    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjIsIlJvbGVJZCI6MSwidXNlciI6ImFkbWluIiwiaWF0IjoxNDkyODkxNzEzLCJleHAiOjE0OTI5NzgxMTN9.bJ5OMykjtl1xwEwBYK7EJ07qcF95Oi6isIO0PdBwYEQ';
   },
   setItem: () => {
     // do nothing

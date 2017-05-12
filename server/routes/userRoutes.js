@@ -215,7 +215,7 @@ const userRoute = (router) => {
      *             $ref: '#/definitions/Update'
      */
     .get(auth.verifyToken, utils.isValidRequestId,
-      utils.canUpdateOrFindUser, userCtrl.getOneUser)
+      utils.canUpdateOrFindUser, userCtrl.getUser)
     .patch(auth.verifyToken, utils.isValidRequestId,
       utils.canUpdateOrFindUser, utils.isValidUserUpdateBody,
       utils.preventDefaultAdminRoleChange, userCtrl.updateUser)

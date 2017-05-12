@@ -4,6 +4,7 @@ import editUserAction from './editUserProfile';
 import searchUsersAction from './searchUsers';
 import viewUserAction from './viewUserProfile';
 import viewUsersAction from './viewUsers';
+import deleteUserAction from './deleteUser';
 
 export {
   changePasswordAction,
@@ -11,5 +12,6 @@ export {
   editUserAction,
   searchUsersAction,
   viewUserAction,
-  viewUsersAction
+  viewUsersAction,
+  deleteUserAction
 };

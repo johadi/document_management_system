@@ -76,7 +76,7 @@ const DocumentList = (props) => {
               {
                 ((props.userId === document.creatorId) ?
                     <Link
-                      className="btn-floating red"
+                      className="btn-floating red-main"
                       onClick={
                         () => confirmDeletion(props.deleteDocument, document.id)
                       }

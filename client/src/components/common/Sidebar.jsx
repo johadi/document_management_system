@@ -57,7 +57,7 @@ export default class Sidebar extends React.Component {
             (
               <div>
                 <li>
-                  <Link to="/users" className="col s12 menu_link">
+                  <Link to="/users" className="col s12 menu_link link-users">
                     <div className="col s2">
                       <center className="circle useractions">
                         <i className="material-icons">supervisor_account</i>

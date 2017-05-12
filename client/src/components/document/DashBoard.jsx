@@ -130,7 +130,7 @@ class ViewDocuments extends React.Component {
             </div>
             <div className="row">
               <div className="col m4 btnAddDocument">
-                <Link className="waves-effect waves-light btn" to="/document">
+                <Link className="create-document waves-effect waves-light btn" to="/document">
                   <i className="material-icons left">note_add</i>
                   Add Document
                 </Link>
@@ -143,7 +143,7 @@ class ViewDocuments extends React.Component {
               </div>
             </div>
 
-            <div className="col s2">
+            <div className="col s2 offset-s10">
               <label htmlFor="limit">Set limit</label>
               <select
                 name="limit"
@@ -171,8 +171,8 @@ class ViewDocuments extends React.Component {
               documents={this.props.documents || []}
             />
           </div>
-          <div className="col s12">
-            <center>
+          <div className="col s10 offset-s1">
+            <div className="right">
               {
                 ((this.props.pageCount) ?
                   <Pagination
@@ -185,7 +185,7 @@ class ViewDocuments extends React.Component {
                     }
                 } /> : '')
               }
-            </center>
+            </div>
           </div>
         </div>
       </div>

@@ -129,7 +129,7 @@ const documentRoute = (router) => {
      *             $ref: '#/definitions/RoleUpdate'
      */
     .get(auth.verifyToken, auth.verifyAdmin,
-      utils.isValidRequestId, roleCtrl.getOneRole)
+      utils.isValidRequestId, roleCtrl.getRole)
     .patch(auth.verifyToken, auth.verifyAdmin, utils.isValidRequestId,
       utils.preventDefaultRolesChangeOrDelete, utils.isValidRoleBody,
       roleCtrl.updateRole)

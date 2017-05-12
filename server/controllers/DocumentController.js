@@ -58,7 +58,7 @@ const docCtrl = {
    * @param {Object} res the response object
    * @returns {Object} response body
    */
-  getOneDocument(req, res) {
+  getDocument(req, res) {
     const responseInfo = {};
     document.findById(req.params.id)
       .then((foundDocument) => {

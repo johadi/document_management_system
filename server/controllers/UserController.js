@@ -80,7 +80,7 @@ const userCtrl = {
    * @param {Object} res the response object
    * @returns {Object} response body
    */
-  getOneUser(req, res) {
+  getUser(req, res) {
     const responseInfo = {};
     const attributes = helpers.filterUserDetails();
     user.findById(req.params.id, { attributes })

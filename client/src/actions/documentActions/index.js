@@ -3,7 +3,7 @@ import deleteDocumentAction from './deleteDocument';
 import editDocumentAction from './editDocument';
 import searchDocumentsAction from './searchDocuments';
 import viewDocumentsAction from './viewDocuments';
-import viewDocumentAction from './viewOneDocument';
+import viewDocumentAction from './viewDocument';
 
 export {
   createDocumentAction,
