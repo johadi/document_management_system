@@ -20,7 +20,7 @@ export default (token, offset, limit, userId = false) => {
       });
     })
     .catch((error) => {
-      if (error.statusCode === 404) {
+      if (error.statusCode === 404 || error.message === 'Request failed with status code 404') {
         dispatch({
           type: actionTypes.NO_DOCUMENT_FOUND,
           message: error.message
