@@ -10,7 +10,7 @@ import {
 
 const document = db.Document;
 const documentRules = {
-  title: 'required|between:6,254',
+  title: 'required|between:3,254',
   content: 'required',
   access: 'required|in:private,public,role'
 };

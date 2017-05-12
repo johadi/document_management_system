@@ -64,7 +64,7 @@ class ViewUser extends React.Component {
                   <div className="row">
                     <div className="col s5 header-text-color">
                       Name</div>
-                    <div className="col s7 grey-text text-darken-4 right-align">
+                    <div className="col s7 grey-text text-darken-4 right-align" id="profile-name">
                       {this.props.user.lastname} {this.props.user.firstname}</div>
                   </div>
                 </li>

@@ -50,7 +50,7 @@ const DocumentList = (props) => {
             </div>
             <div className="row mb-10">
               <div className="col s1"><strong> Access</strong></div>
-              <div className="col s11">
+              <div className="col s11 doc-access">
                 {document.access}
               </div>
             </div>
