@@ -12,7 +12,7 @@
     "test_db_migrate": "NODE_ENV=test sequelize db:migrate",
     "test_undo_migrate": "NODE_ENV=test sequelize db:migrate:undo:all",
     "test": "NODE_ENV=test sequelize db:migrate && NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/**/*.spec.js --reporter spec --compilers js:babel-register --slow 5000",
-    "test_frontend": "NODE_ENV=test mocha --compilers js:babel-register --require client/tests/components/setUp.js client/tests/components/*.spec.js client/tests/reducers/*.spec.js",
+    "test_frontend": "NODE_ENV=test mocha --compilers js:babel-register --require client/tests/components/setUp.js client/tests/components/*.spec.js client/tests/reducers/*.spec.js client/tests/actions/*.spec.js",
     "e2e_test": "node_modules/.bin/nightwatch --config nightwatch.conf.js",
     "e2e_setup": "node_modules/selenium-standalone/bin/selenium-standalone install",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
@@ -128,6 +128,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.3.0",
+    "moxios": "^0.4.0",
     "nyc": "^10.1.2",
     "react-addons-test-utils": "^15.5.1",
     "selenium-standalone": "^6.2.0",

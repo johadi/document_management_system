@@ -130,7 +130,7 @@ class ViewDocuments extends React.Component {
             </div>
             <div className="row">
               <div className="col m4 btnAddDocument">
-                <Link className="waves-effect waves-light btn" to="/document">
+                <Link className="create-document waves-effect waves-light btn" to="/document">
                   <i className="material-icons left">note_add</i>
                   Add Document
                 </Link>

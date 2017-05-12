@@ -1,10 +1,10 @@
 import axios from 'axios';
 import actionTypes from '../actionTypes';
 
-export default (userDetails) => {
+export default (documentDetails) => {
   const token = localStorage.getItem('token');
   return dispatch =>
-    axios.post('/api/v1/documents/', userDetails, {
+    axios.post('/api/v1/documents/', documentDetails, {
       headers: {
         Authorization: token
       }

@@ -21,7 +21,8 @@ const config = {
   },
   production: {
     use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres'
+    dialect: 'postgres',
+    logging: false
   }
 };
 module.exports = config[process.env.NODE_ENV || 'development'];

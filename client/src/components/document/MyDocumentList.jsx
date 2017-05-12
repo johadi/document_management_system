@@ -56,7 +56,7 @@ const MyDocumentList = (props) => {
                 <i className="small material-icons edit-btn">mode_edit</i>
               </Link>
               <Link
-                className="btn-floating red"
+                className="btn-floating red-main"
                 onClick={
                   () => confirmDeletion(props.deleteDocument, document.id)
                 }
