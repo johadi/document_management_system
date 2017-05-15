@@ -193,7 +193,7 @@ class EditDocument extends React.Component {
 
 
 EditDocument.propTypes = {
-  document: PropTypes.object.isRequired
+  document: PropTypes.object
 };
 
 EditDocument.contextTypes = {

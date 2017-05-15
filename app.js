@@ -23,10 +23,14 @@ const router = express.Router();
 const port = process.env.PORT || 8000;
 const env = process.env.NODE_ENV || 'development';
 
-app.use(express.static(path.join(__dirname, './client/public')));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, './client/public')));
+} else {
+  app.use(express.static(path.join(__dirname, './client/src')));
+}
 app.use(express.static(path.join(__dirname, './server/docs')));
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     hot: true,
@@ -60,7 +64,11 @@ app.use('/api/v1/*', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './client/public/index.html'));
+  if (process.env.NODE_ENV === 'production') {
+    res.sendFile(path.join(__dirname, './client/public/index.html'));
+  } else {
+    res.sendFile(path.join(__dirname, './client/src/index.html'));
+  }
 });
 
 if (process.env.NODE_ENV !== 'test') {
