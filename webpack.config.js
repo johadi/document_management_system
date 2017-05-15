@@ -1,8 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
-import dotenv from 'dotenv';
 
-dotenv.load();
+require('dotenv').config();
 
 const GLOBALS = {
   'process.env.NODE_ENV': `"${process.env.NODE_ENV || 'development'}"`

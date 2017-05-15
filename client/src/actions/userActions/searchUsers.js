@@ -17,6 +17,11 @@ export default (token, user) => {
       });
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        return dispatch({
+          type: actionTypes.INVALID_TOKEN
+        });
+      }
       dispatch({
         type: actionTypes.RESPONSE_ERROR,
         message: (error.response && error.response.data.message) ?

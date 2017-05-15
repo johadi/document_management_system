@@ -20,15 +20,20 @@ export default (token, offset, limit, userId = false) => {
       });
     })
     .catch((error) => {
-      if (error.statusCode === 404 || error.message === 'Request failed with status code 404') {
+      if (error.response.status === 401) {
+        dispatch({
+          type: actionTypes.INVALID_TOKEN
+        });
+      } else if (error.response.status === 404) {
         dispatch({
           type: actionTypes.NO_DOCUMENT_FOUND,
-          message: error.message
+          message: error.response.data.message
         });
       } else {
         dispatch({
           type: actionTypes.RESPONSE_ERROR,
-          message: error.message
+          message: (error.response.data.message) ?
+            error.response.data.message : error.response.data.errors
         });
       }
     });

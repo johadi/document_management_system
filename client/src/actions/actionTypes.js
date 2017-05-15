@@ -24,5 +24,6 @@ export default keymirror({
   PASSWORD_UPDATED: null,
   RESPONSE_ERROR: null,
   CLEAR_ERROR: null,
-  NO_DOCUMENT_FOUND: null
+  NO_DOCUMENT_FOUND: null,
+  INVALID_TOKEN: null
 });

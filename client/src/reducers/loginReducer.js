@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router';
 import actionTypes from '../actions/actionTypes';
 import initialState from '../store/initialState';
 
@@ -20,6 +21,14 @@ export default function loginReducer(state = initialState, action) {
       return Object.assign({}, state, { documents: action.documents,
         users: action.users,
         token: null });
+    case actionTypes.INVALID_TOKEN:
+      window.localStorage.clear();
+      browserHistory.push('/');
+      return Object.assign({}, state, {
+        documents: [],
+        user: null,
+        token: null
+      });
     default:
       return state;
   }
