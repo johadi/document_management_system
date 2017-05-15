@@ -3,3 +3,4 @@ node_modules/
 server/db
 server/utils/query.js
 client/src/stylesheet
+client/public/dist

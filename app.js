@@ -28,7 +28,7 @@ const env = process.env.NODE_ENV || 'development';
 app.use(express.static(path.join(__dirname, './client/public')));
 app.use(express.static(path.join(__dirname, './server/docs')));
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV === 'development') {
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     hot: true,
